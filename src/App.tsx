@@ -65,7 +65,8 @@ const CATEGORIES = gql`
   }
 `;
 
-const Test = () => {
+const App = () => {
+	// actually it should be able to get client from context, but it doesn't for some reason
   const { loading, error, data } = useQuery<{ categories: Category[] }>(CATEGORIES, {client});
 
   if (loading) {
@@ -98,15 +99,6 @@ const Test = () => {
 			}
 		</>
   );
-}
-
-function App() {
-	return (
-		<div>
-			<h2>My first Apollo app 🚀</h2>
-			<Test />
-		</div>
-	);
 }
 
 render(
