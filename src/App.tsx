@@ -8,27 +8,65 @@ import {
 	gql
 } from "@apollo/client";
 
-type ExchangeRate = {
-	currency: string,
-	rate: string
+type Currency = {
+	label: string,
+	symbol: string
+}
+
+type Price = {
+	currency: Currency,
+	amount: number
+}
+
+type Attribute = {
+	displayValue: string,
+	value: string,
+	id: string
+}
+
+type AttributeSet = {
+	id: string,
+	name: string,
+	type: string,
+	items: [Attribute]
+}
+
+type Product = {
+	id: string,
+	name: string,
+	inStock: boolean,
+	gallery: [string],
+	description: string,
+	category: string,
+	attributes: [AttributeSet]
+	prices: [Price],
+	brand: string
+}
+
+type Category = {
+	name: string,
+	products: [Product]
 }
 
 const client = new ApolloClient({
-	uri: 'https://48p1r2roz4.sse.codesandbox.io',
+	uri: 'http://localhost:4000',
 	cache: new InMemoryCache()
 });
 
-const EXCHANGE_RATES = gql`
-  query GetExchangeRates {
-    rates(currency: "USD") {
-      currency
-      rate
-    }
+const CATEGORIES = gql`
+  query GetCategories {
+		categories {
+			name,
+			products {
+				id,
+				name
+			}
+		}
   }
 `;
 
-const ExchangeRates = () => {
-  const { loading, error, data } = useQuery<{ rates: ExchangeRate[] }>(EXCHANGE_RATES);
+const Test = () => {
+  const { loading, error, data } = useQuery<{ categories: Category[] }>(CATEGORIES, {client});
 
   if (loading) {
 		return <p>Loading...</p>;
@@ -40,11 +78,21 @@ const ExchangeRates = () => {
   return (
 		<>
 			{
-				data!.rates.map(({ currency, rate }) => (
-    			<div key={currency}>
-    			  <p>
-    			    {currency}: {rate}
-    			  </p>
+				data!.categories.map(({ name, products }) => (
+    			<div key={name}>
+						{name}
+						<div>
+							{
+								products.map(({ id, name }) => (
+									<div 
+										key={id}
+										style={{marginLeft: 25}}
+									>
+										{`${id} - ${name}`}
+									</div>
+								))
+							}
+						</div>
     			</div>
 				))
 			}
@@ -56,7 +104,7 @@ function App() {
 	return (
 		<div>
 			<h2>My first Apollo app 🚀</h2>
-			<ExchangeRates />
+			<Test />
 		</div>
 	);
 }
