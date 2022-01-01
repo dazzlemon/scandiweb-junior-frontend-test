@@ -53,7 +53,7 @@ type Category = {
 	products: [Product]
 }
 
-type Props = {}
+type TestProps = {}
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
@@ -72,18 +72,15 @@ const CATEGORIES = gql`
   }
 `;
 
-class App extends Component {
-	constructor(props: Props) {
+class Test extends Component {
+	constructor(props: TestProps) {
 		super(props);
 		this.state = {  };
 	}
 
 	render() {
 		return (
-			<Query
-				query={CATEGORIES}
-				client={client}
-			>
+			<Query query={CATEGORIES}>
 				{(result: QueryResult<{ categories: Category[] }>) => {
 					const { loading, error, data } = result;
 					if (loading) {
@@ -122,11 +119,20 @@ class App extends Component {
 	}
 }
 
-render(
-	<ApolloProvider client={client}>
-		<App />
-	</ApolloProvider>,
-	document.getElementById('root'),
-);
+type AppProps = {}
+
+class App extends Component {
+	constructor(props: AppProps) {
+		super(props);
+		this.state = {  };
+	}
+	render() {
+		return (
+			<ApolloProvider client={client}>
+				<Test />
+			</ApolloProvider>
+		);
+	}
+}
 
 export default App;
