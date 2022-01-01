@@ -13,9 +13,11 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 	}
 	
 	render() {
+		console.log(JSON.stringify(this.state));
 		if (this.state.status !== 'OK') {
 			return <div>{this.state.status}</div>;
 		}
+		console.log('rendering actual categories')
 		return (
 			<nav>
 				{

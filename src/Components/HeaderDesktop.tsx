@@ -26,27 +26,23 @@ const getCircularReplacer = () => {
 const categoryNamesQueryToView = (result: QueryResult<{
 	categories: CategoryName[]
 }>) => {
+	console.log('render');
 	const { loading, error, data } = result;
 	const status = loading ? 'loading'
 	             : error   ? 'error'
 	             : null;
 	// with below it wont update
-	// if (status) {
-	// 	return <>
-	// 		<HeaderDesktopView status={status} />
-	// 	</>;
-	// }
-	// but with this it does
-	if (loading) {
-		// doesnt update
-		// return <HeaderDesktopView status='loading' />
-		// updates
-		return <p>Loading...</p>;
+	if (status) {
+		return <HeaderDesktopView status={status} />;
+	}
+	if (loading) {// but with this it does
+		// return <HeaderDesktopView status='loading' />;// doesnt update
+		return <p>Loading...</p>;// updates
 	}
 	if (error) {
 		return <HeaderDesktopView status='error' />
 	}
-
+	console.log('query completed');
 	let categoryNames = data!.categories.map((category: CategoryName) => category.name);
 	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
 }
@@ -64,22 +60,15 @@ type CategoryName = {
 }
 
 type Props = {}
-type State = { status: 'loading' | 'error' }
-					 | { status: 'OK', categoryNames: string[]}
+type State = {}
 
 class HeaderDesktop extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		this.state = { status: 'loading' };
+		this.state = {};
 	}
 
 	render() {
-		if (this.state.status === 'OK') {
-			return <HeaderDesktopView status='OK' categoryNames={this.state.categoryNames} />;
-		}
-		if (this.state.status === 'error') {
-			return <HeaderDesktopView status={'error'} />;
-		}
 		return (
 			<Query query={GET_CATEGORY_NAMES}>
 				{categoryNamesQueryToView}
