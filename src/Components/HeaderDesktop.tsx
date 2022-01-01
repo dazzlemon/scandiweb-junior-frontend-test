@@ -23,25 +23,29 @@ const getCircularReplacer = () => {
   };
 };
 
-// it was intended as child prop for <Query>, but it acts weird so i'll check it out later
 const categoryNamesQueryToView = (result: QueryResult<{
 	categories: CategoryName[]
 }>) => {
-	return null;
-	// const info = <div><pre>{JSON.stringify(result, getCircularReplacer(), '\t')}</pre></div>;
-	// const { loading, error, data, networkStatus } = result;
+	const { loading, error, data } = result;
+	// with below it wont update
 	// const status = loading ? 'loading'
 	//              : error   ? 'error'
 	//              : null;
 	// if (status) {
 	// 	return <>
-	// 		{info}// with this it updates correctly, without it doesn't, i'll leave it as is for now
 	// 		<HeaderDesktopView status={status} />
 	// 	</>;
 	// }
+	// but with this it does
+	if (loading) {
+		return <p>Loading...</p>;
+	}
+	if (error) {
+		return <p>Error :(</p>;
+	}
 
-	// let categoryNames = data!.categories.map((category: CategoryName) => category.name);
-	// return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
+	let categoryNames = data!.categories.map((category: CategoryName) => category.name);
+	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
 }
 
 const GET_CATEGORY_NAMES = gql`
@@ -65,6 +69,7 @@ class HeaderDesktop extends Component<Props, State> {
 		super(props);
 		this.state = { status: 'loading' };
 	}
+
 	render() {
 		if (this.state.status === 'OK') {
 			return <HeaderDesktopView status='OK' categoryNames={this.state.categoryNames} />;
@@ -73,19 +78,7 @@ class HeaderDesktop extends Component<Props, State> {
 			return <HeaderDesktopView status={'error'} />;
 		}
 		return (
-			<Query
-				query={GET_CATEGORY_NAMES}
-				// it wasn't updating otherwise idk if it's intended
-				onCompleted={(data: {
-					categories: CategoryName[]
-				}) => this.setState({
-					status: 'OK',
-					categoryNames: data!.categories.map((category: CategoryName) => category.name)
-				})}
-				onError={(_: ApolloError) => this.setState({
-					status: 'error'
-				})}
-			>
+			<Query query={GET_CATEGORY_NAMES}>
 				{categoryNamesQueryToView}
 			</Query>
 		);

@@ -12,7 +12,8 @@ import HeaderDesktop from './Components/HeaderDesktop';
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
-	cache: new InMemoryCache()
+	cache: new InMemoryCache(),
+	connectToDevTools: true,
 });
 
 type Props = {}
