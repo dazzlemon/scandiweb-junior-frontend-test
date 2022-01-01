@@ -27,10 +27,10 @@ const categoryNamesQueryToView = (result: QueryResult<{
 	categories: CategoryName[]
 }>) => {
 	const { loading, error, data } = result;
+	const status = loading ? 'loading'
+	             : error   ? 'error'
+	             : null;
 	// with below it wont update
-	// const status = loading ? 'loading'
-	//              : error   ? 'error'
-	//              : null;
 	// if (status) {
 	// 	return <>
 	// 		<HeaderDesktopView status={status} />
@@ -38,10 +38,13 @@ const categoryNamesQueryToView = (result: QueryResult<{
 	// }
 	// but with this it does
 	if (loading) {
+		// doesnt update
+		// return <HeaderDesktopView status='loading' />
+		// updates
 		return <p>Loading...</p>;
 	}
 	if (error) {
-		return <p>Error :(</p>;
+		return <HeaderDesktopView status='error' />
 	}
 
 	let categoryNames = data!.categories.map((category: CategoryName) => category.name);

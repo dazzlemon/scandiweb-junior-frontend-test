@@ -20,7 +20,7 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 			<nav>
 				{
 					this.state.categoryNames.map((name: string) => (
-						<div key={name}>{name}</div>
+						<a key={name} href={`\\${name}`}>{` ${name} `}</a>
 					))
 				}
 			</nav>
