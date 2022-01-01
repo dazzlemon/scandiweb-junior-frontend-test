@@ -80,6 +80,5 @@ If you have any questions about the assignment, feel welcome to contact us with 
 
 *Well, we just looked up some random image in Unsplash for "good luck" and here it is, the Chinese dragon!*
 
-[**and thats our HR team celebration of  a new hire**](https://giphy.com/embed/t6f2bNAjx7Bio)
-
-**and thats our HR team celebration of  a new hire**
+![https://giphy.com/embed/t6f2bNAjx7Bio]
+[**and thats our HR team celebration of  a new hire**]
