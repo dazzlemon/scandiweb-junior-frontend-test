@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
 import {
+	ApolloError,
 	gql,
 	QueryResult
 } from '@apollo/client';
@@ -9,20 +10,6 @@ import {
 // everything I found was for functional react
 import { Query } from '@apollo/client/react/components';
 
-const categoryNamesQueryToView = (result: QueryResult<{
-	categories: CategoryName[]
-}>) => {
-	const { loading, error, data } = result;
-	const status = loading ? 'loading'
-	             : error   ? 'error'
-	             : null;
-	if (status) {
-		return <HeaderDesktopView status={status} />;
-	}
-
-	let categoryNames = data!.categories.map((category: CategoryName) => category.name);
-	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
-}
 
 const GET_CATEGORY_NAMES = gql`
 	query GetCategoryNames {
@@ -37,31 +24,36 @@ type CategoryName = {
 }
 
 type Props = {}
-type State = { queryCompleted: false }
-					 | { queryCompleted: true, categoryNames: string[]}
+type State = { status: 'loading' | 'error' }
+					 | { status: 'OK', categoryNames: string[]}
 
 class HeaderDesktop extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		this.state = { queryCompleted: false };
+		this.state = { status: 'loading' };
 	}
 	render() {
-		if (this.state.queryCompleted) {
+		if (this.state.status === 'OK') {
 			return <HeaderDesktopView status='OK' categoryNames={this.state.categoryNames} />;
+		}
+		if (this.state.status === 'error') {
+			return <HeaderDesktopView status={'error'} />;
 		}
 		return (
 			<Query
 				query={GET_CATEGORY_NAMES}
+				// it wasn't updating otherwise idk if it's intended
 				onCompleted={(data: {
 					categories: CategoryName[]
-				}) => {
-					this.setState({
-						queryCompleted: true,
-						categoryNames: data!.categories.map((category: CategoryName) => category.name)
-					})
-				}}
+				}) => this.setState({
+					status: 'OK',
+					categoryNames: data!.categories.map((category: CategoryName) => category.name)
+				})}
+				onError={(_: ApolloError) => this.setState({
+					status: 'error'
+				})}
 			>
-				{categoryNamesQueryToView}
+				{(result: QueryResult) => null/* it's required */}
 			</Query>
 		);
 	}
