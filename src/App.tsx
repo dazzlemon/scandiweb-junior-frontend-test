@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {
 	ApolloClient,
 	InMemoryCache,
 	ApolloProvider,
 	useQuery,
-	gql
-} from "@apollo/client";
+	gql,
+	QueryResult
+} from '@apollo/client';
+
+// deprecated, but idk if any alternatives even exist,
+// everything I found was for functional react
+import { Query } from '@apollo/client/react/components';
 
 type Currency = {
 	label: string,
@@ -48,6 +53,8 @@ type Category = {
 	products: [Product]
 }
 
+type Props = {}
+
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
 	cache: new InMemoryCache()
@@ -65,40 +72,54 @@ const CATEGORIES = gql`
   }
 `;
 
-const App = () => {
-	// actually it should be able to get client from context, but it doesn't for some reason
-  const { loading, error, data } = useQuery<{ categories: Category[] }>(CATEGORIES, {client});
-
-  if (loading) {
-		return <p>Loading...</p>;
-	}
-  if (error) {
-		return <p>Error :(</p>;
+class App extends Component {
+	constructor(props: Props) {
+		super(props);
+		this.state = {  };
 	}
 
-  return (
-		<>
-			{
-				data!.categories.map(({ name, products }) => (
-    			<div key={name}>
-						{name}
-						<div>
+	render() {
+		return (
+			<Query
+				query={CATEGORIES}
+				client={client}
+			>
+				{(result: QueryResult<{ categories: Category[] }>) => {
+					const { loading, error, data } = result;
+					if (loading) {
+						return <p>Loading...</p>;
+					}
+					if (error) {
+						return <p>Error :(</p>;
+					}
+				
+					return (
+						<>
 							{
-								products.map(({ id, name }) => (
-									<div 
-										key={id}
-										style={{marginLeft: 25}}
-									>
-										{`${id} - ${name}`}
+								data!.categories.map(({ name, products }) => (
+									<div key={name}>
+										{name}
+										<div>
+											{
+												products.map(({ id, name }) => (
+													<div 
+														key={id}
+														style={{marginLeft: 25}}
+													>
+														{`${id} - ${name}`}
+													</div>
+												))
+											}
+										</div>
 									</div>
 								))
 							}
-						</div>
-    			</div>
-				))
-			}
-		</>
-  );
+						</>
+					);
+				}}
+			</Query>
+		);
+	}
 }
 
 render(
