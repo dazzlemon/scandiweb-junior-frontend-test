@@ -10,6 +10,39 @@ import {
 // everything I found was for functional react
 import { Query } from '@apollo/client/react/components';
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key: any, value: any) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
+// it was intended as child prop for <Query>, but it acts weird so i'll check it out later
+const categoryNamesQueryToView = (result: QueryResult<{
+	categories: CategoryName[]
+}>) => {
+	return null;
+	// const info = <div><pre>{JSON.stringify(result, getCircularReplacer(), '\t')}</pre></div>;
+	// const { loading, error, data, networkStatus } = result;
+	// const status = loading ? 'loading'
+	//              : error   ? 'error'
+	//              : null;
+	// if (status) {
+	// 	return <>
+	// 		{info}// with this it updates correctly, without it doesn't, i'll leave it as is for now
+	// 		<HeaderDesktopView status={status} />
+	// 	</>;
+	// }
+
+	// let categoryNames = data!.categories.map((category: CategoryName) => category.name);
+	// return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
+}
 
 const GET_CATEGORY_NAMES = gql`
 	query GetCategoryNames {
@@ -53,7 +86,7 @@ class HeaderDesktop extends Component<Props, State> {
 					status: 'error'
 				})}
 			>
-				{(result: QueryResult) => null/* it's required */}
+				{categoryNamesQueryToView}
 			</Query>
 		);
 	}
