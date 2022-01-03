@@ -1,28 +1,9 @@
-import React, { Component } from 'react';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
-import {
-	gql,
-	QueryResult
-} from '@apollo/client';
+import { gql } from '@apollo/client';
 
-// deprecated, but idk if any alternatives even exist,
-// everything I found was for functional react
-import { Query } from '@apollo/client/react/components';
-
-const categoryNamesQueryToView = (result: QueryResult<{
-	categories: CategoryName[]
-}>) => {
-	const { loading, error, data } = result;
-	const status = loading ? 'loading'
-	             : error   ? 'error'
-	             : null;
-	if (status) {
-		return <HeaderDesktopView status={status} />;
-	}
-
-	let categoryNames = data!.categories.map((category: CategoryName) => category.name);
-	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
-}
+// deprecated, but idk if any (not deprecated) alternatives even exist
+// (besides hooks which are prohibited)
+import { ChildDataProps, graphql } from '@apollo/client/react/hoc';
 
 const GET_CATEGORY_NAMES = gql`
 	query GetCategoryNames {
@@ -32,26 +13,21 @@ const GET_CATEGORY_NAMES = gql`
 	}
 `;
 
-type CategoryName = {
-	name: string
-}
+type CategoryName = { name: string }
+type InputProps   = {}
+type Response     = { categories: CategoryName[] }
+type Variables    = {}
+type ChildProps   = ChildDataProps<InputProps, Response, Variables>
 
-type Props = {}
-type State = {}
-
-class HeaderDesktop extends Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
-		this.state = {};
+const withCategoryNames = graphql<InputProps, Response, Variables, ChildProps>(GET_CATEGORY_NAMES);
+export default withCategoryNames(({ data: { loading, error, categories } }) => {
+	const status = loading ? 'loading'
+	             : error   ? 'error'
+	             : null;
+	if (status) {
+		return <HeaderDesktopView status={status}/>;
 	}
 
-	render() {
-		return (
-			<Query query={GET_CATEGORY_NAMES}>
-				{categoryNamesQueryToView}
-			</Query>
-		);
-	}
-}
-
-export default HeaderDesktop;
+	let categoryNames = categories!.map(category => category.name);
+	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
+});
