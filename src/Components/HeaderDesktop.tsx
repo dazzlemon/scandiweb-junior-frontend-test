@@ -15,9 +15,9 @@ const GET_CATEGORY_NAMES = gql`
 
 type CategoryName = { name: string }
 type Response     = { categories: CategoryName[] }
-type Props = React.ComponentProps<typeof HeaderDesktopView>
+type Props        = React.ComponentProps<typeof HeaderDesktopView>
 
-const queryResultToProps = (props: OptionProps<{}, Response, {}>): Props => {
+const queryResultToProps = (props: OptionProps<{}, Response>): Props => {
 	const { loading, error, categories } = props.data!;
 	const status = loading ? 'loading'
 	             : error   ? 'error'
