@@ -9,6 +9,8 @@ class HeaderDesktopView extends PureComponent<Props> {
 		if (this.props.status !== 'OK') {
 			return <div>{this.props.status}</div>;
 		}
+		
+		// it wouldn't believe that status is 'OK' without additional check
 		const categoryIndex = this.props.categoryIndex;
 		return (
 			<nav>
