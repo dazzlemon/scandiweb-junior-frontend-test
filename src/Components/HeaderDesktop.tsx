@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 
 // deprecated, but idk if any (not deprecated) alternatives even exist
 // (besides hooks which are prohibited)
-import { ChildDataProps, graphql } from '@apollo/client/react/hoc';
+import { graphql, OptionProps } from '@apollo/client/react/hoc';
 
 const GET_CATEGORY_NAMES = gql`
 	query GetCategoryNames {
@@ -14,20 +14,20 @@ const GET_CATEGORY_NAMES = gql`
 `;
 
 type CategoryName = { name: string }
-type InputProps   = {}
 type Response     = { categories: CategoryName[] }
-type Variables    = {}
-type ChildProps   = ChildDataProps<InputProps, Response, Variables>
+type Props = React.ComponentProps<typeof HeaderDesktopView>
 
-const withCategoryNames = graphql<InputProps, Response, Variables, ChildProps>(GET_CATEGORY_NAMES);
-export default withCategoryNames(({ data: { loading, error, categories } }) => {
+const queryResultToProps = (props: OptionProps<{}, Response, {}>): Props => {
+	const { loading, error, categories } = props.data!;
 	const status = loading ? 'loading'
 	             : error   ? 'error'
 	             : null;
 	if (status) {
-		return <HeaderDesktopView status={status}/>;
+		return { status };
 	}
+	const categoryNames = categories!.map(category => category.name);
+	return { status: 'OK', categoryNames };
+}
 
-	let categoryNames = categories!.map(category => category.name);
-	return <HeaderDesktopView status='OK' categoryNames={categoryNames} />;
-});
+const withCategoryNames = graphql(GET_CATEGORY_NAMES, { props: queryResultToProps });
+export default withCategoryNames(HeaderDesktopView);
