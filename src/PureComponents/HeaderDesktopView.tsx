@@ -1,18 +1,26 @@
 import React, { PureComponent } from 'react';
+import './HeaderDesktopView.sass';
 
 type Props = { status: 'error' | 'loading' }
-           | { status: 'OK', categoryNames: string[] }
+           | { status: 'OK', categoryNames: string[], categoryIndex: number }
 
 class HeaderDesktopView extends PureComponent<Props> {
 	render() {
 		if (this.props.status !== 'OK') {
 			return <div>{this.props.status}</div>;
 		}
+		const categoryIndex = this.props.categoryIndex;
 		return (
 			<nav>
 				{
-					this.props.categoryNames.map((name: string) => (
-						<a key={name} href={`\\${name}`}>{` ${name} `}</a>
+					this.props.categoryNames.map((name: string, index: number) => (
+						<a
+							key={name}
+							href={`\\${name}`}
+							className={categoryIndex == index ? 'headerElementSelected' : 'headerElement'}
+						>
+							{name}
+						</a>
 					))
 				}
 			</nav>

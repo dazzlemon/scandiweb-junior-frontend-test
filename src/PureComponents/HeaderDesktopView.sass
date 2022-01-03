@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway')
+
+$selected-color: #00ff00
+
+@mixin setLinkSelectorStyle
+	&, &:hover, &:link, &:active, &:visited
+		@content
+
+@mixin headerElementStyle($selected)
+	.headerElement#{$selected}
+		@include setLinkSelectorStyle
+		padding: 12px
+		color: if($selected == 'Selected', $selected-color, inherit)
+		font-family: raleway
+		font-size: 32px
+		text-transform: uppercase
+		text-decoration: if($selected == 'Selected', underline, inherit)
+
+@include headerElementStyle('Selected')
+@include headerElementStyle('')

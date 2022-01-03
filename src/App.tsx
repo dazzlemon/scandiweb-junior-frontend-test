@@ -18,7 +18,6 @@ const client = new ApolloClient({
 
 type Props = {}
 
-
 class App extends Component<Props> {
 	constructor(props: Props) {
 		super(props);

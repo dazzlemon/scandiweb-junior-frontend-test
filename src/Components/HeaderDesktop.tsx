@@ -26,8 +26,12 @@ const queryResultToProps = (props: OptionProps<{}, Response>): Props => {
 		return { status };
 	}
 	const categoryNames = categories!.map(category => category.name);
-	return { status: 'OK', categoryNames };
+	return { status: 'OK', categoryNames, categoryIndex: 0};
 }
 
 const withCategoryNames = graphql(GET_CATEGORY_NAMES, { props: queryResultToProps });
+/** 
+ * Fetches category names and represents them with HeaderDesktopView 
+ * @see HeaderDesktopView
+*/
 export default withCategoryNames(HeaderDesktopView);
