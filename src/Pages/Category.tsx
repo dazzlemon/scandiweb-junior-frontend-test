@@ -12,7 +12,10 @@ const GET_CATEGORY_NAMES = gql`
 	}
 `;
 
-const Category = () => {
+type useCategoriesReturn = { status: 'error' | 'loading' | 'BadCategory'}
+                         | { status: 'OK', categories: string[], categoryIndex: number }
+
+const useCategories = (): useCategoriesReturn => {
 	const { category } = useParams<{ category: string }>();
 	const { loading, error, data } = useQuery<{categories: {name: string}[]}>(GET_CATEGORY_NAMES);
 	const categories = data?.categories.map(category => category.name);
@@ -21,31 +24,54 @@ const Category = () => {
 	             : error   ? 'error'
 							 : 'OK';
 
-	let propsHeader: React.ComponentProps<typeof HeaderDesktopView> = { status: 'error' };
-	let propsCategory: React.ComponentProps<typeof CategoryView> = { status: 'error' };
 	if (status !== 'OK') {
-		propsHeader = { status };
-		propsCategory = { status };
-	} else {
-		let categoryIndex = category ? categories!.indexOf(category) : 0;
-		
-		if (categoryIndex == -1) {
-			propsHeader = { status: 'error'};
-			propsCategory = { status: 'error'};
-		} else {
-			propsHeader = {
-				status: 'OK',
-				categoryNames: categories!,
-				categoryIndex
-			};
-			propsCategory = { status: 'OK', category: categories![categoryIndex] };
+		return {status};
+	}
+
+	let categoryIndex = category ? categories!.indexOf(category) : 0;
+	if (categoryIndex == -1) {
+		return { status: 'BadCategory' };
+	}
+
+	return { status: 'OK', categories: categories!, categoryIndex}
+}
+
+const categoriesToProps = (categoriesQuery: useCategoriesReturn): {
+	header: React.ComponentProps<typeof HeaderDesktopView>,
+	category: React.ComponentProps<typeof CategoryView>
+} | undefined => {
+	if (categoriesQuery.status === 'BadCategory') {
+		return
+	}
+	if (categoriesQuery.status !== 'OK') {
+		const p = { status: categoriesQuery.status };
+		return { header: p, category: p};
+	}
+	const { categories, categoryIndex } = categoriesQuery;
+	return { 
+		header: {
+			status: 'OK',
+			categories,
+			categoryIndex
+		},
+		category: {
+			status: 'OK',
+			category: categories[categoryIndex]
 		}
+	}
+}
+
+const Category = () => {
+	const categoriesQuery = useCategories();
+	const props = categoriesToProps(categoriesQuery);
+	if (!props) {
+		return <div>No such category!</div>;
 	}
 
 	return (
 		<>
-			<HeaderDesktopView {...propsHeader} />
-			<CategoryView {...propsCategory} />
+			<HeaderDesktopView {...props.header} />
+			<CategoryView {...props.category} />
 		</>
 	);
 }

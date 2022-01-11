@@ -3,7 +3,7 @@ import './HeaderDesktopView.sass';
 import { Link } from 'react-router-dom';
 
 type Props = { status: 'error' | 'loading' }
-           | { status: 'OK', categoryNames: string[], categoryIndex: number }
+           | { status: 'OK', categories: string[], categoryIndex: number }
 
 class HeaderDesktopView extends PureComponent<Props> {
 	render() {
@@ -16,7 +16,7 @@ class HeaderDesktopView extends PureComponent<Props> {
 		return (
 			<nav>
 				{
-					this.props.categoryNames.map((name: string, index: number) => (
+					this.props.categories.map((name: string, index: number) => (
 						<Link
 							to={`/${name}`}
 							className={categoryIndex == index ? 'headerElementSelected' : 'headerElement'}
