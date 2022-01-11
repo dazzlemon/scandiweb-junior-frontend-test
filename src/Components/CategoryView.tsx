@@ -5,6 +5,8 @@ import {
 	gql,
 	QueryResult
 } from '@apollo/client';
+import './CategoryView.sass';
+import ProductCard from '../PureComponents/ProductCard';
 
 // deprecated, but idk if any alternatives even exist,
 // everything I found was for functional react
@@ -95,7 +97,7 @@ class CategoryView extends Component<Props, State> {
 		}
 
 		return (
-			<div>
+			<div className='categoryTitle'>
 				<div>{this.props.category}</div>
 			<Query
 				query={CATEGORY}
@@ -111,19 +113,14 @@ class CategoryView extends Component<Props, State> {
 					}
 				
 					return (
-						<>
+						<div className='productCardsList'>
 							<ProductCardsList/>
 							{
-								data!.category.products.map(({ id, name }) => (
-									<div 
-										key={id}
-										style={{marginLeft: 25}}
-									>
-										{`${id} - ${name}`}
-									</div>
+								data!.category.products.map(({ id, name, gallery }) => (
+									<ProductCard id={id} name={name} gallery={gallery} />
 								))
 							}
-						</>
+						</div>
 					);
 				}}
 			</Query>
