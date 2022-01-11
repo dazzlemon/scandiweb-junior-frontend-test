@@ -91,8 +91,9 @@ class CategoryView extends Component<Props, State> {
 
 	render() {
 		if (this.props.status !== 'OK') {
-			return <div>Error or loading</div>;// TODO
+			return <div>{this.props.status}</div>;
 		}
+
 		return (
 			<div>
 				<div>{this.props.category}</div>
