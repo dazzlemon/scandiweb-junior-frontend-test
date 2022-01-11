@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import CategoryTitle from './CategoryTitle';
-import ProductCardsList from '../PureComponents/ProductCardsList';
 import {
 	gql,
 	QueryResult
@@ -114,7 +112,6 @@ class CategoryView extends Component<Props, State> {
 				
 					return (
 						<div className='productCardsList'>
-							<ProductCardsList/>
 							{
 								data!.category.products.map(({ id, name, gallery }) => (
 									<ProductCard id={id} name={name} gallery={gallery} />
