@@ -4,11 +4,10 @@ import {
 	InMemoryCache,
 	ApolloProvider,
 } from '@apollo/client';
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
 import CategoryView from './Components/CategoryView';
 import HeaderDesktop from './Components/HeaderDesktop';
-// deprecated, but idk if any alternatives even exist,
-// everything I found was for functional react
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
@@ -24,10 +23,22 @@ class App extends Component<Props> {
 		this.state = {  };
 	}
 	render() {
+		const categoryNames = ['all', 'clothes', 'tech']
+
 		return (
 			<ApolloProvider client={client}>
-				<HeaderDesktop />
-				<CategoryView />
+				<BrowserRouter>
+					<Routes>
+						<Route path='/'>
+							<Route index element={<Navigate to='/all' />} />
+							<Route path=':category' element={<>
+								{/* <HeaderDesktop /> */}
+								<HeaderDesktop/>
+								<CategoryView />
+							</> }/>
+						</Route>
+					</Routes>
+				</BrowserRouter>
 			</ApolloProvider>
 		);
 	}

@@ -1,9 +1,6 @@
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
-import { gql } from '@apollo/client';
-
-// deprecated, but idk if any (not deprecated) alternatives even exist
-// (besides hooks which are prohibited)
-import { graphql, OptionProps } from '@apollo/client/react/hoc';
+import { gql, useQuery } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 
 const GET_CATEGORY_NAMES = gql`
 	query GetCategoryNames {
@@ -13,25 +10,25 @@ const GET_CATEGORY_NAMES = gql`
 	}
 `;
 
-type CategoryName = { name: string }
-type Response     = { categories: CategoryName[] }
-type Props        = React.ComponentProps<typeof HeaderDesktopView>
-
-const queryResultToProps = (props: OptionProps<{}, Response>): Props => {
-	const { loading, error, categories } = props.data!;
+const HeaderDesktop = () => {
+	const { category } = useParams<{ category: string }>();
+	const { loading, error, data } = useQuery<{categories: {name: string}[]}>(GET_CATEGORY_NAMES);
 	const status = loading ? 'loading'
 	             : error   ? 'error'
 	             : null;
 	if (status) {
-		return { status };
+		return <HeaderDesktopView status={status}/>
 	}
-	const categoryNames = categories!.map(category => category.name);
-	return { status: 'OK', categoryNames, categoryIndex: 0};
+
+	const categoryNames = data!.categories.map(category => category.name);
+	if (!category) {
+		return <HeaderDesktopView status='OK' categoryNames={categoryNames} categoryIndex={0}/>
+	}
+	const categoryIndex = categoryNames.indexOf(category);
+	if (categoryIndex == -1) {
+		return <div>No such category</div>
+	}
+	return <HeaderDesktopView status='OK' categoryNames={categoryNames} categoryIndex={categoryIndex}/>
 }
 
-const withCategoryNames = graphql(GET_CATEGORY_NAMES, { props: queryResultToProps });
-/** 
- * Fetches category names and represents them with HeaderDesktopView 
- * @see HeaderDesktopView
-*/
-export default withCategoryNames(HeaderDesktopView);
+export default HeaderDesktop;

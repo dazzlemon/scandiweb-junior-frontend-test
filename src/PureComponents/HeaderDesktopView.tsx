@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import './HeaderDesktopView.sass';
+import { Link } from 'react-router-dom';
 
 type Props = { status: 'error' | 'loading' }
            | { status: 'OK', categoryNames: string[], categoryIndex: number }
@@ -16,13 +17,12 @@ class HeaderDesktopView extends PureComponent<Props> {
 			<nav>
 				{
 					this.props.categoryNames.map((name: string, index: number) => (
-						<a
-							key={name}
-							href={`\\${name}`}
+						<Link
+							to={`/${name}`}
 							className={categoryIndex == index ? 'headerElementSelected' : 'headerElement'}
 						>
 							{name}
-						</a>
+						</Link>
 					))
 				}
 			</nav>
