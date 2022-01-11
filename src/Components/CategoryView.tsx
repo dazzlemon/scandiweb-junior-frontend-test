@@ -45,9 +45,9 @@ type Product = {
 	brand: string
 }
 
-type Props = {}
-
-type State = { category: string }
+type Props = { status: 'error' | 'loading' } 
+           | { status: 'OK', category: string }
+type State = {}
 
 const CATEGORY = gql`
   query GetCategories($categoryName: String!) {
@@ -84,21 +84,21 @@ const CATEGORY = gql`
   }
 `;
 
-
-
 class CategoryView extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		this.state = { category: 'all' };
 	}
 
 	render() {
+		if (this.props.status !== 'OK') {
+			return <div>Error or loading</div>;// TODO
+		}
 		return (
 			<div>
-				<div>{this.state.category}</div>
+				<div>{this.props.category}</div>
 			<Query
 				query={CATEGORY}
-				variables={{categoryName: this.state.category }}
+				variables={{categoryName: this.props.category }}
 			>
 				{(result: QueryResult<{ category: { products: Product[]} }>) => {
 					const { loading, error, data } = result;

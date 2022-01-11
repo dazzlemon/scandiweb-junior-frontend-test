@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {
 	ApolloClient,
 	InMemoryCache,
@@ -6,8 +6,7 @@ import {
 } from '@apollo/client';
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
-import CategoryView from './Components/CategoryView';
-import HeaderDesktop from './Components/HeaderDesktop';
+import Category from './Pages/Category';
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
@@ -31,11 +30,9 @@ class App extends Component<Props> {
 					<Routes>
 						<Route path='/'>
 							<Route index element={<Navigate to='/all' />} />
-							<Route path=':category' element={<>
-								{/* <HeaderDesktop /> */}
-								<HeaderDesktop/>
-								<CategoryView />
-							</> }/>
+							<Route path=':category'>
+								<Route index element={<Category/>} />
+							</Route>
 						</Route>
 					</Routes>
 				</BrowserRouter>
