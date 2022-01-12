@@ -113,8 +113,14 @@ class CategoryView extends Component<Props, State> {
 					return (
 						<div className='productCardsList'>
 							{
-								data!.category.products.map(({ id, name, gallery }) => (
-									<ProductCard id={id} name={name} gallery={gallery} />
+								data!.category.products.map(({ id, name, gallery, prices }) => (
+									<ProductCard
+										id={id}
+										name={name}
+										gallery={gallery}
+										price={prices[0].amount}
+										currency={prices[0].currency.symbol}	
+									/>
 								))
 							}
 						</div>

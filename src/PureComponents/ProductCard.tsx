@@ -1,4 +1,4 @@
-type Props = { id: string, name: string, gallery: string[] };
+type Props = { id: string, name: string, gallery: string[], price: number, currency: string };
 
 const ProductCard = (props: Props) => {
 	return (
@@ -7,7 +7,8 @@ const ProductCard = (props: Props) => {
 			className='productCard'
 		>
 			<img className='productImage' src={props.gallery[0]} alt='product image'/>
-			{props.name}
+			<div className='productName'>{props.name}</div>
+			<div className='productPrice'>{props.currency}{props.price}</div>
 		</div>
 	);
 }
