@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import './HeaderDesktopView.sass';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Logo } from './Vector.svg';
+import { ReactComponent as Logo } from './Logo.svg';
+import { ReactComponent as Cart } from './Cart.svg';
 
 type Props = { status: 'error' | 'loading' }
            | { status: 'OK', categories: string[], categoryIndex: number }
@@ -29,7 +30,10 @@ class HeaderDesktopView extends PureComponent<Props> {
 					}
 				</nav>
 				<Logo className='logo' />
-				<div className='actions' />
+				<div className='actions'>
+					<div>$</div>
+					<Cart className='cart' />
+				</div>
 			</div>
 		);
 	}
