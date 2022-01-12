@@ -95,39 +95,39 @@ class CategoryView extends Component<Props, State> {
 		}
 
 		return (
-			<div className='categoryTitle'>
-				<div>{this.props.category}</div>
-			<Query
-				query={CATEGORY}
-				variables={{categoryName: this.props.category }}
-			>
-				{(result: QueryResult<{ category: { products: Product[]} }>) => {
-					const { loading, error, data } = result;
-					if (loading) {
-						return <p>Loading...</p>;
-					}
-					if (error) {
-						return <p>Error :(</p>;
-					}
-				
-					return (
-						<div className='productCardsList'>
-							{
-								data!.category.products.map(({ id, name, gallery, prices }) => (
-									<ProductCard
-										id={id}
-										name={name}
-										gallery={gallery}
-										price={prices[0].amount}
-										currency={prices[0].currency.symbol}	
-									/>
-								))
-							}
-						</div>
-					);
-				}}
-			</Query>
-			</div>
+			<>
+				<div className='categoryTitle'>{this.props.category}</div>
+				<Query
+					query={CATEGORY}
+					variables={{categoryName: this.props.category }}
+				>
+					{(result: QueryResult<{ category: { products: Product[]} }>) => {
+						const { loading, error, data } = result;
+						if (loading) {
+							return <p>Loading...</p>;
+						}
+						if (error) {
+							return <p>Error :(</p>;
+						}
+					
+						return (
+							<div className='productCardsList'>
+								{
+									data!.category.products.map(({ id, name, gallery, prices }) => (
+										<ProductCard
+											id={id}
+											name={name}
+											gallery={gallery}
+											price={prices[0].amount}
+											currency={prices[0].currency.symbol}	
+										/>
+									))
+								}
+							</div>
+						);
+					}}
+				</Query>
+			</>
 		);
 	}
 }

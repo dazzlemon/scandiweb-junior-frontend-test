@@ -9,12 +9,14 @@ $selected-color: #00ff00
 @mixin headerElementStyle($selected)
 	.headerElement#{$selected}
 		@include setLinkSelectorStyle
-		padding: 12px
+		padding: 16px
 		color: if($selected == 'Selected', $selected-color, inherit)
 		font-family: raleway
-		font-size: 32px
+		font-size: 24px
 		text-transform: uppercase
-		text-decoration: if($selected == 'Selected', underline, inherit)
+		text-decoration: none
+		// text-decoration: if($selected == 'Selected', underline, inherit)
+		border-bottom: if($selected == 'Selected', 2px solid $selected-color, none)
 
 @include headerElementStyle('Selected')
 @include headerElementStyle('')
