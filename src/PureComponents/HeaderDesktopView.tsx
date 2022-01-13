@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import './HeaderDesktopView.sass';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Logo } from './Logo.svg';
-import { ReactComponent as Cart } from './Cart.svg';
+import { ReactComponent as Logo } from '../Icons/Logo.svg';
+import { ReactComponent as Cart } from '../Icons/Cart.svg';
 
 type Props = { status: 'error' | 'loading' }
            | { status: 'OK', categories: string[], categoryIndex: number }

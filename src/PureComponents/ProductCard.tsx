@@ -1,5 +1,5 @@
-import { ReactComponent as ProductCart } from './ProductCart.svg';
-import { ReactComponent as Heart } from './Heart.svg';
+import { ReactComponent as ProductCart } from '../Icons/ProductCart.svg';
+import { ReactComponent as Heart } from '../Icons/Heart.svg';
 
 type Props = {
 	id: string,
