@@ -27,21 +27,19 @@ class App extends Component<Props> {
 		const categoryNames = ['all', 'clothes', 'tech']
 
 		return (
-			<div className='pageContainer'>
-				<ApolloProvider client={client}>
-					<BrowserRouter>
-						<Routes>
-							<Route path='/'>
-								<Route index element={<Navigate to='/all' />} />
-								<Route path=':category'>
-									<Route index element={<Category/>} />
-									<Route path=':productId' element={<ProductPage/>} />
-								</Route>
+			<ApolloProvider client={client}>
+				<BrowserRouter>
+					<Routes>
+						<Route path='/'>
+							<Route index element={<Navigate to='/all' />} />
+							<Route path=':category'>
+								<Route index element={<Category/>} />
+								<Route path=':productId' element={<ProductPage/>} />
 							</Route>
-						</Routes>
-					</BrowserRouter>
-				</ApolloProvider>
-			</div>
+						</Route>
+					</Routes>
+				</BrowserRouter>
+			</ApolloProvider>
 		);
 	}
 }
