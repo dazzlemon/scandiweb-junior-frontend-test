@@ -85,6 +85,7 @@ const CATEGORY = gql`
   }
 `;
 
+
 class CategoryView extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);

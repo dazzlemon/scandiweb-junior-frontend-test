@@ -39,6 +39,24 @@ $selected-color: #00ff00
 .actions
 	position: relative
 	display: inline-flex
-	div, .cart
+	.cart
 		padding-top: 4px
 		padding-left: 16px
+
+.currencySwitcher
+	display: flex
+	margin-top: 4px
+	.currency, .arrow
+		padding: 0px 2px
+	.arrow
+		margin-top: 6px
+	&:hover
+		cursor: pointer
+	.dropdown
+		position: absolute
+		top: 32px
+		right: 32px
+		box-shadow: 0 0 48px 6px #eee
+		padding: 12px
+		.row
+			display: flex

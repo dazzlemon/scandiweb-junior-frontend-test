@@ -12,6 +12,18 @@ const GET_CATEGORY_NAMES = gql`
 	}
 `;
 
+const GET_CURRENCIES = gql`
+	query GetCategoryNames {
+		currencies {
+			label,
+			symbol
+		}
+	}
+`;
+
+
+
+
 type useCategoriesReturn = { status: 'error' | 'loading' | 'BadCategory'}
                          | { status: 'OK', categories: string[], categoryIndex: number }
 
@@ -64,13 +76,28 @@ const categoriesToProps = (categoriesQuery: useCategoriesReturn): {
 const Category = () => {
 	const categoriesQuery = useCategories();
 	const props = categoriesToProps(categoriesQuery);
+	
+	// TODO: everything below is temporary
+	
+	const { loading, error, data } = useQuery<{
+		currencies: {label: string, symbol: string}[]
+	}>(GET_CURRENCIES);
+	if (loading) {
+		return <div>Loading</div>;
+	}
+	if (error) {
+		return <div>error</div>;
+	}
+
+	// TODO: everything above in this function is temporary
+	
 	if (!props) {
 		return <div>No such category!</div>;
 	}
 
 	return (
 		<>
-			<HeaderDesktopView {...props.header} />
+			<HeaderDesktopView {...props.header} currencies={data!.currencies}/>
 			<CategoryView {...props.category} />
 		</>
 	);

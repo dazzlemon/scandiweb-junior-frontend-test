@@ -3,9 +3,16 @@ import './HeaderDesktopView.sass';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Icons/Logo.svg';
 import { ReactComponent as Cart } from '../Icons/Cart.svg';
+import CurrencySwitcher from './CurrencySwitcher';
 
-type Props = { status: 'error' | 'loading' }
-           | { status: 'OK', categories: string[], categoryIndex: number }
+type Props = { status: 'error' | 'loading', currencies?: { label: string, symbol: string }[] } // TODO: currencies is tmp
+           | { 
+							status: 'OK',
+							categories: string[],
+							categoryIndex: number,
+							currencies?: { label: string, symbol: string }[],// TODO: make necessary
+							currencyIndex?: number 
+						}
 
 class HeaderDesktopView extends PureComponent<Props> {
 	render() {
@@ -31,7 +38,7 @@ class HeaderDesktopView extends PureComponent<Props> {
 				</nav>
 				<Logo className='logo' />
 				<div className='actions'>
-					<div>$</div>
+					<CurrencySwitcher currencies={this.props.currencies ?? [{label: 'USD', symbol: '$'}]} />
 					<Cart className='cart' />
 				</div>
 			</div>
