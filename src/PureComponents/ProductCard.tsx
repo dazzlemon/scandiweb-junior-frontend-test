@@ -1,4 +1,5 @@
 import { ReactComponent as ProductCart } from './ProductCart.svg';
+import { ReactComponent as Heart } from './Heart.svg';
 
 type Props = {
 	id: string,
@@ -7,6 +8,7 @@ type Props = {
 	price: number,
 	currency: string,
 	onClick?: React.MouseEventHandler<HTMLDivElement>
+	showHeart?: boolean
 };
 
 const ProductCard = (props: Props) => {
@@ -18,6 +20,7 @@ const ProductCard = (props: Props) => {
 		>
 			<div className='productImageContainer'>
 				<img className='productImage' src={props.gallery[0]} alt='product image'/>
+				{props.showHeart && <Heart className='productHeart' />}
 				<ProductCart className='productCart' />
 			</div>
 			<div className='productName'>{props.name}</div>
