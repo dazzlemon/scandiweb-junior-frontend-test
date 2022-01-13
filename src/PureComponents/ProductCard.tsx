@@ -1,3 +1,5 @@
+import { ReactComponent as ProductCart } from './ProductCart.svg';
+
 type Props = {
 	id: string,
 	name: string,
@@ -14,7 +16,10 @@ const ProductCard = (props: Props) => {
 			className='productCard'
 			onClick={props.onClick}
 		>
-			<img className='productImage' src={props.gallery[0]} alt='product image'/>
+			<div className='productImageContainer'>
+				<img className='productImage' src={props.gallery[0]} alt='product image'/>
+				<ProductCart className='productCart' />
+			</div>
 			<div className='productName'>{props.name}</div>
 			<div className='productPrice'>{props.currency}{props.price}</div>
 		</div>
