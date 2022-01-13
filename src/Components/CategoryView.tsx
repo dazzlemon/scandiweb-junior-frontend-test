@@ -5,6 +5,7 @@ import {
 } from '@apollo/client';
 import './CategoryView.sass';
 import ProductCard from '../PureComponents/ProductCard';
+import { Navigate } from 'react-router-dom';
 
 // deprecated, but idk if any alternatives even exist,
 // everything I found was for functional react
@@ -47,7 +48,7 @@ type Product = {
 
 type Props = { status: 'error' | 'loading' } 
            | { status: 'OK', category: string }
-type State = {}
+type State = { productId?: string }
 
 const CATEGORY = gql`
   query GetCategories($categoryName: String!) {
@@ -89,9 +90,16 @@ class CategoryView extends Component<Props, State> {
 		super(props);
 	}
 
+	goToProductPage(id: string) {
+		this.setState({ productId: id });
+	}
+
 	render() {
 		if (this.props.status !== 'OK') {
 			return <div>{this.props.status}</div>;
+		}
+		if (this.state?.productId) {
+			return <Navigate to={`${this.state.productId}`} />;
 		}
 
 		return (
@@ -119,7 +127,8 @@ class CategoryView extends Component<Props, State> {
 											name={name}
 											gallery={gallery}
 											price={prices[0].amount}
-											currency={prices[0].currency.symbol}	
+											currency={prices[0].currency.symbol}
+											onClick={() => this.goToProductPage(id)}
 										/>
 									))
 								}

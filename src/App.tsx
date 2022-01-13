@@ -7,6 +7,7 @@ import {
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
 import Category from './Pages/Category';
+import ProductPage from './Pages/ProductPage';
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
@@ -32,6 +33,7 @@ class App extends Component<Props> {
 							<Route index element={<Navigate to='/all' />} />
 							<Route path=':category'>
 								<Route index element={<Category/>} />
+								<Route path=':productId' element={<ProductPage/>} />
 							</Route>
 						</Route>
 					</Routes>
