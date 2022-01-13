@@ -8,6 +8,7 @@ import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
 import Category from './Pages/Category';
 import ProductPage from './Pages/ProductPage';
+import './App.sass';
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000',
@@ -26,19 +27,21 @@ class App extends Component<Props> {
 		const categoryNames = ['all', 'clothes', 'tech']
 
 		return (
-			<ApolloProvider client={client}>
-				<BrowserRouter>
-					<Routes>
-						<Route path='/'>
-							<Route index element={<Navigate to='/all' />} />
-							<Route path=':category'>
-								<Route index element={<Category/>} />
-								<Route path=':productId' element={<ProductPage/>} />
+			<div className='pageContainer'>
+				<ApolloProvider client={client}>
+					<BrowserRouter>
+						<Routes>
+							<Route path='/'>
+								<Route index element={<Navigate to='/all' />} />
+								<Route path=':category'>
+									<Route index element={<Category/>} />
+									<Route path=':productId' element={<ProductPage/>} />
+								</Route>
 							</Route>
-						</Route>
-					</Routes>
-				</BrowserRouter>
-			</ApolloProvider>
+						</Routes>
+					</BrowserRouter>
+				</ApolloProvider>
+			</div>
 		);
 	}
 }
