@@ -103,7 +103,7 @@ class CategoryView extends Component<Props, State> {
 		}
 
 		return (
-			<>
+			<main>
 				<div className='categoryTitle'>{this.props.category}</div>
 				<Query
 					query={CATEGORY}
@@ -136,7 +136,7 @@ class CategoryView extends Component<Props, State> {
 						);
 					}}
 				</Query>
-			</>
+			</main>
 		);
 	}
 }
