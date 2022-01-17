@@ -46,8 +46,7 @@ type Product = {
 	brand: string
 }
 
-type Props = { status: 'error' | 'loading' } 
-           | { status: 'OK', category: string }
+type Props = { category: string }
 type State = { productId?: string }
 
 const CATEGORY = gql`
@@ -96,9 +95,6 @@ class CategoryView extends Component<Props, State> {
 	}
 
 	render() {
-		if (this.props.status !== 'OK') {
-			return <div>{this.props.status}</div>;
-		}
 		if (this.state?.productId) {
 			return <Navigate to={`${this.state.productId}`} />;
 		}

@@ -36,12 +36,11 @@ const Category: React.FC = () => {
 	return (
 		<>
 	 		<HeaderDesktopView
-				status='OK'
 				categories={categories}
 				categoryIndex={categoryIndex}
 				currencies={data!.currencies}
 			/>
-	 		<CategoryView status='OK' category={categories[categoryIndex]} />
+	 		<CategoryView category={categories[categoryIndex]} />
 		</>
 	);
 }
