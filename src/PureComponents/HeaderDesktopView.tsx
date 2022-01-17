@@ -22,7 +22,8 @@ class HeaderDesktopView extends PureComponent<Props> {
 						this.props.categories.map((name: string, index: number) => (
 							<Link
 								to={`/${name}`}
-								className={this.props.categoryIndex == index ? 'headerElementSelected' : 'headerElement'}
+								className={this.props.categoryIndex == index ? 'headerElementSelected'
+								                                             : 'headerElement'}
 							>
 								{name}
 							</Link>
@@ -31,7 +32,11 @@ class HeaderDesktopView extends PureComponent<Props> {
 				</nav>
 				<Logo className='logo' />
 				<div className='actions'>
-					<CurrencySwitcher currencies={this.props.currencies} onChange={this.props.onCurrencyChange}/>
+					<CurrencySwitcher
+						currencies={this.props.currencies}
+						onChange={this.props.onCurrencyChange}
+						currencyIndex={this.props.currencyIndex}
+					/>
 					<Cart className='cart' />
 				</div>
 			</div>

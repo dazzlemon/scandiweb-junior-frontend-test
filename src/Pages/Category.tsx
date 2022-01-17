@@ -1,5 +1,5 @@
 import CategoryView from '../Components/CategoryView';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
 import React, { useState } from 'react';
@@ -22,7 +22,7 @@ const Category: React.FC = () => {
 		categories: {name: string}[],
 		currencies: {label: string, symbol: string}[]
 	}>(QUERY);
-	const [ currencyIndex, setCurrencyIndex ] = useState(0);
+	const [ searchParams, setSearchParams ] = useSearchParams();
 
 	if (loading) {
 		return <div>Loading...</div>;
@@ -32,7 +32,16 @@ const Category: React.FC = () => {
 	}
 
 	const categories = data!.categories.map(category => category.name);
-	let categoryIndex = categories.indexOf(category!);// this page is routed with :category
+	const categoryIndex = categories.indexOf(category!);// this page is routed with :category
+
+	const changeCurrency = (index: number) => {
+		setSearchParams({ currency: data!.currencies[index].label });
+	}
+
+	const currencyLabel = searchParams.get('currency');
+	const currencyIndex = currencyLabel
+		? data!.currencies.findIndex(currency => currency.label === currencyLabel)
+		: 0;// TODO: may be -1?
 
 	return (
 		<>
@@ -40,7 +49,8 @@ const Category: React.FC = () => {
 				categories={categories}
 				categoryIndex={categoryIndex}
 				currencies={data!.currencies}
-				onCurrencyChange={currencyIndex => setCurrencyIndex(currencyIndex)}
+				onCurrencyChange={changeCurrency}
+				currencyIndex={currencyIndex}
 			/>
 	 		<CategoryView
 				category={categories[categoryIndex]}
