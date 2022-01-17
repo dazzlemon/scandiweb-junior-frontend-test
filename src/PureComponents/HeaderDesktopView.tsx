@@ -5,12 +5,12 @@ import { ReactComponent as Logo } from '../Icons/Logo.svg';
 import { ReactComponent as Cart } from '../Icons/Cart.svg';
 import CurrencySwitcher from './CurrencySwitcher';
 
-type Props = { status: 'error' | 'loading', currencies?: { label: string, symbol: string }[] } // TODO: currencies is tmp
+type Props = { status: 'error' | 'loading' }
            | { 
 							status: 'OK',
 							categories: string[],
 							categoryIndex: number,
-							currencies?: { label: string, symbol: string }[],// TODO: make necessary
+							currencies: { label: string, symbol: string }[],
 							currencyIndex?: number 
 						}
 

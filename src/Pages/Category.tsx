@@ -2,7 +2,7 @@ import CategoryView from '../Components/CategoryView';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const QUERY = gql`
 	query GetCategoryNamesAndCurrencies {
@@ -18,16 +18,14 @@ const QUERY = gql`
 
 const Category: React.FC = () => {
 	const { category } = useParams<{ category: string }>();
-	const { loading, error, data } = useQuery<{ categories: {name: string}[] }>(QUERY);
-
-	const status = loading ? 'loading'
-	             : error   ? 'error'
-							 : 'OK';
+	const { loading, error, data } = useQuery<{
+		categories: {name: string}[],
+		currencies: {label: string, symbol: string}[]
+	}>(QUERY);
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
-
 	if (error) {
 		return <div>{error.message}</div>;
 	}
@@ -37,7 +35,12 @@ const Category: React.FC = () => {
 
 	return (
 		<>
-	 		<HeaderDesktopView status='OK' categories={categories} categoryIndex={categoryIndex} />
+	 		<HeaderDesktopView
+				status='OK'
+				categories={categories}
+				categoryIndex={categoryIndex}
+				currencies={data!.currencies}
+			/>
 	 		<CategoryView status='OK' category={categories[categoryIndex]} />
 		</>
 	);
