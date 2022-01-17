@@ -9,7 +9,8 @@ type Props = {
 	categories: string[],
 	categoryIndex: number,
 	currencies: { label: string, symbol: string }[],
-	currencyIndex?: number 
+	currencyIndex?: number
+	onCurrencyChange?: (currencyIndex: number) => void
 }
 
 class HeaderDesktopView extends PureComponent<Props> {
@@ -30,7 +31,7 @@ class HeaderDesktopView extends PureComponent<Props> {
 				</nav>
 				<Logo className='logo' />
 				<div className='actions'>
-					<CurrencySwitcher currencies={this.props.currencies ?? [{label: 'USD', symbol: '$'}]} />
+					<CurrencySwitcher currencies={this.props.currencies} onChange={this.props.onCurrencyChange}/>
 					<Cart className='cart' />
 				</div>
 			</div>

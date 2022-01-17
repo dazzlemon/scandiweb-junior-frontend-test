@@ -46,7 +46,7 @@ type Product = {
 	brand: string
 }
 
-type Props = { category: string }
+type Props = { category: string, currencyLabel: string }
 type State = { productId?: string }
 
 const CATEGORY = gql`
@@ -84,7 +84,6 @@ const CATEGORY = gql`
   }
 `;
 
-
 class CategoryView extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
@@ -112,22 +111,25 @@ class CategoryView extends Component<Props, State> {
 							return <p>Loading...</p>;
 						}
 						if (error) {
-							return <p>Error :(</p>;
+							return <p>Error</p>;
 						}
 					
 						return (
 							<div className='productCardsList'>
 								{
-									data!.category.products.map(({ id, name, gallery, prices }) => (
-										<ProductCard
+									data!.category.products.map(({ id, name, gallery, prices }) => {
+										const priceIndex = prices.findIndex(
+											price => price.currency.label == this.props.currencyLabel);// TODO: may return -1 so needs rework
+
+										return <ProductCard
 											id={id}
 											name={name}
 											gallery={gallery}
-											price={prices[0].amount}
-											currency={prices[0].currency.symbol}
+											price={prices[priceIndex].amount}
+											currency={prices[priceIndex].currency.symbol}
 											onClick={() => this.goToProductPage(id)}
 										/>
-									))
+									})
 								}
 							</div>
 						);
