@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import clickOutside from '../HOCs/clickOutside';
 import { ReactComponent as ArrowDown } from '../Icons/ArrowDown.svg';
 
 type Currency = { label: string, symbol: string }
@@ -8,6 +9,30 @@ type Props = {
 	currencyIndex?: number,
 	onChange?: (currencyIndex: number) => void
 }
+
+type Props_ = {
+	currencies: Currency[],
+	changeCurrency: (currencyIndex: number) => void
+}
+
+class Dropdown extends React.Component<Props_> {
+	render() {
+		return (
+			<div className='dropdown'>
+				{this.props.currencies.map(({ label, symbol }, index) => {
+					return (
+						<div className='row' onClick={() => this.props.changeCurrency(index)}>
+							<div>{symbol}</div>
+							<div>{label}</div>
+						</div>
+					);
+				})}
+			</div>
+		);
+	}
+}
+
+const DropdownClickOutside = clickOutside(Dropdown);
 
 const CurrencySwitcher = (props: Props) => {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -27,16 +52,11 @@ const CurrencySwitcher = (props: Props) => {
 			<div className='currency'>{props.currencies[currencyIndex].symbol}</div>
 			<ArrowDown className='arrow'/>
 			{showDropdown &&
-				<div className='dropdown'>
-					{props.currencies.map(({ label, symbol }, index) => {
-						return (
-							<div className='row' onClick={() =>changeCurrency(index)}>
-								<div>{symbol}</div>
-								<div>{label}</div>
-							</div>
-						);
-					})}
-				</div>
+				<DropdownClickOutside
+					currencies={props.currencies}
+					changeCurrency={changeCurrency}
+					onClickOutside={_ => setShowDropdown(false)}
+				/>
 			}
 		</div>
 	);
