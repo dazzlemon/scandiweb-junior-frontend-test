@@ -21,6 +21,7 @@ function clickOutside<T>(Component: ComponentType<T>) {
 		handleClickOutside(e: MouseEvent) {
 			if (this.ref.current && !this.ref.current.contains(e.target as Node)) {
 				this.props.onClickOutside(e);
+				e.stopImmediatePropagation();
 			}
 		}
 
