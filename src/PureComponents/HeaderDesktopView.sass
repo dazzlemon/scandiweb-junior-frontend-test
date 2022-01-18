@@ -22,10 +22,11 @@ $selected-color: #00ff00
 @include headerElementStyle('')
 
 .header
-	display: flex
-	// position: relative
 	position: sticky
 	top: 0
+
+.headerContainer
+	display: flex
 	justify-content: space-between
 	z-index: 10
 	padding: 16px 32px
@@ -39,9 +40,25 @@ $selected-color: #00ff00
 .actions
 	position: relative
 	display: inline-flex
-	.cart
+
+.cart
+	.cartIcon
 		padding-top: 4px
 		padding-left: 16px
+		&:hover
+			cursor: pointer
+	.cartOverlay
+		position: absolute
+		top: 32px
+		right: 32px
+		padding: 12px
+		background-color: #fff
+	.bgEffect
+		position: fixed
+		inset: 0 0 0 0
+		background-color: #000
+		opacity: 0.5
+		z-index: -1
 
 .currencySwitcher
 	display: flex
