@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 
-type Props_ = { onClickOutside: (e: MouseEvent) => void }
+type Props = { onClickOutside: (e: MouseEvent) => void }
 
-function clickOutside(Component: any) {// todo typing
-	return class ClickOutside extends React.Component<Props_> {
-		private ref = React.createRef<HTMLDivElement>();// TODO: typing
-		constructor(props: Props_) {
+function clickOutside<T>(Component: ComponentType<T>) {
+	return class ClickOutside extends React.Component<Props> {
+		private ref = React.createRef<HTMLDivElement>();
+		constructor(props: Props & T) {
 			super(props);
+			this.handleClickOutside = this.handleClickOutside.bind(this);
 		}
 
 		componentDidMount() {
@@ -18,7 +19,7 @@ function clickOutside(Component: any) {// todo typing
 		}
 
 		handleClickOutside(e: MouseEvent) {
-			if (this.ref.current && !this.ref.current.contains(e.target as HTMLElement)) {// TODO: typing
+			if (this.ref.current && !this.ref.current.contains(e.target as Node)) {
 				this.props.onClickOutside(e);
 			}
 		}
@@ -26,7 +27,7 @@ function clickOutside(Component: any) {// todo typing
 		render() {
 			return (
 				<div ref={this.ref}>
-					<Component {...this.props} />
+					<Component {...this.props as Extract<T & Props, T>} />
 				</div>
 			);
 		}

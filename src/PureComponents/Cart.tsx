@@ -2,7 +2,7 @@ import { ReactComponent as CartIcon } from '../Icons/Cart.svg';
 import clickOutside from '../HOCs/clickOutside';
 import React from 'react';
 
-class CartOverlay {
+class CartOverlay extends React.Component {
 	render() {
 		return (
 			<>
@@ -30,7 +30,7 @@ type State = { isVisible: boolean }
 class Cart extends React.Component<{}, State> {
 	constructor(props: {}) {
 		super(props);
-		this.setState({ isVisible: false });
+		this.state = { isVisible: false };
 	} 
 
 	render() {
