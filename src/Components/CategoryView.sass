@@ -12,6 +12,10 @@
 	flex-wrap: wrap
 	position: relative
 
+main
+	z-index: -10
+	// background-color: #aaa
+
 .productCard
 	// width: 300px
 	// height: 325px
@@ -24,10 +28,11 @@
 		cursor: pointer
 		.productCart, .productHeart
 			display: block
-	z-index: -2// box shadow doesnt work cause of that
+	// z-index: -1// box shadow doesnt work cause of that
 
 .productImageContainer
 	position: relative
+	z-index: -1
 
 .productImage
 	object-fit: contain
