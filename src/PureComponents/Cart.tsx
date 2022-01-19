@@ -2,15 +2,18 @@ import { ReactComponent as CartIcon } from '../Icons/Cart.svg';
 import clickOutside from '../HOCs/clickOutside';
 import React from 'react';
 
-class CartOverlay extends React.Component {
+type Props = { price: number, currency: string }
+
+class CartOverlay extends React.Component<Props> {
 	render() {
 		return (
 			<div className='cartOverlay'>
 				<div>
 					Items
 				</div>
-				<div>
-					Total
+				<div className='total'>
+					<div>Total</div>
+					<div className='price'>{this.props.currency}{this.props.price.toFixed(2)}</div>
 				</div>
 				<div className='buttons'>
 					<button className='viewBag'>View bag</button>
@@ -46,13 +49,18 @@ class Cart extends React.Component<{}, State> {
 				{this.state.isVisible &&
 					<>
 						<div className='bgEffect'/>
-						<Overlay onClickOutside={(e) => {
-							this.setState({ isVisible: false })
-							// open cart and close overlay in one click
-							if (this.ref.current?.contains(e.target as Node)) {
-								e.stopImmediatePropagation();
-							}
-						}}/>
+						<Overlay 
+							onClickOutside={(e) => {
+								this.setState({ isVisible: false })
+								// open cart and close overlay in one click
+								if (this.ref.current?.contains(e.target as Node)) {
+									e.stopImmediatePropagation();
+								}
+							}}
+							// tmp
+							price={100}
+							currency='$'
+						/>
 					</>
 				}
 			</div>
