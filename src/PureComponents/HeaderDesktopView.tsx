@@ -38,7 +38,7 @@ class HeaderDesktopView extends PureComponent<Props> {
 							onChange={this.props.onCurrencyChange}
 							currencyIndex={this.props.currencyIndex}
 						/>
-						<Cart />
+						<Cart currency={this.props.currencies[this.props.currencyIndex ?? 0].symbol}/>
 					</div>
 				</div>
 			</header>

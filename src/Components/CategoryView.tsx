@@ -128,6 +128,14 @@ class CategoryView extends Component<Props, State> {
 											price={prices[priceIndex].amount}
 											currency={prices[priceIndex].currency.symbol}
 											onClick={() => this.goToProductPage(id)}
+											onCartClick={() => {
+												// localStorage might be empty
+												const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
+												if (!cart.includes(id)) {
+													cart.push(id);
+												}
+												localStorage.setItem('cart', JSON.stringify(cart));
+											}}
 										/>
 									})
 								}

@@ -2,18 +2,22 @@ import { ReactComponent as CartIcon } from '../Icons/Cart.svg';
 import clickOutside from '../HOCs/clickOutside';
 import React from 'react';
 
-type Props = { price: number, currency: string }
+type Props = { currency: string }
 
 class CartOverlay extends React.Component<Props> {
 	render() {
+		const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
+		const price = '100.00';
+
 		return (
 			<div className='cartOverlay'>
+				<div className='myBag'>My Bag, <span className='itemCounter'>{cart.length} items</span> </div>
 				<div>
-					Items
+					{cart.map(id => <div>{id}</div>)}
 				</div>
 				<div className='total'>
 					<div>Total</div>
-					<div className='price'>{this.props.currency}{this.props.price.toFixed(2)}</div>
+					<div className='price'>{this.props.currency}{price}</div>
 				</div>
 				<div className='buttons'>
 					<button className='viewBag'>View bag</button>
@@ -26,11 +30,12 @@ class CartOverlay extends React.Component<Props> {
 
 const Overlay = clickOutside(CartOverlay);
 
+type Props_ = { currency: string }// TODO: probably need to have some shared storage to not redraw?
 type State = { isVisible: boolean }
 
-class Cart extends React.Component<{}, State> {
+class Cart extends React.Component<Props_, State> {
 		private ref = React.createRef<SVGSVGElement>();
-		constructor(props: {}) {
+		constructor(props: Props_) {
 		super(props);
 		this.state = { isVisible: false };
 	} 
@@ -58,8 +63,7 @@ class Cart extends React.Component<{}, State> {
 								}
 							}}
 							// tmp
-							price={100}
-							currency='$'
+							currency={this.props.currency}
 						/>
 					</>
 				}

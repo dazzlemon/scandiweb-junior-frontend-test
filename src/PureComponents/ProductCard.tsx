@@ -9,6 +9,7 @@ type Props = {
 	currency: string,
 	onClick?: React.MouseEventHandler<HTMLDivElement>
 	showHeart?: boolean
+	onCartClick?: React.MouseEventHandler<SVGSVGElement>
 };
 
 const ProductCard = (props: Props) => {
@@ -21,7 +22,10 @@ const ProductCard = (props: Props) => {
 			<div className='productImageContainer'>
 				<img className='productImage' src={props.gallery[0]} alt='product image'/>
 				{props.showHeart && <Heart className='productHeart' />}
-				<ProductCart className='productCart' />
+				<ProductCart className='productCart' onClick={e => {
+					e.stopPropagation();// don't trigger parent's onClick
+					props.onCartClick?.(e);
+				}} />
 			</div>
 			<div className='productName'>{props.name}</div>
 			<div className='productPrice'>{props.currency}{props.price}</div>
