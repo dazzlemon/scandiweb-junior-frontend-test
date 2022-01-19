@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway')
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
 
-$selected-color: #00ff00
+$selected-color: #5ECE7B
 
 @mixin setLinkSelectorStyle
 	&, &:hover, &:link, &:active, &:visited
@@ -54,6 +54,34 @@ $selected-color: #00ff00
 		right: 32px
 		padding: 12px
 		background-color: #fff
+		.buttons
+			display: flex
+			button
+				font-family: raleway
+				font-weight: 600
+				font-size: 14
+				white-space: nowrap
+				border-radius: 0
+				margin: 5px
+				text-transform: uppercase
+				padding: 16px 32px
+				width: 140px
+				height: 43px
+				justify-content: center
+				align-items: center
+				display: flex
+				flex-direction: column
+				&:hover
+					cursor: pointer
+			.viewBag
+				border-style: solid
+				border-color: #000
+				background-color: #fff
+			.checkout
+				border-style: none
+				background-color: $selected-color
+				color: #fff
+
 	.bgEffect
 		position: fixed
 		inset: 0 0 0 0

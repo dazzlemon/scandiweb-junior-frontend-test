@@ -12,8 +12,9 @@ class CartOverlay extends React.Component {
 				<div>
 					Total
 				</div>
-				<div>
-					Buttons
+				<div className='buttons'>
+					<button className='viewBag'>View bag</button>
+					<button className='checkout'>Check out</button>
 				</div>
 			</div>
 		);
