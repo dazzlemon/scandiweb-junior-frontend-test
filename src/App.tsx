@@ -26,8 +26,10 @@ class App extends Component<Props> {
 		super(props);
 		this.state = {  };
 	}
+	
 	render() {
 		const categoryNames = ['all', 'clothes', 'tech']
+		console.log(process.env.NODE_ENV)
 
 		return (
 			<ApolloProvider client={client}>
