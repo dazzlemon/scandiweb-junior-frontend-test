@@ -3,6 +3,7 @@ import {
 	QueryResult,
 	useQuery
 } from '@apollo/client';
+import './ProductView.sass';
 
 type Currency = {
 	label: string,
@@ -92,8 +93,14 @@ const Product = (props: Props) => {
 			{data!.product.attributes.map(attr => {
 				return (
 					<>
-						<div>{attr.name} {attr.type}</div>
-						{attr.items.map(i => <div>{i.displayValue} {i.value}</div> )}
+						<div>{attr.name}</div>
+						<div className='attributeItems'>
+							{ attr.type == 'text'   ? attr.items.map(i => <div>{i.displayValue}</div> )
+							: attr.type == 'swatch' ? attr.items.map(
+								i => <div className='swatch' style={{backgroundColor: i.value}} />)
+							: null // idk what other types could be?
+							}
+						</div>
 					</>
 				);
 			})}
