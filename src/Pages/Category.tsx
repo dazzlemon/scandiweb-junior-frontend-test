@@ -33,11 +33,14 @@ const Category: React.FC = () => {
 	const categories = data!.categories.map(category => category.name);
 	const categoryIndex = categories.indexOf(category!);// this page is routed with :category
 
+	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency') ??
+		data!.currencies[0].label);
+
 	const changeCurrency = (index: number) => {
 		localStorage.setItem('currency', data!.currencies[index].label);
+		setCurrencyLabel(data!.currencies[index].label);
 	}
 
-	const currencyLabel = localStorage.getItem('currency') ?? data!.currencies[0];
 	const currencyIndex = currencyLabel
 		? data!.currencies.findIndex(currency => currency.label === currencyLabel)
 		: 0;// TODO: may be -1?
