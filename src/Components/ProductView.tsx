@@ -87,28 +87,33 @@ const Product = (props: Props) => {
 	const price = data!.product.prices.find(price => price.currency.label == props.currency);
 
 	return (
-		<>
+		<div className='productView'>
+			<div className='productImagePreviews'>
+				{data!.product.gallery.map(i => <img src={i}/> )}
+			</div>
 			<img src={data!.product.gallery[0] } className='productImage' />
-			<div>{data!.product.name}</div>
-			{data!.product.attributes.map(attr => {
-				return (
-					<>
-						<div>{attr.name}</div>
-						<div className='attributeItems'>
-							{ attr.type == 'text'   ? attr.items.map(i => <div>{i.displayValue}</div> )
-							: attr.type == 'swatch' ? attr.items.map(
-								i => <div className='swatch' style={{backgroundColor: i.value}} />)
-							: null // idk what other types could be?
-							}
-						</div>
-					</>
-				);
-			})}
-			<div>Price:</div>
-			<div>{price?.amount} {price?.currency.symbol}</div>
-			<button>Add to cart</button>
-			<div>{data!.product.description}</div>
-		</>
+			<div className='right'>
+				<div>{data!.product.name}</div>
+				{data!.product.attributes.map(attr => {
+					return (
+						<>
+							<div>{attr.name}: </div>
+							<div className='attributeItems'>
+								{ attr.type == 'text'   ? attr.items.map(i => <div>{i.displayValue}</div> )
+								: attr.type == 'swatch' ? attr.items.map(
+									i => <div className='swatch' style={{backgroundColor: i.value}} />)
+								: null // idk what other types could be?
+								}
+							</div>
+						</>
+					);
+				})}
+				<div>Price:</div>
+				<div>{price?.amount} {price?.currency.symbol}</div>
+				<button>Add to cart</button>
+				<div dangerouslySetInnerHTML={{__html: data!.product.description}} />
+			</div>
+		</div>
 	);
 }
 
