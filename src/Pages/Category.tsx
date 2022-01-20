@@ -53,7 +53,7 @@ const Category: React.FC = () => {
 			/>
 	 		<CategoryView
 				category={categories[categoryIndex]}
-				currencyLabel={data!.currencies[currencyIndex].label}
+				currencyLabel={data!.currencies[currencyIndex]?.label ?? 'USD'}
 			/>
 		</>
 	);
