@@ -104,8 +104,10 @@ const Product = (props: Props) => {
 					</>
 				);
 			})}
+			<div>Price:</div>
 			<div>{price?.amount} {price?.currency.symbol}</div>
 			<button>Add to cart</button>
+			<div>{data!.product.description}</div>
 		</>
 	);
 }

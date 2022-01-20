@@ -1,5 +1,6 @@
 import { ReactComponent as ProductCart } from '../Icons/ProductCart.svg';
 import { ReactComponent as Heart } from '../Icons/Heart.svg';
+import { Link } from 'react-router-dom';
 
 type Props = {
 	id: string,
@@ -7,29 +8,26 @@ type Props = {
 	gallery: string[],
 	price: number,
 	currency: string,
-	onClick?: React.MouseEventHandler<HTMLDivElement>
 	showHeart?: boolean
 	onCartClick?: React.MouseEventHandler<SVGSVGElement>
 };
 
 const ProductCard = (props: Props) => {
 	return (
-		<div 
-			key={props.id}
+		<Link to={props.id}
 			className='productCard'
-			onClick={props.onClick}
 		>
 			<div className='productImageContainer'>
 				<img className='productImage' src={props.gallery[0]} alt='product image'/>
 				{props.showHeart && <Heart className='productHeart' />}
 				<ProductCart className='productCart' onClick={e => {
-					e.stopPropagation();// don't trigger parent's onClick
+					e.preventDefault();// don't trigger parent's onClick
 					props.onCartClick?.(e);
 				}} />
 			</div>
 			<div className='productName'>{props.name}</div>
 			<div className='productPrice'>{props.currency}{props.price}</div>
-		</div>
+		</Link>
 	);
 }
 
