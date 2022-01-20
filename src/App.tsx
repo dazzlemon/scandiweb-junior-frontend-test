@@ -11,7 +11,8 @@ import ProductPage from './Pages/ProductPage';
 import './App.sass';
 
 const client = new ApolloClient({
-	uri: 'http://localhost:4000',
+	// uri: 'http://localhost:4000',
+	uri: 'https://fierce-tundra-22133.herokuapp.com',
 	cache: new InMemoryCache(),
 	connectToDevTools: true,
 });
