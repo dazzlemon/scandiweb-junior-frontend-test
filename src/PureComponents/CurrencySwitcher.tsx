@@ -49,7 +49,7 @@ const CurrencySwitcher = (props: Props) => {
 			className='currencySwitcher'
 			onClick={() => setShowDropdown(!showDropdown)}
 		>
-			<div className='currency'>{props.currencies[currencyIndex].symbol}</div>
+			<div className='currency'>{props.currencies[currencyIndex]?.symbol ?? '$'}</div>
 			<ArrowDown className='arrow'/>
 			{showDropdown &&
 				<DropdownClickOutside
