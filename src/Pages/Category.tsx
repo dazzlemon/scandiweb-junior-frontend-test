@@ -23,18 +23,20 @@ const Category: React.FC = () => {
 		currencies: {label: string, symbol: string}[]
 	}>(QUERY);
 
+	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency'));
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 	if (error) {
 		return <div>{error.message}</div>;
 	}
+	if (!currencyLabel) {
+		setCurrencyLabel(data!.currencies[0].label);
+	}
 
 	const categories = data!.categories.map(category => category.name);
 	const categoryIndex = categories.indexOf(category!);// this page is routed with :category
-
-	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency') ??
-		data!.currencies[0].label);
 
 	const changeCurrency = (index: number) => {
 		localStorage.setItem('currency', data!.currencies[index].label);

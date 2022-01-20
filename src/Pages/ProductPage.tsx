@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../PureComponents/HeaderDesktopView';
 import { gql, useQuery } from '@apollo/client';
 import ProductView from '../Components/ProductView';
+import { useState } from 'react';
 
 const QUERY = gql`
 	query GetCategoryNamesAndCurrencies {
@@ -22,11 +23,16 @@ const ProductPage = () => {
 		currencies: {label: string, symbol: string}[]
 	}>(QUERY);
 
+	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency'));
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 	if (error) {
 		return <div>{error.message}</div>;
+	}
+	if (!currencyLabel) {
+		setCurrencyLabel(data!.currencies[0].label);
 	}
 
 	const categories = data!.categories.map(category => category.name);
@@ -34,9 +40,9 @@ const ProductPage = () => {
 
 	const changeCurrency = (index: number) => {
 		localStorage.setItem('currency', data!.currencies[index].label);
+		setCurrencyLabel(data!.currencies[index].label);
 	}
 
-	const currencyLabel = localStorage.getItem('currency') ?? data!.currencies[0];
 	const currencyIndex = currencyLabel
 		? data!.currencies.findIndex(currency => currency.label === currencyLabel)
 		: 0;// TODO: may be -1?
