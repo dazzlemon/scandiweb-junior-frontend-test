@@ -11,10 +11,10 @@ import ProductPage from './Pages/ProductPage';
 import './App.sass';
 
 const client = new ApolloClient({
-	uri: process.env.NODE_ENV == 'development' ? 'http://localhost:4000' : 'https://fierce-tundra-22133.herokuapp.com',
+	uri: process.env.STG == 'development' ? 'http://localhost:4000' : 'https://fierce-tundra-22133.herokuapp.com',
 	cache: new InMemoryCache(),
 	connectToDevTools: true,
-	headers: process.env.NODE_ENV == 'development' ? undefined : {
+	headers: process.env.STG == 'development' ? undefined : {
 		'Access-Control-Allow-Origin': 'https://cryptic-waters-16902.herokuapp.com'
 	}
 });
@@ -29,7 +29,7 @@ class App extends Component<Props> {
 	
 	render() {
 		const categoryNames = ['all', 'clothes', 'tech']
-		console.log(process.env.NODE_ENV)
+		console.log(process.env.STG)
 
 		return (
 			<ApolloProvider client={client}>
