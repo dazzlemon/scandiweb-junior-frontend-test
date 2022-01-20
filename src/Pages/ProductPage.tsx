@@ -1,6 +1,7 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../PureComponents/HeaderDesktopView';
 import { gql, useQuery } from '@apollo/client';
+import ProductView from '../Components/ProductView';
 
 const QUERY = gql`
 	query GetCategoryNamesAndCurrencies {
@@ -20,7 +21,6 @@ const ProductPage = () => {
 		categories: {name: string}[],
 		currencies: {label: string, symbol: string}[]
 	}>(QUERY);
-	const [ searchParams, setSearchParams ] = useSearchParams();
 
 	if (loading) {
 		return <div>Loading...</div>;
@@ -51,7 +51,7 @@ const ProductPage = () => {
 				onCurrencyChange={changeCurrency}
 				currencyIndex={currencyIndex}
 			/>
-			<div>{category}/{productId}</div>
+			<ProductView id={productId! /* this page is routed with :productId */} currency={data!.currencies[currencyIndex].label} />
 		</>
 	);
 }
