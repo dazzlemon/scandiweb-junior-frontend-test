@@ -15,6 +15,9 @@ const client = new ApolloClient({
 	uri: 'https://fierce-tundra-22133.herokuapp.com',
 	cache: new InMemoryCache(),
 	connectToDevTools: true,
+	headers: {
+		'Access-Control-Allow-Origin': 'https://cryptic-waters-16902.herokuapp.com'
+	}
 });
 
 type Props = {}
