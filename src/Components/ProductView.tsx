@@ -93,11 +93,11 @@ const Product = (props: Props) => {
 			</div>
 			<img src={data!.product.gallery[0] } className='productImage' />
 			<div className='right'>
-				<div>{data!.product.name}</div>
+				<div className='productName'>{data!.product.name}</div>
 				{data!.product.attributes.map(attr => {
 					return (
-						<>
-							<div>{attr.name}: </div>
+						<div className='attribute'>
+							<div className='name'>{attr.name}: </div>
 							<div className='attributeItems'>
 								{ attr.type == 'text'   ? attr.items.map(i => <div>{i.displayValue}</div> )
 								: attr.type == 'swatch' ? attr.items.map(
@@ -105,7 +105,7 @@ const Product = (props: Props) => {
 								: null // idk what other types could be?
 								}
 							</div>
-						</>
+						</div>
 					);
 				})}
 				<div>Price:</div>
