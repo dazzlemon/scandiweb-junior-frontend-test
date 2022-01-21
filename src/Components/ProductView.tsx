@@ -3,6 +3,7 @@ import {
 	QueryResult,
 	useQuery
 } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import './ProductView.sass';
 
 type Currency = {
@@ -78,6 +79,16 @@ const Product = (props: Props) => {
 	const { loading, error, data } = useQuery<{ product: Product }>(PRODUCT, {
 		variables: { productId: props.id }
 	});
+	const [selected, setSelected] = useState<number[]>(
+		data ? new Array<number>().fill(0, 0, data.product.attributes.length) : []
+	);
+
+	useEffect(() => {
+		setSelected(
+			new Array<number>(data?.product.attributes.length ?? 0).fill(0)
+		)
+	}, [data])
+
 	if (loading) {
 		return <p>Loading...</p>;
 	}
@@ -95,12 +106,24 @@ const Product = (props: Props) => {
 				<img src={data!.product.gallery[0] } className='productImage' />
 				<div className='right'>
 					<div className='productName'>{data!.product.name}</div>
-					{data!.product.attributes.map(attr => {
+					{data!.product.attributes.map((attr, attrIndex) => {
 						return (
 							<div className='attribute'>
 								<div className='name'>{attr.name}: </div>
 								<div className='attributeItems'>
-									{ attr.type == 'text'   ? attr.items.map(i => <div>{i.displayValue}</div> )
+									{ attr.type == 'text' ? attr.items.map((i, index) => {
+										return (
+											<div
+												className={selected[attrIndex] == index ? 'selected' : undefined}
+												onClick={_ => {
+													selected[attrIndex] = index;
+													setSelected([...selected]);
+												}}
+											>
+												{i.displayValue}
+											</div>
+										) 
+									})
 									: attr.type == 'swatch' ? attr.items.map(
 										i => <div className='swatch' style={{backgroundColor: i.value}} />)
 									: null // idk what other types could be?
