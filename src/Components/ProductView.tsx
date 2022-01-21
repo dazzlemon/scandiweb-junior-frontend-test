@@ -125,7 +125,14 @@ const Product = (props: Props) => {
 										) 
 									})
 									: attr.type == 'swatch' ? attr.items.map(
-										i => <div className='swatch' style={{backgroundColor: i.value}} />)
+										(i, index) => <div
+											style={{backgroundColor: i.value}}
+											className={selected[attrIndex] == index ? 'swatch selected' : 'swatch'}
+											onClick={_ => {
+												selected[attrIndex] = index;
+												setSelected([...selected]);
+											}}
+										/>)
 									: null // idk what other types could be?
 									}
 								</div>

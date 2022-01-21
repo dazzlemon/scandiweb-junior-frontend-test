@@ -19,13 +19,14 @@
 		font-family: Source Sans Pro
 
 		cursor: pointer
-	.swatch
-		border-style: none
 	.selected
-		&:not(.swatch)
-			color: #fff
-			background-color: #000
-		.swatch
+		color: #fff
+		background-color: #000
+	.swatch
+		border: #fff solid 2px
+		outline: #777 solid 1px
+	.swatch.selected
+		outline-width: 3px
 
 .productImagePreviews
 	display: flex
