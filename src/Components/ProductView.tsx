@@ -111,7 +111,7 @@ const Product = (props: Props) => {
 				<div className='priceName'>Price:</div>
 				<div className='price'>{price?.currency.symbol}{price?.amount}</div>
 				<button className='addToCart'>Add to cart</button>
-				<div dangerouslySetInnerHTML={{__html: data!.product.description}} />
+				<div className='description' dangerouslySetInnerHTML={{__html: data!.product.description}} />
 			</div>
 		</div>
 	);
