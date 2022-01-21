@@ -1,6 +1,7 @@
 import { ReactComponent as CartIcon } from '../Icons/Cart.svg';
 import clickOutside from '../HOCs/clickOutside';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = { currency: string }
 
@@ -20,7 +21,7 @@ class CartOverlay extends React.Component<Props> {
 					<div className='price'>{this.props.currency}{price}</div>
 				</div>
 				<div className='buttons'>
-					<button className='viewBag'>View bag</button>
+					<Link to='/cart' className='viewBag'>View bag</Link>
 					<button className='checkout'>Check out</button>
 				</div>
 			</div>

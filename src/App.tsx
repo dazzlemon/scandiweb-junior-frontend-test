@@ -8,6 +8,7 @@ import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
 import Category from './Pages/Category';
 import ProductPage from './Pages/ProductPage';
+import Cart from './Pages/Cart';
 import './App.sass';
 
 const production = process.env.REACT_APP_ENV == 'production';
@@ -37,6 +38,7 @@ class App extends Component<Props> {
 					<Routes>
 						<Route path='/'>
 							<Route index element={<Navigate to='/all' />} />
+							<Route path='cart' element={<Cart/>} />
 							<Route path=':category'>
 								<Route index element={<Category/>} />
 								<Route path=':productId' element={<ProductPage/>} />
