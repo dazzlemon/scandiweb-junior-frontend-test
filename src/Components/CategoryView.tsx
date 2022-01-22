@@ -12,37 +12,37 @@ import { Navigate } from 'react-router-dom';
 import { Query } from '@apollo/client/react/components';
 
 type Currency = {
-	label: string,
+	label: string
 	symbol: string
 }
 
 type Price = {
-	currency: Currency,
+	currency: Currency
 	amount: number
 }
 
 type Attribute = {
-	displayValue: string,
-	value: string,
+	displayValue: string
+	value: string
 	id: string
 }
 
 type AttributeSet = {
-	id: string,
-	name: string,
-	type: string,
-	items: [Attribute]
+	id: string
+	name: string
+	type: string
+	items: Attribute[]
 }
 
 type Product = {
-	id: string,
-	name: string,
-	inStock: boolean,
-	gallery: [string],
-	description: string,
-	category: string,
-	attributes: [AttributeSet]
-	prices: [Price],
+	id: string
+	name: string
+	inStock: boolean
+	gallery: string[]
+	description: string
+	category: string
+	attributes: AttributeSet[]
+	prices: Price[]
 	brand: string
 }
 
@@ -98,6 +98,21 @@ class CategoryView extends Component<Props, State> {
 		this.setState({ productId: id });
 	}
 
+	addToCart(id: string, attributes: AttributeSet[]) {
+		// localStorage might be empty
+		const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
+		const newProduct: ProductRecord = {
+			id: id,
+			selectedAttributes: new Array<number>(attributes.length).fill(0)
+		};
+		if (!cart.find(p => p.id == newProduct.id
+										 && JSON.stringify(p.selectedAttributes)
+											 == JSON.stringify(newProduct.selectedAttributes))) { // TODO: add actual comparison
+			cart.push(newProduct);
+		}
+		localStorage.setItem('cart', JSON.stringify(cart));
+	}
+
 	render() {
 		if (this.state?.productId) {
 			return <Navigate to={`${this.state.productId}`} />;
@@ -132,20 +147,7 @@ class CategoryView extends Component<Props, State> {
 											gallery={gallery}
 											price={prices[priceIndex].amount}
 											currency={prices[priceIndex].currency.symbol}
-											onCartClick={() => {
-												// localStorage might be empty
-												const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
-												const newProduct: ProductRecord = {
-													id: id,
-													selectedAttributes: new Array<number>(attributes.length).fill(0)
-												};
-												if (!cart.find(p => p.id == newProduct.id
-												                 && JSON.stringify(p.selectedAttributes)
-																				 	== JSON.stringify(newProduct.selectedAttributes))) { // TODO: add actual comparison
-													cart.push(newProduct);
-												}
-												localStorage.setItem('cart', JSON.stringify(cart));
-											}}
+											onCartClick={() => this.addToCart(id, attributes)}
 										/>
 									})
 								}
