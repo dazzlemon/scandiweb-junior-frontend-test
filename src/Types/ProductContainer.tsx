@@ -26,7 +26,7 @@ export type Product = {
 	name: string
 	inStock: boolean
 	gallery: string[]
-	description: string// unused?
+	description: string
 	category: string
 	attributes: AttributeSet[]
 	prices: Price[]
