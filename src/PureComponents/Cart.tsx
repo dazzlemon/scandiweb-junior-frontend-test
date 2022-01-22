@@ -5,16 +5,21 @@ import { Link } from 'react-router-dom';
 
 type Props = { currency: string }
 
+type ProductRecord = {
+	id: string,
+	selectedAttributes: number[]
+}
+
 class CartOverlay extends React.Component<Props> {
 	render() {
-		const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
+		const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
 		const price = '100.00';
 
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{cart.length} items</span> </div>
 				<div>
-					{cart.map(id => <div>{id}</div>)}
+					{cart.map(product => <div>{product.id}</div>)}
 				</div>
 				<div className='total'>
 					<div>Total</div>

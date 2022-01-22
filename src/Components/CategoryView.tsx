@@ -84,6 +84,11 @@ const CATEGORY = gql`
   }
 `;
 
+type ProductRecord = {
+	id: string,
+	selectedAttributes: number[]
+}
+
 class CategoryView extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
@@ -117,7 +122,7 @@ class CategoryView extends Component<Props, State> {
 						return (
 							<div className='productCardsList'>
 								{
-									data!.category.products.map(({ id, name, gallery, prices }) => {
+									data!.category.products.map(({ id, name, gallery, prices, attributes }) => {
 										const priceIndex = prices.findIndex(
 											price => price.currency.label == this.props.currencyLabel);// TODO: may return -1 so needs rework
 
@@ -129,9 +134,15 @@ class CategoryView extends Component<Props, State> {
 											currency={prices[priceIndex].currency.symbol}
 											onCartClick={() => {
 												// localStorage might be empty
-												const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
-												if (!cart.includes(id)) {
-													cart.push(id);
+												const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
+												const newProduct: ProductRecord = {
+													id: id,
+													selectedAttributes: new Array<number>(attributes.length).fill(0)
+												};
+												if (!cart.find(p => p.id == newProduct.id
+												                 && JSON.stringify(p.selectedAttributes)
+																				 	== JSON.stringify(newProduct.selectedAttributes))) { // TODO: add actual comparison
+													cart.push(newProduct);
 												}
 												localStorage.setItem('cart', JSON.stringify(cart));
 											}}
