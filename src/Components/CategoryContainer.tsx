@@ -15,11 +15,11 @@ type Props = {
 
 class CategoryContainer extends Component<Props> {
 	render = () => (
-		<main>
+		<>
 			<div className='categoryTitle'>{this.props.category}</div>
 			<Query
 				query={CATEGORY}
-				variables={{categoryName: this.props.category }}
+				variables={{categoryName: this.props.category}}
 			>
 				{(result: QueryResult<Result>) => {
 					const { loading, error, data } = result
@@ -32,7 +32,7 @@ class CategoryContainer extends Component<Props> {
 				         />
 				}}
 			</Query>
-		</main>
+		</>
 	)
 }
 

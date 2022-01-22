@@ -70,11 +70,13 @@ const Category: React.FC = () => {
 				onCurrencyChange={changeCurrency}
 				currencyIndex={currencyIndex}
 			/>
-	 		<CategoryContainer
-				category={categories[categoryIndex]}
-				currencyLabel={data!.currencies[currencyIndex]?.label ?? 'USD'}
-				onAddToCart={addToCart}
-			/>
+			<main>
+	 			<CategoryContainer
+					category={categories[categoryIndex]}
+					currencyLabel={data!.currencies[currencyIndex]?.label ?? 'USD'}
+					onAddToCart={addToCart}
+				/>
+			</main>
 		</>
 	);
 }
