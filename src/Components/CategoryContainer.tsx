@@ -1,50 +1,17 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {
 	gql,
 	QueryResult
 } from '@apollo/client';
 import './CategoryView.sass';
-import ProductCard from '../PureComponents/ProductCard';
+import Category from '../PureComponents/Category';
 import { Navigate } from 'react-router-dom';
 
 // deprecated, but idk if any alternatives even exist,
 // everything I found was for functional react
 import { Query } from '@apollo/client/react/components';
 
-type Currency = {
-	label: string
-	symbol: string
-}
-
-type Price = {
-	currency: Currency
-	amount: number
-}
-
-type Attribute = {
-	displayValue: string
-	value: string
-	id: string
-}
-
-type AttributeSet = {
-	id: string
-	name: string
-	type: string
-	items: Attribute[]
-}
-
-type Product = {
-	id: string
-	name: string
-	inStock: boolean
-	gallery: string[]
-	description: string
-	category: string
-	attributes: AttributeSet[]
-	prices: Price[]
-	brand: string
-}
+import { AttributeSet, Product } from '../Types/CategoryContainer';
 
 type Props = { category: string, currencyLabel: string }
 type State = { productId?: string }
@@ -89,7 +56,7 @@ type ProductRecord = {
 	selectedAttributes: number[]
 }
 
-class CategoryView extends Component<Props, State> {
+class CategoryContainer extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 	}
@@ -134,25 +101,11 @@ class CategoryView extends Component<Props, State> {
 							return <p>Error</p>;
 						}
 					
-						return (
-							<div className='productCardsList'>
-								{
-									data!.category.products.map(({ id, name, gallery, prices, attributes }) => {
-										const priceIndex = prices.findIndex(
-											price => price.currency.label == this.props.currencyLabel);// TODO: may return -1 so needs rework
-
-										return <ProductCard
-											id={id}
-											name={name}
-											gallery={gallery}
-											price={prices[priceIndex].amount}
-											currency={prices[priceIndex].currency.symbol}
-											onCartClick={() => this.addToCart(id, attributes)}
-										/>
-									})
-								}
-							</div>
-						);
+						return <Category
+							products={data!.category.products}
+							currencyLabel={this.props.currencyLabel}
+							onAddToCart={this.addToCart}
+						/>
 					}}
 				</Query>
 			</main>
@@ -160,4 +113,4 @@ class CategoryView extends Component<Props, State> {
 	}
 }
 
-export default CategoryView;
+export default CategoryContainer;

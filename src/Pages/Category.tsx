@@ -1,4 +1,4 @@
-import CategoryView from '../Components/CategoryView';
+import CategoryContainer from '../Components/CategoryContainer';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
@@ -56,7 +56,7 @@ const Category: React.FC = () => {
 				onCurrencyChange={changeCurrency}
 				currencyIndex={currencyIndex}
 			/>
-	 		<CategoryView
+	 		<CategoryContainer
 				category={categories[categoryIndex]}
 				currencyLabel={data!.currencies[currencyIndex]?.label ?? 'USD'}
 			/>
