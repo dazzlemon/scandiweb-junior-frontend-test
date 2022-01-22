@@ -3,26 +3,17 @@ import { Query }            from '@apollo/client/react/components'// TODO: migra
 import { QueryResult }      from '@apollo/client'
 
 import { AttributeSet }             from '../Types/CategoryContainer'
-import { equal, getCart, setCart }  from '../util'
 import { Result, CATEGORY }         from '../Queries/CategoryContainer' 
 import { Category, Error, Loading } from '../PureComponents'
 import './CategoryView.sass'
 
-type Props = { category: string, currencyLabel: string }
+type Props = {
+	category: string,
+	currencyLabel: string,
+	onAddToCart: (id: string, attributes: AttributeSet[]) => void
+}
 
 class CategoryContainer extends Component<Props> {
-	addToCart(id: string, attributes: AttributeSet[]) {
-		const cart = getCart()
-		const newProduct = {
-			id,
-			selectedAttributes: new Array<number>(attributes.length).fill(0)
-		}
-		if (!cart.find(p => equal(p, newProduct))) {
-			cart.push(newProduct)
-		}
-		setCart(cart)
-	}
-
 	render = () => (
 		<main>
 			<div className='categoryTitle'>{this.props.category}</div>
@@ -32,13 +23,13 @@ class CategoryContainer extends Component<Props> {
 			>
 				{(result: QueryResult<Result>) => {
 					const { loading, error, data } = result
-					if (loading) return <Loading/>
-					if (error) return <Error/>
-					return <Category
-						products={data!.category.products}
-						currencyLabel={this.props.currencyLabel}
-						onAddToCart={this.addToCart}
-					/>
+					return loading ? <Loading/>
+					     : error   ? <Error/>
+							 : <Category
+					        products={data!.category.products}
+							    currencyLabel={this.props.currencyLabel}
+					        onAddToCart={this.props.onAddToCart}
+				         />
 				}}
 			</Query>
 		</main>

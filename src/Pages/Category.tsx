@@ -3,6 +3,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import HeaderDesktopView from '../PureComponents/HeaderDesktopView';
 import React, { useState } from 'react';
+import { equal, getCart, setCart }  from '../util'
+import { AttributeSet }             from '../Types/CategoryContainer'
 
 const QUERY = gql`
 	query GetCategoryNamesAndCurrencies {
@@ -47,6 +49,18 @@ const Category: React.FC = () => {
 		? data!.currencies.findIndex(currency => currency.label === currencyLabel)
 		: 0;// TODO: may be -1?
 
+	const	addToCart = (id: string, attributes: AttributeSet[]) => {
+		const cart = getCart()
+		const newProduct = {
+			id,
+			selectedAttributes: new Array<number>(attributes.length).fill(0)
+		}
+		if (!cart.find(p => equal(p, newProduct))) {
+			cart.push(newProduct)
+		}
+		setCart(cart)
+	}
+
 	return (
 		<>
 	 		<HeaderDesktopView
@@ -59,6 +73,7 @@ const Category: React.FC = () => {
 	 		<CategoryContainer
 				category={categories[categoryIndex]}
 				currencyLabel={data!.currencies[currencyIndex]?.label ?? 'USD'}
+				onAddToCart={addToCart}
 			/>
 		</>
 	);
