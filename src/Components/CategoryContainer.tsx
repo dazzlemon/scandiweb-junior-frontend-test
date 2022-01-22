@@ -14,7 +14,6 @@ import { Query } from '@apollo/client/react/components';
 import { AttributeSet, Product } from '../Types/CategoryContainer';
 
 type Props = { category: string, currencyLabel: string }
-type State = { productId?: string }
 
 const CATEGORY = gql`
   query GetCategories($categoryName: String!) {
@@ -51,20 +50,21 @@ const CATEGORY = gql`
   }
 `;
 
+type Result = {
+	category: {
+		products: Product[]
+	}
+}
+
 type ProductRecord = {
 	id: string,
 	selectedAttributes: number[]
 }
 
-class CategoryContainer extends Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
-	}
+const Loading = () => <p>Loading...</p>
+const Error = () =>	<p>Error</p>
 
-	goToProductPage(id: string) {
-		this.setState({ productId: id });
-	}
-
+class CategoryContainer extends Component<Props> {
 	addToCart(id: string, attributes: AttributeSet[]) {
 		// localStorage might be empty
 		const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
@@ -81,10 +81,6 @@ class CategoryContainer extends Component<Props, State> {
 	}
 
 	render() {
-		if (this.state?.productId) {
-			return <Navigate to={`${this.state.productId}`} />;
-		}
-
 		return (
 			<main>
 				<div className='categoryTitle'>{this.props.category}</div>
@@ -92,15 +88,10 @@ class CategoryContainer extends Component<Props, State> {
 					query={CATEGORY}
 					variables={{categoryName: this.props.category }}
 				>
-					{(result: QueryResult<{ category: { products: Product[]} }>) => {
+					{(result: QueryResult<Result>) => {
 						const { loading, error, data } = result;
-						if (loading) {
-							return <p>Loading...</p>;
-						}
-						if (error) {
-							return <p>Error</p>;
-						}
-					
+						if (loading) return <Loading/>
+						if (error) return <Error/>
 						return <Category
 							products={data!.category.products}
 							currencyLabel={this.props.currencyLabel}
