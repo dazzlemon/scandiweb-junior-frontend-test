@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import Header from '../PureComponents/HeaderDesktopView';
 import { gql, useQuery } from '@apollo/client';
-import ProductView from '../Components/ProductView';
+import ProductView from '../Components/ProductContainer';
 import { useState } from 'react';
 
 const QUERY = gql`

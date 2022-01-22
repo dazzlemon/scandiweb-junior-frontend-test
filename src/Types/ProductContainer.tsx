@@ -14,10 +14,12 @@ export type Attribute = {
 	id: string
 }
 
+export type AttributeType = 'swatch' | 'text'
+
 export type AttributeSet = {
 	id: string
 	name: string
-	type: string
+	type: AttributeType
 	items: Attribute[]
 }
 

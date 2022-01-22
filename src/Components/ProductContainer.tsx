@@ -1,11 +1,12 @@
-import { QueryResult, useQuery } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
-import { Product } from '../Types/ProductContainer'
+import { QueryResult } from '@apollo/client'
+import React from 'react'
+import { Attribute, AttributeSet, Product } from '../Types/ProductContainer'
 import { PRODUCT } from '../Queries/ProductContainer'
 import './ProductView.sass'
 import { Loading, Error } from '../PureComponents'
-import { render } from '@testing-library/react'
 import { Query } from '@apollo/client/react/components'
+
+// TODO add search params
 
 type Props = { id: string, currency: string }
 type State = { selected: number[] }
@@ -14,6 +15,22 @@ class ProductContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props)
 		this.state = { selected: [] }
+	}
+
+	changeAttribute(attrIndex: number, index: number) {
+		this.state.selected[attrIndex] = index
+		this.setState({selected: [...this.state.selected]})
+	}
+
+	attributeItemProps(i: Attribute, attr: AttributeSet, attrIndex: number, index: number) {
+		return {
+			className: (attr.type == 'swatch' ? 'swatch' : 'text' ) + 
+				(this.state.selected[attrIndex] == index ? ' selected' : ''),
+			onClick: () => this.changeAttribute(attrIndex, index),
+			style: attr.type == 'swatch' ? {backgroundColor: i.displayValue} : undefined,
+			children: attr.type == 'text' ? i.displayValue : ''
+		}
+		return 
 	}
 
 	render() {
@@ -47,29 +64,10 @@ class ProductContainer extends React.Component<Props, State> {
 										<div className='attribute'>
 											<div className='name'>{attr.name}: </div>
 											<div className='attributeItems'>
-												{ attr.type == 'text' ? attr.items.map((i, index) => {
-													return (
-														<div
-															className={this.state.selected[attrIndex] == index ? 'selected' : undefined}
-															onClick={_ => {
-																this.state.selected[attrIndex] = index
-																this.setState({selected: [...this.state.selected]})
-															}}
-														>
-															{i.displayValue}
-														</div>
-													) 
-												})
-												: attr.type == 'swatch' ? attr.items.map(
-													(i, index) => <div
-														style={{backgroundColor: i.value}}
-														className={this.state.selected[attrIndex] == index ? 'swatch selected' : 'swatch'}
-														onClick={_ => {
-															this.state.selected[attrIndex] = index
-															this.setState({selected: [...this.state.selected]})
-														}}
-													/>)
-												: null // idk what other types could be?
+												{
+													attr.items.map((i, index) => (
+														<div {...this.attributeItemProps(i, attr, attrIndex, index)}/>
+													))
 												}
 											</div>
 										</div>
