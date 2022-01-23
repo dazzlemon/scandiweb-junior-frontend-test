@@ -1,7 +1,28 @@
 import React from 'react';
-import { Attribute as AttributeT, AttributeSet, AttributeType, Product as ProductType } from '../Types/ProductContainer'
+import { Attribute as AttributeT, AttributeType } from '../Types/ProductContainer'
 
 type Props_ = {
+	type: AttributeType
+	selected: boolean
+	value: string
+	onSelected: React.MouseEventHandler<HTMLDivElement>
+}
+
+class AttributeItem extends React.Component<Props_> {
+	render = () => {
+		const typeProps = this.props.type == 'swatch' ? { style: {backgroundColor: this.props.value} }
+		                                              : { children: this.props.value }
+		const props = {
+			className: this.props.type + (this.props.selected ? ' selected' : ''),
+			onClick: this.props.onSelected,
+			...typeProps
+		}
+
+		return <div {...props}/>
+	}
+}
+
+type Props = {
 	name: string
 	type: AttributeType
 	items: AttributeT[]
@@ -9,27 +30,18 @@ type Props_ = {
 	onChange: (index: number) => void
 }
 
-class Attribute extends React.Component<Props_> {
-	attributeItemProps = (i: AttributeT, index: number) => {
-		const swatch = this.props.type == 'swatch'
-		const selected = this.props.selectedIndex == index
-
-		const typeProps = swatch ? { style: {backgroundColor: i.displayValue} }
-		                         : { children: i.displayValue }
-
-		return {
-			className: this.props.type + (selected ? ' selected' : ''),
-			onClick: () => this.props.onChange(index),
-			...typeProps
-		}
-	}
-
+class Attribute extends React.Component<Props> {
 	render = () => (
 		<div className='attribute'>
 			<div className='name'>{this.props.name}: </div>
 			<div className='attributeItems'>
-				{this.props.items.map((i, index) => 
-					<div {...this.attributeItemProps(i, index)}/>
+				{this.props.items.map((i, index) =>
+					<AttributeItem
+						type={this.props.type}
+						selected={this.props.selectedIndex == index}
+						value={i.displayValue}
+						onSelected={() => this.props.onChange(index)}
+					/>
 				)}
 			</div>
 		</div>
