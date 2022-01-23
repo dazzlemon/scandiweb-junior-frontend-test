@@ -1,3 +1,9 @@
-const Cart = () => <div>Cart page</div>;
+import PageContainer     from '../Components/PageContainer'
+
+const Cart = () => (
+	<PageContainer>
+		{() => <div>Cart page</div>}
+	</PageContainer>
+)
 
 export default Cart;
