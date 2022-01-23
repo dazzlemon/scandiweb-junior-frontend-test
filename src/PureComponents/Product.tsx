@@ -50,16 +50,6 @@ class Product extends React.Component<Props, State> {
 		this.setState({selected: [...this.state.selected]})
 	}
 
-	attributeItemProps = (i: AttributeT, attr: AttributeSet, attrIndex: number, index: number) => {
-		return {
-			className: (attr.type == 'swatch' ? 'swatch' : 'text' ) + 
-				(this.state.selected[attrIndex] == index ? ' selected' : ''),
-			onClick: () => this.changeAttribute(attrIndex, index),
-			style: attr.type == 'swatch' ? {backgroundColor: i.displayValue} : undefined,
-			children: attr.type == 'text' ? i.displayValue : ''
-		}
-	}
-
 	render = () => (
 		<div className='productView'>
 			<div className='productImagePreviews'>
