@@ -5,7 +5,7 @@ import { QueryResult } from '@apollo/client'
 import { Product as ProductType }  from '../Types/ProductContainer'
 import { PRODUCT }                 from '../Queries/ProductContainer'
 import { Loading, Error, Product } from '../PureComponents'
-import './ProductView.sass'
+import './ProductContainer.sass'
 
 // TODO add search params
 type Props = { id: string, currency: string }

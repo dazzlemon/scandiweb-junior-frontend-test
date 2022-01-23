@@ -5,7 +5,7 @@ import { QueryResult }      from '@apollo/client'
 import { AttributeSet }             from '../Types/CategoryContainer'
 import { Result, CATEGORY }         from '../Queries/CategoryContainer' 
 import { Category, Error, Loading } from '../PureComponents'
-import './CategoryView.sass'
+import './CategoryContainer.sass'
 
 type Props = {
 	category: string,
