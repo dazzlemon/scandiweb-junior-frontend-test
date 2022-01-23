@@ -1,4 +1,5 @@
 import React           from 'react'
+import { useParams }   from 'react-router'
 import { Query }       from '@apollo/client/react/components'// TODO: migrate to urql
 import { QueryResult } from '@apollo/client'
 
@@ -8,22 +9,28 @@ import { Loading, Error, Product } from '../PureComponents'
 import './ProductContainer.sass'
 
 // TODO add search params
-type Props = { id: string, currency: string }
+type Props = { currency: string }
 
-class ProductContainer extends React.Component<Props> {
-	render = () => (
+const ProductContainer: React.FC<Props> = (props) => {
+	const { productId } = useParams();// should be routed with it
+	return (
 		<main>
 			<Query
 				query={PRODUCT}
-				variables={{productId: this.props.id}}
+				variables={{productId}}
 			>
 			{(result: QueryResult<{ product: ProductType }>) => {
 				const { loading, error, data } = result
 				if (loading) return <Loading/>
-				if (error) return <Error/>
+				// if bad productId it doesnt return Error but product is undef
+				if (error || !data?.product) return <Error/>
 
-				const price = data!.product.prices.find(price => price.currency.label == this.props.currency)
-				return <Product product={data!.product} price={`${price?.currency.symbol}${price?.amount}`} />
+				const price = data.product.prices.find(price =>
+					price.currency.label == props.currency)// TODO: might be undef
+				return <Product
+					product={data.product}
+					price={`${price?.currency.symbol}${price?.amount}`}
+				/>
 			}}
 			</Query>
 		</main>

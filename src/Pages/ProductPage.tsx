@@ -1,65 +1,14 @@
-import { useParams } from 'react-router-dom';
-import Header from '../PureComponents/HeaderDesktopView';
-import { gql, useQuery } from '@apollo/client';
-import ProductView from '../Components/ProductContainer';
-import { useState } from 'react';
+import ProductContainer from '../Components/ProductContainer'
+import PageContainer     from '../Components/PageContainer'
 
-const QUERY = gql`
-	query GetCategoryNamesAndCurrencies {
-		categories {
-			name
-		},
-		currencies {
-			label,
-			symbol
-		}
-	}
-`;
-
-const ProductPage = () => {
-	const { category, productId } = useParams();
-	const { loading, error, data } = useQuery<{
-		categories: {name: string}[],
-		currencies: {label: string, symbol: string}[]
-	}>(QUERY);
-
-	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency'));
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-	if (error) {
-		return <div>{error.message}</div>;
-	}
-	if (!currencyLabel) {
-		setCurrencyLabel(data!.currencies[0].label);
-	}
-
-	const categories = data!.categories.map(category => category.name);
-	const categoryIndex = categories.indexOf(category!);// this page is routed with :category
-
-	const changeCurrency = (index: number) => {
-		localStorage.setItem('currency', data!.currencies[index].label);
-		setCurrencyLabel(data!.currencies[index].label);
-	}
-
-	const currencyIndex = currencyLabel
-		? data!.currencies.findIndex(currency => currency.label === currencyLabel)
-		: 0;// TODO: may be -1?
-	// TODO: above is copypaste from category page
-
-	return (
-		<>
-			<Header
-				categories={categories}
-				categoryIndex={categoryIndex}
-				currencies={data!.currencies}
-				onCurrencyChange={changeCurrency}
-				currencyIndex={currencyIndex}
+const ProductPage = () => (
+	<PageContainer>
+		{({currencyIndex, currencies}) =>
+			<ProductContainer
+				currency={currencies[currencyIndex].label}
 			/>
-			<ProductView id={productId! /* this page is routed with :productId */} currency={data!.currencies[currencyIndex].label} />
-		</>
-	);
-}
+		}
+	</PageContainer>	
+)
 
-export default ProductPage;
+export default ProductPage

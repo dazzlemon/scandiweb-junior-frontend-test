@@ -1,3 +1,5 @@
+import { AttributeSet }                      from '../Types/CategoryContainer'
+
 export type ProductRecord = {
 	id: string,
 	selectedAttributes: number[]
@@ -16,3 +18,15 @@ export function JsonParse<T>(jsonString: string): T {
 // localStorage might be empty
 export const getCart = () => JsonParse<ProductRecord[]>(localStorage.getItem('cart') ?? '[]')
 export const setCart = (products: ProductRecord[]) => localStorage.setItem('cart', JSON.stringify(products))
+
+export const	addToCart = (id: string, attributes: AttributeSet[]) => {
+	const cart = getCart()
+	const newProduct = {
+		id,
+		selectedAttributes: new Array<number>(attributes.length).fill(0)
+	}
+	if (!cart.find(p => equal(p, newProduct))) {
+		cart.push(newProduct)
+	}
+	setCart(cart)
+}
