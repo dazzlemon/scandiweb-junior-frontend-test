@@ -13,7 +13,7 @@ type Props = { currency: string }
 
 type ProductRecord = {
 	id: string,
-	selectedAttributes?: number[]
+	selectedAttributes: number[]
 }
 
 const product = (name: string, id: string) => `
@@ -75,7 +75,7 @@ class CartDropdown extends React.Component<Props> {
 					}
 					return (
 						<>
-							{products.map(product => (
+							{products.map((product, index) => (
 								<>
 									<div>{product.brand}</div>
 									<div>{product.name}</div>
@@ -83,6 +83,8 @@ class CartDropdown extends React.Component<Props> {
 										{this.props.currency}
 										{product.prices.find(price => price.currency.symbol == this.props.currency)?.amount}
 									</div>
+									{product.attributes.map((attr, attrIndex) =>
+										<div>{attr.name}: {attr.items[cart[index].selectedAttributes[attrIndex]].displayValue}</div>)}
 									<br/>
 								</>
 							))}
