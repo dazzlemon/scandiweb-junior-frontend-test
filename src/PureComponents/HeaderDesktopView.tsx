@@ -3,7 +3,7 @@ import './HeaderDesktopView.sass';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Icons/Logo.svg';
 import CurrencySwitcher from './CurrencySwitcher';
-import Cart from './Cart';
+import { Cart } from './Cart';
 
 type Props = { 
 	categories: string[],

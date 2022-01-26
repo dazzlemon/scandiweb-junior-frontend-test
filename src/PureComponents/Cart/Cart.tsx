@@ -1,25 +1,19 @@
-import { ReactComponent as CartIcon } from '../Icons/Cart.svg';
-import clickOutside from '../HOCs/clickOutside';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Query } from '@apollo/client/react/components';
+import React                from 'react';
+import { Link }             from 'react-router-dom';
+import { Query }            from '@apollo/client/react/components';
+import { QueryResult, gql } from '@apollo/client';
 
-import { Product as ProductType }  from '../pages/Product/ProductContainerTypes'
-import { AttributeSet }  from '../common/types'
-import { QueryResult } from '@apollo/client';
-import { Loading, Error } from '../PureComponents'
-import { gql } from '@apollo/client';
-import { Attribute } from './Attribute';
-import { CartProduct, getCart, setCart } from '../util';
+import clickOutside                      from '../../HOCs/clickOutside';
+import { Product }                       from '../../pages/Product/ProductContainerTypes'
+import { AttributeSet }                  from '../../common/types'
+import { Loading, Error }                from '..'
+import { Attribute }                     from '../Attribute';
+import { CartProduct, getCart, setCart } from '../../util';
 
-import { ReactComponent as EmptyCart } from '../Icons/EmptyCart.svg'
+import { ReactComponent as EmptyCart }   from './EmptyCart.svg'
+import { ReactComponent as CartIcon }    from './Cart.svg';
 
 type Props = { currency: string }
-
-type ProductRecord = {
-	id: string,
-	selectedAttributes: number[]
-}
 
 const product = (name: string, id: string) => `
 	${name}: product(id: \"${id}\") {
@@ -153,7 +147,7 @@ class CartDropdown extends React.Component<Props, State__> {
 					// if bad productId it doesnt return Error but product is undef
 					if (error || !data?.product0) return <Error/>
 	
-					const products = new Array<ProductType>()
+					const products = new Array<Product>()
 					for (let i = 0; i < this.state.cart.length; i++) {
 						products[i] = data[`product${i}`]
 					}

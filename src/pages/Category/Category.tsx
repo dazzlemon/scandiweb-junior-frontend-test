@@ -1,17 +1,31 @@
-import CategoryContainer from './CategoryContainer'
-import { addToCart }     from '../../util'
-import PageContainer     from '../../components/PageContainer'
+import ProductCard      from '../../PureComponents/ProductCard';
+import { Product }      from './CategoryContainerTypes';
+import { AttributeSet } from '../../common/types';
 
-const Category = () => (
-	<PageContainer>
-		{({categories, categoryIndex, currencyIndex, currencies}) =>
-			<CategoryContainer
-				category={categories[categoryIndex]}
-				currencyLabel={currencies[currencyIndex]?.label ?? 'USD'}
-				onAddToCart={addToCart}
-			/>
+type Props = {
+	products: Product[]
+	currencyLabel: string,
+	onAddToCart: (id: string, attributes: AttributeSet[]) => void
+}
+
+const Category = (props: Props) => (
+	<div className='productCardsList'>
+		{
+			props.products.map(({ id, name, gallery, prices, attributes }) => {
+				const priceIndex = prices.findIndex(
+					price => price.currency.label == props.currencyLabel);// TODO: may return -1 so needs rework
+
+				return <ProductCard
+					id={id}
+					name={name}
+					gallery={gallery}
+					price={prices[priceIndex].amount}
+					currency={prices[priceIndex].currency.symbol}
+					onCartClick={() => props.onAddToCart(id, attributes)}
+				/>
+			})
 		}
-	</PageContainer>
+	</div>
 )
 
-export default Category
+export default Category;
