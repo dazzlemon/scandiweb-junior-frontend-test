@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attribute, AttributeType } from '../common/types'
+import { Attribute, AttributeType } from '../../common/types'
 import AttributeItem from './AttributeItem'
 
 type Props = {

@@ -1,4 +1,4 @@
-import { AttributeSet, Price } from '../common/types'
+import { AttributeSet, Price } from '../../common/types'
 
 export type Product = {
 	id: string

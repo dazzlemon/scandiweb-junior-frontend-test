@@ -4,12 +4,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from '@apollo/client/react/components';
 
-import { Product as ProductType }  from '../Types/ProductContainer'
+import { Product as ProductType }  from '../pages/Product/ProductContainerTypes'
 import { AttributeSet }  from '../common/types'
 import { QueryResult } from '@apollo/client';
 import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';
-import Attribute from './Attribute';
+import { Attribute } from './Attribute';
 import { CartProduct, getCart, setCart } from '../util';
 
 import { ReactComponent as EmptyCart } from '../Icons/EmptyCart.svg'

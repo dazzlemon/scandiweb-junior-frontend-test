@@ -1,5 +1,5 @@
 import React from 'react'
-import { Product as ProductType } from '../Types/ProductContainer'
+import { Product as ProductType } from '../pages/Product/ProductContainerTypes'
 import { Attribute } from '../PureComponents'
 
 
