@@ -76,7 +76,7 @@ class MiniCartProduct extends React.Component<Props__> {
 					/>
 				)}
 			</div>
-				<img src={this.props.img} />
+			<img src={this.props.img} />
 			<br/>
 		</div>
 	)

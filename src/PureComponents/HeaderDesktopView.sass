@@ -56,8 +56,40 @@ $selected-color: #5ECE7B
 		background-color: #fff
 		.items
 			overflow-y: scroll
-			overflow-x: hidden
 			height: 500px
+			.item
+				.productName
+					margin-top: 25px
+					font-family: Raleway
+					font-size: 16px
+					line-height: 160%
+					p
+						margin: 0
+				.price
+					margin-top: 5px
+					font-family: Raleway
+					font-style: normal
+					font-weight: 500
+					font-size: 16px
+					line-height: 160%
+				display: flex
+				justify-content: space-between
+				.attribute .name
+					display: none
+				.attributeItems
+					padding: 5px
+					width: 142px
+					overflow-x: scroll
+					div
+						flex-shrink: 0
+				img
+					width: 105px
+					height: 137px
+					object-fit: contain
+					// border-color: #000
+					// border-style: solid
+					// border-width: 2px
+					margin-left: auto
 		.myBag
 			font-family: raleway
 			font-weight: 700
@@ -120,30 +152,6 @@ $selected-color: #5ECE7B
 		background-color: #000
 		opacity: 0.5
 		z-index: -1
-	.productName
-		margin-top: 25px
-		font-family: Raleway
-		font-size: 16px
-		line-height: 160%
-		p
-			margin: 0
-	.price
-		margin-top: 5px
-		font-family: Raleway
-		font-style: normal
-		font-weight: 500
-		font-size: 16px
-		line-height: 160%
-	.item
-		overflow-x: scroll
-		display: flex
-		justify-content: space-between
-		.attributeItems
-			overflow-x: scroll
-		img
-			width: 105px
-			height: 137px
-			object-fit: contain
 
 .currencySwitcher
 	display: flex
