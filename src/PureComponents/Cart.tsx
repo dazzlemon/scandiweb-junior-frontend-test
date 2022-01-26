@@ -9,6 +9,7 @@ import { QueryResult } from '@apollo/client';
 import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';
 import { Price } from '../Types/CategoryContainer';
+import Attribute from './Attribute';
 
 type Props = { currency: string }
 
@@ -62,9 +63,16 @@ class MiniCartProduct extends React.Component<Props__> {
 				<p>{this.props.brand}</p>
 				<p>{this.props.name}</p>
 			</div>
-			<div>{this.props.price}</div>
+			<div className='price'>{this.props.price}</div>
 			{this.props.attributes.map((attr, attrIndex) =>
-				<div>{attr.name}: {attr.items[this.props.selectedAttributes[attrIndex]].displayValue}</div>)}
+				// <div>{attr.name}: {attr.items[this.props.selectedAttributes[attrIndex]].displayValue}</div>)}
+				<Attribute
+					name={attr.name}
+					type={attr.type}
+					items={attr.items}
+					selectedIndex={this.props.selectedAttributes[attrIndex]}
+					onChange={() => null}
+				/>)}
 			<br/>
 		</>
 	)
@@ -101,18 +109,20 @@ class CartDropdown extends React.Component<Props> {
 					}
 					return (
 						<>
-							{products.map((product, index) => (<MiniCartProduct
-								brand={product.brand}
-								name={product.name}
-								price={this.props.currency +
-									product.prices.find(price =>
-										price.currency.symbol == this.props.currency
-									)?.amount
-								}
-								attributes={product.attributes}
-								selectedAttributes={cart[index].selectedAttributes}
-							/>
-							))}
+							<div className='items'>
+								{products.map((product, index) => (<MiniCartProduct
+									brand={product.brand}
+									name={product.name}
+									price={this.props.currency +
+										product.prices.find(price =>
+											price.currency.symbol == this.props.currency
+										)?.amount
+									}
+									attributes={product.attributes}
+									selectedAttributes={cart[index].selectedAttributes}
+								/>
+								))}
+							</div>
 							<div className='total'>
 								<div>Total</div>
 								<div className='price'>{this.props.currency}{
