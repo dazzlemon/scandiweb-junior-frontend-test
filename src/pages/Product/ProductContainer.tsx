@@ -19,6 +19,7 @@ const ProductContainer: React.FC<Props> = (props) => {
 			<Query
 				query={PRODUCT}
 				variables={{productId}}
+				onCompleted={(data: {product: ProductType}) => document.title = data.product.name}
 			>
 			{(result: QueryResult<{ product: ProductType }>) => {
 				const { loading, error, data } = result
