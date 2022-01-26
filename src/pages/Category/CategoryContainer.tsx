@@ -22,6 +22,8 @@ class CategoryContainer extends Component<Props> {
 			<Query
 				query={CATEGORY}
 				variables={{categoryName: this.props.category}}
+				onCompleted={() =>
+					document.title = this.props.category[0].toUpperCase() + this.props.category.slice(1)}
 			>
 				{(result: QueryResult<Result>) => {
 					const { loading, error, data } = result
