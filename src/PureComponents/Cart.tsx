@@ -8,9 +8,10 @@ import { AttributeSet, Product as ProductType }  from '../Types/ProductContainer
 import { QueryResult } from '@apollo/client';
 import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';
-import { Price } from '../Types/CategoryContainer';
 import Attribute from './Attribute';
 import { CartProduct, getCart, setCart } from '../util';
+
+import { ReactComponent as EmptyCart } from '../Icons/EmptyCart.svg'
 
 type Props = { currency: string }
 
@@ -130,6 +131,15 @@ class CartDropdown extends React.Component<Props, State__> {
 	}
 
 	render() {
+		if (this.state.cart.length == 0) {
+			return (
+				<div className='cartOverlay empty'>
+					<EmptyCart className='emptyCart' />
+						Your cart is empty
+				</div>
+			)
+		}
+
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
