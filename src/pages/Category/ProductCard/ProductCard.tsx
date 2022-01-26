@@ -9,16 +9,18 @@ type Props = {
 	price: number,
 	currency: string,
 	showHeart?: boolean
+	outOfStock?: boolean
 	onCartClick?: React.MouseEventHandler<SVGSVGElement>
 };
 
 const ProductCard = (props: Props) => {
 	return (
 		<Link to={props.id}
-			className='productCard'
+			className={'productCard' + (props.outOfStock ? ' outOfStock' : '')}
 		>
 			<div className='productImageContainer'>
 				<img className='productImage' src={props.gallery[0]} alt='product image'/>
+				{props.outOfStock && <p className='outOfStock'>Out of stock</p>}
 				{props.showHeart && <Heart className='productHeart' />}
 				<ProductCart className='productCart' onClick={e => {
 					e.preventDefault();// don't trigger parent's onClick

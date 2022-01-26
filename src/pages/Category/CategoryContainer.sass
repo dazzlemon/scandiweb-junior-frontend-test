@@ -31,11 +31,33 @@ main
 	flex-direction: column
 	padding: 15px
 	margin: 10px
-	&:hover
+	&:hover:not(.outOfStock)
 		box-shadow: 0 0 25px 10px #eee
 		cursor: pointer
 		.productCart, .productHeart
 			display: block
+	.outOfStock
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		text-transform: uppercase
+		font-family: Raleway
+		font-style: normal
+		font-weight: normal
+		font-size: 24px
+		line-height: 160%
+		white-space: nowrap
+		color: #8D8F9A
+	&.outOfStock
+		background: #FFFFFF
+		opacity: 0.5
+		// &:hover
+		// 	box-shadow: none
+		// 	cursor: auto
+		// 	.productCart, .productHeart
+		// 		display: none
+		
 
 .productImageContainer
 	position: relative
@@ -54,7 +76,6 @@ main
 	font-family: raleway
 	font-weight: 300
 	font-size: 18px
-
 
 .productPrice
 	font-family: raleway

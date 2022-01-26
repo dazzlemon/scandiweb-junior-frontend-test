@@ -1,4 +1,4 @@
-import ProductCard      from './ProductCard';
+import { ProductCard }  from './ProductCard';
 import { Product }      from './CategoryContainerTypes';
 import { AttributeSet } from '../../common/types';
 
@@ -11,7 +11,7 @@ type Props = {
 const Category = (props: Props) => (
 	<div className='productCardsList'>
 		{
-			props.products.map(({ id, name, gallery, prices, attributes }) => {
+			props.products.map(({ id, name, gallery, prices, attributes, inStock }) => {
 				const priceIndex = prices.findIndex(
 					price => price.currency.label == props.currencyLabel);// TODO: may return -1 so needs rework
 
@@ -22,6 +22,7 @@ const Category = (props: Props) => (
 					price={prices[priceIndex].amount}
 					currency={prices[priceIndex].currency.symbol}
 					onCartClick={() => props.onAddToCart(id, attributes)}
+					outOfStock={!inStock}
 				/>
 			})
 		}
