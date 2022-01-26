@@ -133,7 +133,7 @@ class CartDropdown extends React.Component<Props, State__> {
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
-				<Query
+				{this.state.cart.length != 0 && <Query
 					query={products(this.state.cart.map(p => p.productRecord.id))}
 				>
 				{(result: QueryResult<any>) => {//TODO: typing?
@@ -182,7 +182,7 @@ class CartDropdown extends React.Component<Props, State__> {
 						</>
 					)
 				}}
-				</Query>
+				</Query>}
 				<div className='buttons'>
 					<Link to='/cart' className='viewBag'>View bag</Link>
 					<button className='checkout'>Check out</button>
