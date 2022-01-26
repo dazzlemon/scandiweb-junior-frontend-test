@@ -1,5 +1,5 @@
 import React from 'react';
-import { AttributeType } from '../Types/ProductContainer'
+import { AttributeType } from '../common/types'
 
 type Props_ = {
 	type: AttributeType

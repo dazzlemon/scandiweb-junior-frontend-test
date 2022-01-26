@@ -1,16 +1,16 @@
 import React from 'react';
-import { Attribute as AttributeT, AttributeType } from '../Types/ProductContainer'
+import { Attribute, AttributeType } from '../common/types'
 import AttributeItem from './AttributeItem'
 
 type Props = {
 	name: string
 	type: AttributeType
-	items: AttributeT[]
+	items: Attribute[]
 	selectedIndex: number
 	onChange: (index: number) => void
 }
 
-class Attribute extends React.Component<Props> {
+class AttributeView extends React.PureComponent<Props> {
 	render = () => (
 		<div className='attribute'>
 			<div className='name'>{this.props.name}: </div>
@@ -28,4 +28,4 @@ class Attribute extends React.Component<Props> {
 	)
 }
 
-export default Attribute
+export default AttributeView

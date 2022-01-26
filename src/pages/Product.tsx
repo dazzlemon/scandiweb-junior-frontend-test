@@ -1,5 +1,5 @@
-import ProductContainer from '../Components/ProductContainer'
-import PageContainer     from '../Components/PageContainer'
+import ProductContainer from '../components/ProductContainer'
+import PageContainer     from '../components/PageContainer'
 
 const ProductPage = () => (
 	<PageContainer>

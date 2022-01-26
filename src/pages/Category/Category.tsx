@@ -1,6 +1,6 @@
-import CategoryContainer from '../Components/CategoryContainer'
-import { addToCart }     from '../util'
-import PageContainer     from '../Components/PageContainer'
+import CategoryContainer from './CategoryContainer'
+import { addToCart }     from '../../util'
+import PageContainer     from '../../components/PageContainer'
 
 const Category = () => (
 	<PageContainer>

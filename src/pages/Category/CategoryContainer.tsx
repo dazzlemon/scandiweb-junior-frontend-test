@@ -2,9 +2,9 @@ import { Component }        from 'react'
 import { Query }            from '@apollo/client/react/components'// TODO: migrate to urql
 import { QueryResult }      from '@apollo/client'
 
-import { AttributeSet }             from '../Types/CategoryContainer'
-import { Result, CATEGORY }         from '../Queries/CategoryContainer' 
-import { Category, Error, Loading } from '../PureComponents'
+import { AttributeSet }             from '../../common/types'
+import { Result, CATEGORY }         from './CategoryContainerQuery' 
+import { Category, Error, Loading } from '../../PureComponents'
 import './CategoryContainer.sass'
 
 type Props = {

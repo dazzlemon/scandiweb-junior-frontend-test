@@ -14,21 +14,11 @@ export type Attribute = {
 	id: string
 }
 
+export type AttributeType = 'swatch' | 'text'
+
 export type AttributeSet = {
 	id: string
 	name: string
-	type: string
+	type: AttributeType
 	items: Attribute[]
-}
-
-export type Product = {
-	id: string
-	name: string
-	inStock: boolean
-	gallery: string[]
-	description: string// unused?
-	category: string
-	attributes: AttributeSet[]
-	prices: Price[]
-	brand: string
 }

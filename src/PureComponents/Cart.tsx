@@ -4,7 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from '@apollo/client/react/components';
 
-import { AttributeSet, Product as ProductType }  from '../Types/ProductContainer'
+import { Product as ProductType }  from '../Types/ProductContainer'
+import { AttributeSet }  from '../common/types'
 import { QueryResult } from '@apollo/client';
 import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';

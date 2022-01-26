@@ -1,4 +1,4 @@
-import { AttributeSet }                      from '../Types/CategoryContainer'
+import { AttributeSet } from '../common/types'
 
 export type ProductRecord = {
 	id: string,

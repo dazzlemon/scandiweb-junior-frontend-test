@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Product } from '../Types/CategoryContainer';
+import { Product } from './CategoryContainerTypes';
 
 export const CATEGORY = gql`
   query GetCategories($categoryName: String!) {

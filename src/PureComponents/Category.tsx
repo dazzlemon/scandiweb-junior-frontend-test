@@ -1,5 +1,6 @@
 import ProductCard from './ProductCard';
-import { AttributeSet, Product } from '../Types/CategoryContainer';
+import { Product } from '../pages/Category/CategoryContainerTypes';
+import { AttributeSet } from '../common/types';
 
 type Props = {
 	products: Product[]
