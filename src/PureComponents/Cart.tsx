@@ -4,10 +4,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from '@apollo/client/react/components';
 
-import { Product as ProductType }  from '../Types/ProductContainer'
+import { AttributeSet, Product as ProductType }  from '../Types/ProductContainer'
 import { QueryResult } from '@apollo/client';
 import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';
+import { Price } from '../Types/CategoryContainer';
 
 type Props = { currency: string }
 
@@ -44,6 +45,29 @@ const product = (name: string, id: string) => `
 	}
 `
 
+type Props__ = {
+	brand: string
+	name: string
+	price: string
+	// currency: string
+	// prices: Price[]
+	attributes: AttributeSet[]
+	selectedAttributes: number[]
+}
+
+class MiniCartProduct extends React.Component<Props__> {
+	render = () => (
+		<>
+			<div>{this.props.brand}</div>
+			<div>{this.props.name}</div>
+			<div>{this.props.price}</div>
+			{this.props.attributes.map((attr, attrIndex) =>
+				<div>{attr.name}: {attr.items[this.props.selectedAttributes[attrIndex]].displayValue}</div>)}
+			<br/>
+		</>
+	)
+}
+
 const products = (ids: string[]) => {
 	const query = `query GetProducts {
 		${ids.map((i, index) => product('product'+index, i)).join('')}
@@ -75,18 +99,17 @@ class CartDropdown extends React.Component<Props> {
 					}
 					return (
 						<>
-							{products.map((product, index) => (
-								<>
-									<div>{product.brand}</div>
-									<div>{product.name}</div>
-									<div>
-										{this.props.currency}
-										{product.prices.find(price => price.currency.symbol == this.props.currency)?.amount}
-									</div>
-									{product.attributes.map((attr, attrIndex) =>
-										<div>{attr.name}: {attr.items[cart[index].selectedAttributes[attrIndex]].displayValue}</div>)}
-									<br/>
-								</>
+							{products.map((product, index) => (<MiniCartProduct
+								brand={product.brand}
+								name={product.name}
+								price={this.props.currency +
+									product.prices.find(price =>
+										price.currency.symbol == this.props.currency
+									)?.amount
+								}
+								attributes={product.attributes}
+								selectedAttributes={cart[index].selectedAttributes}
+							/>
 							))}
 							<div className='total'>
 								<div>Total</div>
