@@ -58,8 +58,10 @@ type Props__ = {
 class MiniCartProduct extends React.Component<Props__> {
 	render = () => (
 		<>
-			<div>{this.props.brand}</div>
-			<div>{this.props.name}</div>
+			<div className='productName'>
+				<p>{this.props.brand}</p>
+				<p>{this.props.name}</p>
+			</div>
 			<div>{this.props.price}</div>
 			{this.props.attributes.map((attr, attrIndex) =>
 				<div>{attr.name}: {attr.items[this.props.selectedAttributes[attrIndex]].displayValue}</div>)}
