@@ -54,27 +54,31 @@ type Props__ = {
 	// prices: Price[]
 	attributes: AttributeSet[]
 	selectedAttributes: number[]
+	img: string
 }
 
 class MiniCartProduct extends React.Component<Props__> {
 	render = () => (
-		<>
-			<div className='productName'>
-				<p>{this.props.brand}</p>
-				<p>{this.props.name}</p>
+		<div className='item'>
+			<div className='left'>
+				<div className='productName'>
+					<p>{this.props.brand}</p>
+					<p>{this.props.name}</p>
+				</div>
+				<div className='price'>{this.props.price}</div>
+				{this.props.attributes.map((attr, attrIndex) =>
+					<Attribute
+						name={attr.name}
+						type={attr.type}
+						items={attr.items}
+						selectedIndex={this.props.selectedAttributes[attrIndex]}
+						onChange={() => null}
+					/>
+				)}
 			</div>
-			<div className='price'>{this.props.price}</div>
-			{this.props.attributes.map((attr, attrIndex) =>
-				// <div>{attr.name}: {attr.items[this.props.selectedAttributes[attrIndex]].displayValue}</div>)}
-				<Attribute
-					name={attr.name}
-					type={attr.type}
-					items={attr.items}
-					selectedIndex={this.props.selectedAttributes[attrIndex]}
-					onChange={() => null}
-				/>)}
+				<img src={this.props.img} />
 			<br/>
-		</>
+		</div>
 	)
 }
 
@@ -120,6 +124,7 @@ class CartDropdown extends React.Component<Props> {
 									}
 									attributes={product.attributes}
 									selectedAttributes={cart[index].selectedAttributes}
+									img={product.gallery[0]}
 								/>
 								))}
 							</div>
