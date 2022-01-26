@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import clickOutside from '../HOCs/clickOutside';
-import { ReactComponent as ArrowDown } from '../Icons/ArrowDown.svg';
+import clickOutside from '../../HOCs/clickOutside';
+import { ReactComponent as ArrowDown } from './ArrowDown.svg';
 
 type Currency = { label: string, symbol: string }
 
