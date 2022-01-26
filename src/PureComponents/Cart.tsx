@@ -50,14 +50,31 @@ type Props__ = {
 	brand: string
 	name: string
 	price: string
-	// currency: string
-	// prices: Price[]
 	attributes: AttributeSet[]
 	selectedAttributes: number[]
 	img: string
+	count: number
 }
 
-class MiniCartProduct extends React.Component<Props__> {
+type State_ = { count: number }
+
+class MiniCartProduct extends React.Component<Props__, State_> {
+	constructor(props: Props__)	{
+		super(props)
+		this.state = { count: props.count }
+
+		this.incrementCount = this.incrementCount.bind(this)
+		this.decrementCount = this.decrementCount.bind(this)
+	}
+
+	incrementCount() {
+		this.setState({ count: this.state.count + 1 })
+	}
+
+	decrementCount() {
+		this.setState({ count: this.state.count - 1 })
+	}
+	
 	render = () => (
 		<div className='item'>
 			<div className='left'>
@@ -75,6 +92,16 @@ class MiniCartProduct extends React.Component<Props__> {
 						onChange={() => null}
 					/>
 				)}
+			</div>
+			<div className='counter'>
+				<button onClick={this.incrementCount}>+</button>
+				<p>{this.state.count}</p>
+				<button
+					onClick={this.decrementCount}
+					disabled={this.state.count == 1}
+				>
+					-
+				</button>
 			</div>
 			<img src={this.props.img} />
 			<br/>
@@ -125,6 +152,7 @@ class CartDropdown extends React.Component<Props> {
 									attributes={product.attributes}
 									selectedAttributes={cart[index].selectedAttributes}
 									img={product.gallery[0]}
+									count={1}
 								/>
 								))}
 							</div>

@@ -18,7 +18,7 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	connectToDevTools: true,
 	headers: production ? {
-		'Access-Control-Allow-Origin': 'https://cryptic-waters-16902.herokuapp.com'
+		'Access-Control-Allow-Origin': 'http://cryptic-waters-16902.herokuapp.com'
 	} : undefined
 });
 
