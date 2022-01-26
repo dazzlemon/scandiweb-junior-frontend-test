@@ -1,4 +1,4 @@
-import ProductCard      from '../../PureComponents/ProductCard';
+import ProductCard      from './ProductCard';
 import { Product }      from './CategoryContainerTypes';
 import { AttributeSet } from '../../common/types';
 

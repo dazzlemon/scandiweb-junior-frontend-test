@@ -3,9 +3,10 @@ import { useParams }   from 'react-router'
 import { Query }       from '@apollo/client/react/components'// TODO: migrate to urql
 import { QueryResult } from '@apollo/client'
 
+import Product from './Product'
 import { Product as ProductType }  from './ProductContainerTypes'
 import { PRODUCT }                 from './ProductContainerQueries'
-import { Loading, Error, Product } from '../../PureComponents'
+import { Loading, Error } from '../../PureComponents'
 import './ProductContainer.sass'
 
 // TODO add search params
