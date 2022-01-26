@@ -6,9 +6,7 @@ import {
 } from '@apollo/client';
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
-import Category from './Pages/Category';
-import ProductPage from './Pages/ProductPage';
-import Cart from './Pages/Cart';
+import { Category, Product, Cart } from './pages';
 import './App.sass';
 
 const production = process.env.REACT_APP_ENV == 'production';
@@ -41,7 +39,7 @@ class App extends Component<Props> {
 							<Route path='cart' element={<Cart/>} />
 							<Route path=':category'>
 								<Route index element={<Category/>} />
-								<Route path=':productId' element={<ProductPage/>} />
+								<Route path=':productId' element={<Product/>} />
 							</Route>
 						</Route>
 					</Routes>
