@@ -5,6 +5,11 @@ export type ProductRecord = {
 	selectedAttributes: number[]
 }
 
+export type CartProduct = {
+	count: number
+	productRecord: ProductRecord
+}
+
 export function equal<T>(a: T, b: T) {
 	// TODO
 	return JSON.stringify(a) == JSON.stringify(b)
@@ -16,8 +21,8 @@ export function JsonParse<T>(jsonString: string): T {
 }
 
 // localStorage might be empty
-export const getCart = () => JsonParse<ProductRecord[]>(localStorage.getItem('cart') ?? '[]')
-export const setCart = (products: ProductRecord[]) => localStorage.setItem('cart', JSON.stringify(products))
+export const getCart = () => JsonParse<CartProduct[]>(localStorage.getItem('cart') ?? '[]')
+export const setCart = (products: CartProduct[]) => localStorage.setItem('cart', JSON.stringify(products))
 
 export const	addToCart = (id: string, attributes: AttributeSet[]) => {
 	const cart = getCart()
@@ -25,8 +30,12 @@ export const	addToCart = (id: string, attributes: AttributeSet[]) => {
 		id,
 		selectedAttributes: new Array<number>(attributes.length).fill(0)
 	}
-	if (!cart.find(p => equal(p, newProduct))) {
-		cart.push(newProduct)
+
+	const existingProduct = cart.find(p => equal(p.productRecord, newProduct))
+	if (!existingProduct) {
+		cart.push({ count: 1, productRecord: newProduct })
+	} else {
+		existingProduct.count++
 	}
 	setCart(cart)
 }

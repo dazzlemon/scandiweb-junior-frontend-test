@@ -10,6 +10,7 @@ import { Loading, Error } from '../PureComponents'
 import { gql } from '@apollo/client';
 import { Price } from '../Types/CategoryContainer';
 import Attribute from './Attribute';
+import { CartProduct, getCart, setCart } from '../util';
 
 type Props = { currency: string }
 
@@ -54,6 +55,7 @@ type Props__ = {
 	selectedAttributes: number[]
 	img: string
 	count: number
+	onChange: (count: number) => void
 }
 
 type State_ = { count: number }
@@ -68,10 +70,12 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 	}
 
 	incrementCount() {
+		this.props.onChange(this.state.count + 1)
 		this.setState({ count: this.state.count + 1 })
 	}
 
 	decrementCount() {
+		this.props.onChange(this.state.count - 1)
 		this.setState({ count: this.state.count - 1 })
 	}
 	
@@ -117,16 +121,20 @@ const products = (ids: string[]) => {
 	return gql(query)
 };
 
-class CartDropdown extends React.Component<Props> {
-	render() {
-		const cart: ProductRecord[] = JSON.parse(localStorage.getItem('cart') ?? '[]');
-		const price = '100.00';
+type State__ = { cart: CartProduct[] }
 
+class CartDropdown extends React.Component<Props, State__> {
+	constructor(props: Props) {
+		super(props)
+		this.state = { cart: getCart() }
+	}
+
+	render() {
 		return (
 			<div className='cartOverlay'>
-				<div className='myBag'>My Bag, <span className='itemCounter'>{cart.length} items</span> </div>
+				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 				<Query
-					query={products(cart.map(({id}) => id))}
+					query={products(this.state.cart.map(p => p.productRecord.id))}
 				>
 				{(result: QueryResult<any>) => {//TODO: typing?
 					const { loading, error, data } = result
@@ -135,7 +143,7 @@ class CartDropdown extends React.Component<Props> {
 					if (error || !data?.product0) return <Error/>
 	
 					const products = new Array<ProductType>()
-					for (let i = 0; i < cart.length; i++) {
+					for (let i = 0; i < this.state.cart.length; i++) {
 						products[i] = data[`product${i}`]
 					}
 					return (
@@ -150,9 +158,14 @@ class CartDropdown extends React.Component<Props> {
 										)?.amount
 									}
 									attributes={product.attributes}
-									selectedAttributes={cart[index].selectedAttributes}
+									selectedAttributes={this.state.cart[index].productRecord.selectedAttributes}
 									img={product.gallery[0]}
-									count={1}
+									count={this.state.cart[index].count}
+									onChange={count => {
+										this.state.cart[index].count = count
+										setCart(this.state.cart)
+										this.setState({ cart: this.state.cart })
+									}}
 								/>
 								))}
 							</div>
