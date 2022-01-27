@@ -7,6 +7,7 @@ import Product from './Product'
 import { Product as ProductType }  from './ProductContainerTypes'
 import { PRODUCT }                 from './ProductContainerQueries'
 import { Loading, Error } from '../../PureComponents'
+import { addToCart }      from '../../util'
 import './ProductContainer.sass'
 
 // TODO add search params
@@ -32,6 +33,7 @@ const ProductContainer: React.FC<Props> = (props) => {
 				return <Product
 					product={data.product}
 					price={`${price?.currency.symbol}${price?.amount}`}
+					onAddToCart={attributes => addToCart(productId!, attributes)}
 				/>
 			}}
 			</Query>

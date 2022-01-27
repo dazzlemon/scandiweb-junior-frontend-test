@@ -8,7 +8,11 @@ const Category = () => (
 			<CategoryContainer
 				category={categories[categoryIndex]}
 				currencyLabel={currencies[currencyIndex]?.label ?? 'USD'}
-				onAddToCart={addToCart}
+				onAddToCart={
+					(id, selectedAttributes) =>
+						addToCart(id,
+							new Array<number>(selectedAttributes.length).fill(0))
+				}
 			/>
 		}
 	</PageContainer>

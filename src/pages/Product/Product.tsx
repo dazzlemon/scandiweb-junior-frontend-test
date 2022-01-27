@@ -3,7 +3,11 @@ import { Product as ProductType } from './ProductContainerTypes'
 import { Attribute }              from '../../PureComponents'
 
 type State = { selected: number[] }
-type Props = { product: ProductType, price: string }
+type Props = {
+	product: ProductType
+	price: string
+	onAddToCart: (selectedAttributes: number[]) => void
+}
 
 class Product extends React.Component<Props, State> {
 	constructor(props: Props) {
@@ -35,7 +39,12 @@ class Product extends React.Component<Props, State> {
 				)}
 				<div className='priceName'>Price:</div>
 				<div className='price'>{this.props.price}</div>
-				<button className='addToCart'>Add to cart</button>
+				<button
+					className='addToCart'
+					onClick={() => this.props.onAddToCart(this.state.selected)}
+				>
+					Add to cart
+				</button>
 				<div className='description' dangerouslySetInnerHTML={{__html: this.props.product.description}} />
 			</div>
 		</div>

@@ -24,11 +24,13 @@ export function JsonParse<T>(jsonString: string): T {
 export const getCart = () => JsonParse<CartProduct[]>(localStorage.getItem('cart') ?? '[]')
 export const setCart = (products: CartProduct[]) => localStorage.setItem('cart', JSON.stringify(products))
 
-export const	addToCart = (id: string, attributes: AttributeSet[]) => {
+export const	addToCart = (id: string, selectedAttributes: number[]) => {
+// export const	addToCart = (id: string, attributes: AttributeSet[]) => {
 	const cart = getCart()
 	const newProduct = {
 		id,
-		selectedAttributes: new Array<number>(attributes.length).fill(0)
+		selectedAttributes
+		// selectedAttributes: new Array<number>(attributes.length).fill(0)
 	}
 
 	const existingProduct = cart.find(p => equal(p.productRecord, newProduct))
