@@ -39,12 +39,16 @@ class Product extends React.Component<Props, State> {
 				)}
 				<div className='priceName'>Price:</div>
 				<div className='price'>{this.props.price}</div>
-				<button
-					className='addToCart'
-					onClick={() => this.props.onAddToCart(this.state.selected)}
-				>
-					Add to cart
-				</button>
+				{
+					this.props.product.inStock ?
+						<button
+							className='addToCart'
+							onClick={() => this.props.onAddToCart(this.state.selected)}
+						>
+							Add to cart
+						</button>
+						: <div className='outOfStock'>Out of stock</div>
+				}
 				<div className='description' dangerouslySetInnerHTML={{__html: this.props.product.description}} />
 			</div>
 		</div>
