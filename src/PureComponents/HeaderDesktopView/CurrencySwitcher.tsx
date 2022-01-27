@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import clickOutside from '../../HOCs/clickOutside';
 import { ReactComponent as ArrowDown } from './ArrowDown.svg';
+import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 
 type Currency = { label: string, symbol: string }
 
@@ -58,7 +59,7 @@ const CurrencySwitcher = (props: Props) => {
 		>
 			<button  ref={ref}>
 				<div className='currency'>{props.currencies[currencyIndex]?.symbol ?? '$'}</div>
-				<ArrowDown className='arrow'/>
+				{showDropdown ? <ArrowUp className='arrow'/> : <ArrowDown className='arrow'/>}
 			</button>
 			{showDropdown &&
 				<DropdownClickOutside
