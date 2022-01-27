@@ -162,15 +162,18 @@ $selected-color: #5ECE7B
 		z-index: -1
 
 .currencySwitcher
-	display: flex
 	margin-top: 4px
-	.currency, .arrow
-		padding: 0px 2px
-		z-index: 1
-	.arrow
-		margin-top: 6px
-	&:hover
-		cursor: pointer
+	button
+		display: flex
+		background-color: #fff
+		border: none
+		.currency, .arrow
+			padding: 0px 2px
+			z-index: 1
+		.arrow
+			margin-top: 6px
+		&:hover
+			cursor: pointer
 	.dropdown
 		position: absolute
 		top: 32px

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import clickOutside from '../../HOCs/clickOutside';
 import { ReactComponent as ArrowDown } from './ArrowDown.svg';
 
@@ -35,8 +35,15 @@ class Dropdown extends React.Component<Props_> {
 const DropdownClickOutside = clickOutside(Dropdown);
 
 const CurrencySwitcher = (props: Props) => {
-	const [showDropdown, setShowDropdown] = useState(false);
+	const [showDropdown, setShowDropdown_] = useState(false);
 	const [currencyIndex, setCurrencyIndex] = useState(props.currencyIndex ?? 0);
+
+	const setShowDropdown = (b: boolean) => {
+		setShowDropdown_(b)
+		console.log('showDropDown =', b)
+	}
+
+	const ref = useRef<HTMLButtonElement>(null)
 
 	const changeCurrency = (index: number) => {
 		props.onChange?.(index);
@@ -49,13 +56,21 @@ const CurrencySwitcher = (props: Props) => {
 			className='currencySwitcher'
 			onClick={() => setShowDropdown(!showDropdown)}
 		>
-			<div className='currency'>{props.currencies[currencyIndex]?.symbol ?? '$'}</div>
-			<ArrowDown className='arrow'/>
+			<button  ref={ref}>
+				<div className='currency'>{props.currencies[currencyIndex]?.symbol ?? '$'}</div>
+				<ArrowDown className='arrow'/>
+			</button>
 			{showDropdown &&
 				<DropdownClickOutside
 					currencies={props.currencies}
 					changeCurrency={changeCurrency}
-					onClickOutside={_ => setShowDropdown(false)}
+					onClickOutside={e => {
+						setShowDropdown(false)
+						// open cart and close overlay in one click
+						if (ref.current?.contains(e.target as Node)) {
+							e.stopImmediatePropagation();
+						}
+					}}
 				/>
 			}
 		</div>
