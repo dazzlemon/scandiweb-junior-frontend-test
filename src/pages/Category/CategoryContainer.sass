@@ -8,9 +8,12 @@
 	padding-left: 16px
 
 .productCardsList
-	display: flex
-	flex-wrap: wrap
-	position: relative
+	// display: flex
+	// flex-wrap: wrap
+	// justify-content: left
+	display: grid
+	grid-template-columns: repeat(auto-fit, 420px)
+	justify-content: space-evenly
 
 main
 	z-index: -2
@@ -51,7 +54,6 @@ main
 	&.outOfStock
 		background: #FFFFFF
 		opacity: 0.5
-		
 
 .productImageContainer
 	position: relative
