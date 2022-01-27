@@ -34,8 +34,8 @@ export const useCategoriesCurrencies = (category: string): QueryResult => {
 	}>(QUERY)
 	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency'))
 
-	if (loading) return { state: 'error' }
-	if (error) return { state: 'loading' }
+	if (loading) return { state: 'loading' }
+	if (error) return { state: 'error' }
 
 	const currencies = data!.currencies
 	const changeCurrency = (index: number) => {
