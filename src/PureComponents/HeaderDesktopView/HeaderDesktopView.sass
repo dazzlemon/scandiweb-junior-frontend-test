@@ -56,7 +56,7 @@ $selected-color: #5ECE7B
 		flex-direction: column
 		align-items: center
 	.cartOverlay
-		width: 325px
+		width: 360px
 		position: absolute
 		top: 32px
 		right: 32px
@@ -65,7 +65,13 @@ $selected-color: #5ECE7B
 		.items
 			overflow-y: scroll
 			height: 500px
+			padding-right: 8px
 			.item
+				padding-bottom: 36px
+				position: relative
+				.deleteCross
+					position: absolute
+					right: 0
 				.productName
 					margin-top: 25px
 					font-family: Raleway
@@ -92,7 +98,7 @@ $selected-color: #5ECE7B
 					font-size: 16px
 					text-transform: uppercase
 				.attributeItems
-					padding: 6px 0
+					padding: 12px 0
 					width: 142px
 					overflow-x: scroll
 					div

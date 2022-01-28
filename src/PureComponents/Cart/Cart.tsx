@@ -52,6 +52,7 @@ type Props__ = {
 	img: string
 	count: number
 	onChange: (count: number) => void
+	onRemove: () => void
 }
 
 type State_ = { count: number }
@@ -104,7 +105,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				</button>
 			</div>
 			<img src={this.props.img} />
-			<br/>
+			<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 		</div>
 	)
 }
@@ -170,6 +171,11 @@ class CartDropdown extends React.Component<Props, State__> {
 										this.state.cart[index].count = count
 										setCart(this.state.cart)
 										this.setState({ cart: this.state.cart })
+									}}
+									onRemove={() => {
+										this.state.cart.splice(index, 1)
+										this.setState({ cart: this.state.cart })
+										setCart(this.state.cart)
 									}}
 								/>
 								))}
