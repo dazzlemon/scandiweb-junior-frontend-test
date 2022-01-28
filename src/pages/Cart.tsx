@@ -130,7 +130,7 @@ class Cart extends React.Component<{}, State> {
 	render = () => (
 		<PageContainer>
 			{({currencies, currencyIndex}) =>
-				<div className='cartOverlay'>
+				<div className='cartPage'>
 					<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 					{this.state.cart.length != 0 && <Query
 						query={products(this.state.cart.map(p => p.productRecord.id))}
