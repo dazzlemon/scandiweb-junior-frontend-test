@@ -1,11 +1,9 @@
 import { gql, QueryResult } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { AttributeSet } from '../common/types';
 import PageContainer from '../components/PageContainer'
 import { Loading, Error, Attribute } from '../PureComponents';
-import AttributeItem from '../PureComponents/Attribute/AttributeItem';
 import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
@@ -32,6 +30,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		this.decrementCount = this.decrementCount.bind(this)
 	}
 
+
 	incrementCount() {
 		this.props.onChange(this.state.count + 1)
 		this.setState({ count: this.state.count + 1 })
@@ -41,7 +40,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		this.props.onChange(this.state.count - 1)
 		this.setState({ count: this.state.count - 1 })
 	}
-	
+
 	render = () => (
 		<div className='item'>
 			<div className='left'>
@@ -112,19 +111,28 @@ const products = (ids: string[]) => {
 	const query = `query GetProducts {
 		${ids.map((i, index) => product('product'+index, i)).join('')}
 	}`
-	console.log('query =', query)
 	return gql(query)
 };
 
 type State = {cart: CartProduct[]}
 
 class Cart extends React.Component<{}, State> {
-	constructor() {
-		super({})
+	constructor(props: {}) {
+		super(props)
 		document.title = 'Cart'
-		this.state = {
-			cart: getCart(),
-		}
+		this.state = { cart: getCart() }
+		this.localStorageUpdated = this.localStorageUpdated.bind(this)
+	}
+
+	componentDidMount() {
+		document.addEventListener('storage', this.localStorageUpdated)
+	}
+	componentWillUnmount() {
+		document.removeEventListener('storage', this.localStorageUpdated)
+	}
+
+	localStorageUpdated() {
+		this.setState({ cart: getCart() })
 	}
 
 	render = () => (
@@ -146,6 +154,7 @@ class Cart extends React.Component<{}, State> {
 						for (let i = 0; i < this.state.cart.length; i++) {
 							products[i] = data[`product${i}`]
 						}
+						console.log('render', this.state.cart[0].count)
 						return (
 							<>
 								<div className='items'>

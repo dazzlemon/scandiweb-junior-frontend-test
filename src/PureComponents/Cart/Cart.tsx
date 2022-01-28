@@ -125,7 +125,6 @@ const products = (ids: string[]) => {
 	const query = `query GetProducts {
 		${ids.map((i, index) => product('product'+index, i)).join('')}
 	}`
-	console.log('query =', query)
 	return gql(query)
 };
 

@@ -22,7 +22,10 @@ export function JsonParse<T>(jsonString: string): T {
 
 // localStorage might be empty
 export const getCart = () => JsonParse<CartProduct[]>(localStorage.getItem('cart') ?? '[]')
-export const setCart = (products: CartProduct[]) => localStorage.setItem('cart', JSON.stringify(products))
+export const setCart = (products: CartProduct[]) => {
+	localStorage.setItem('cart', JSON.stringify(products))
+	document.dispatchEvent(new CustomEvent('storage'))
+}
 
 export const	addToCart = (id: string, selectedAttributes: number[]) => {
 // export const	addToCart = (id: string, attributes: AttributeSet[]) => {
