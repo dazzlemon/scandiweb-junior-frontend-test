@@ -35,7 +35,9 @@
 		object-fit: contain
 		width: 80px
 		height: 80px
-
+		&:hover
+			cursor: pointer
+			opacity: 0.5
 .productView
 	height: calc(100vh - 61px)// header height
 	display: flex
@@ -60,7 +62,7 @@
 			color: #888
 			&:hover
 				cursor: pointer
-				background-color: rgba(0, 0, 0, 0.1)
+				background-color: rgba(0, 0, 0, 0.05)
 				color: #444
 			&.prev
 				left: 0
