@@ -70,18 +70,20 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 					)}
 				</div>
 			</div>
-			<div className='counter'>
-				<button onClick={this.incrementCount}>+</button>
-				<p>{this.state.count}</p>
-				<button
-					onClick={this.decrementCount}
-					disabled={this.state.count == 1}
-				>
-					-
-				</button>
+			<div className='right'>
+				<div className='counter'>
+					<button onClick={this.incrementCount}>+</button>
+					<p>{this.state.count}</p>
+					<button
+						onClick={this.decrementCount}
+						disabled={this.state.count == 1}
+					>
+						-
+					</button>
+				</div>
+				<img src={this.props.img} />
+				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
-			<img src={this.props.img} />
-			<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 		</div>
 	)
 }
