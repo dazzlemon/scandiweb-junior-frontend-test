@@ -2,6 +2,30 @@ import React from 'react'
 import { Product as ProductType } from './ProductContainerTypes'
 import { Attribute }              from '../../PureComponents'
 
+
+type Props_ = { gallery: string[] }
+type State_ = { index: number }
+class Gallery extends React.Component<Props_, State_> {
+	constructor(props: Props_) {
+		super(props)
+		this.state = { index: 0 }
+	}
+
+	render = () => (
+		<>
+			<div className='productImagePreviews'>
+					{this.props.gallery.map((i, index) =>
+						<img
+							src={i}
+							onClick={() => this.setState({ index })}
+						/>
+					)}
+				</div>
+			<img src={this.props.gallery[this.state.index] } className='productImage' />
+		</>
+	)
+}
+
 type State = { selected: number[] }
 type Props = {
 	product: ProductType
@@ -22,10 +46,7 @@ class Product extends React.Component<Props, State> {
 
 	render = () => (
 		<div className='productView'>
-			<div className='productImagePreviews'>
-				{this.props.product.gallery.map(i => <img src={i}/> )}
-			</div>
-			<img src={this.props.product.gallery[0] } className='productImage' />
+			<Gallery gallery={this.props.product.gallery} />
 			<div className='right'>
 				<div className='productName'>{this.props.product.name}</div>
 				{this.props.product.attributes.map((attr, attrIndex) => 
