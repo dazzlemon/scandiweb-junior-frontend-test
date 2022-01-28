@@ -6,13 +6,26 @@
 		display: flex
 		justify-content: space-between
 		width: 100%
+		position: relative
 		.right
 			display: flex
 		img
 			height: 200px
 			width: 140px
 			object-fit: contain
+		.deleteCross
+			position: absolute
+			right: 0
+		.counter
+			display: flex
+			flex-direction: column
+			justify-content: space-between
 	.total
 		display: flex
 		.price
 			margin-left: 8px
+	.buttons
+		display: flex
+		justify-content: space-between
+		.clearCart, .checkout
+			width: 49%
