@@ -62,6 +62,11 @@ $selected-color: #5ECE7B
 		right: 32px
 		padding: 12px
 		background-color: #fff
+		.clearCart
+			background-color: #fff
+			border: 2px solid #000
+			font-family: Raleway
+			font-size: 18px
 		.items
 			overflow-y: scroll
 			// height: 500px
@@ -75,11 +80,17 @@ $selected-color: #5ECE7B
 				.deleteCross
 					position: absolute
 					right: 0
+					background-color: rgba(0, 0, 0, 0)
+					border: none
+					font-family: raleway
+					font-size: 18px
+					font-weight: 600
+					&:hover
+						cursor: pointer
 				.productName
-					margin-top: 25px
+					// margin-top: 25px
 					font-family: Raleway
-					font-size: 16px
-					line-height: 160%
+					font-size: 20px
 					p
 						margin: 0
 				.price
@@ -87,7 +98,7 @@ $selected-color: #5ECE7B
 					font-family: Raleway
 					font-style: normal
 					font-weight: 500
-					font-size: 16px
+					font-size: 18px
 					line-height: 160%
 				display: flex
 				justify-content: space-between
@@ -130,7 +141,7 @@ $selected-color: #5ECE7B
 					p
 						font-family: raleway
 						text-align: center
-						font-size: 24px
+						font-size: 18px
 						font-weight: 500
 				.attributeContainer
 					display: flex
@@ -159,6 +170,7 @@ $selected-color: #5ECE7B
 				img
 					width: 105px
 					height: 137px
+					flex-shrink: 0
 					object-fit: contain
 					// border-color: #000
 					// border-style: solid
@@ -169,6 +181,7 @@ $selected-color: #5ECE7B
 			font-weight: 700
 			font-size: 16px
 			white-space: break-spaces
+			margin-bottom: 24px
 			.itemCounter
 				font-weight: 500
 		.total
@@ -176,7 +189,7 @@ $selected-color: #5ECE7B
 			font-size: 16px
 			font-weight: 500
 			line-height: 18px
-			padding: 28px 0
+			padding-bottom: 28px
 			display: flex
 			justify-content: space-between
 			align-items: center

@@ -140,7 +140,7 @@ class CartDropdown extends React.Component<Props, State__> {
 			return (
 				<div className='cartOverlay empty'>
 					<EmptyCart className='emptyCart' />
-						Your cart is empty
+					Your cart is empty
 				</div>
 			)
 		}
@@ -148,15 +148,6 @@ class CartDropdown extends React.Component<Props, State__> {
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
-				<button
-					className='clearCart'
-					onClick={() => {
-						this.setState({cart: []})
-						setCart([])
-					}}
-				>
-					Clear cart
-				</button>
 				{this.state.cart.length != 0 && <Query
 					query={products(this.state.cart.map(p => p.productRecord.id))}
 				>
@@ -213,8 +204,18 @@ class CartDropdown extends React.Component<Props, State__> {
 				}}
 				</Query>}
 				<div className='buttons'>
+					<button
+						className='clearCart'
+						onClick={() => {
+							this.setState({cart: []})
+							setCart([])
+						}}
+					>
+						Clear cart
+					</button>
 					<Link to='/cart' className='viewBag'>View bag</Link>
 					<button className='checkout'>Check out</button>
+					
 				</div>
 			</div>
 		);
