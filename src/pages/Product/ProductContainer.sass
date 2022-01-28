@@ -45,6 +45,7 @@
 		position: relative
 		margin-right: 64px
 		.productImage
+			background-color: #fff
 			width: 50vw
 			height: 100%
 			object-fit: contain
@@ -59,11 +60,11 @@
 			height: 100%
 			background-color: rgba(0, 0, 0, 0)
 			border: none
-			color: #888
+			color: #fff
+			mix-blend-mode: difference
 			&:hover
 				cursor: pointer
-				// background-color: rgba(0, 0, 0, 0.05)
-				color: #444
+				color: #777
 			&.prev
 				left: 0
 			&.next
