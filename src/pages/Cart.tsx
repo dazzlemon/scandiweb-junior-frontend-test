@@ -30,7 +30,13 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		this.decrementCount = this.decrementCount.bind(this)
 	}
 
-
+	// also can add key, but both fixes seem very hacky to me
+	componentDidUpdate(prevProps: Props__) {
+		if(prevProps.count !== this.props.count) {
+			this.setState({count: this.props.count});
+		}
+	}
+	
 	incrementCount() {
 		this.props.onChange(this.state.count + 1)
 		this.setState({ count: this.state.count + 1 })
@@ -41,7 +47,9 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		this.setState({ count: this.state.count - 1 })
 	}
 
-	render = () => (
+	render = () => {
+		console.log('render inner', this.props.count, this.state.count)
+		return (
 		<div className='item'>
 			<div className='left'>
 				<div className='productName'>
@@ -76,7 +84,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
 		</div>
-	)
+	)}
 }
 
 const product = (name: string, id: string) => `
@@ -135,7 +143,9 @@ class Cart extends React.Component<{}, State> {
 		this.setState({ cart: getCart() })
 	}
 
-	render = () => (
+	render = () => {
+		console.log('render outer', this.state.cart[0].count)
+		return (
 		<PageContainer>
 			{({currencies, currencyIndex}) =>
 				<div className='cartPage'>
@@ -214,7 +224,7 @@ class Cart extends React.Component<{}, State> {
 				</div>
 			}
 		</PageContainer>
-	)
+	)}
 }
 
 export default Cart
