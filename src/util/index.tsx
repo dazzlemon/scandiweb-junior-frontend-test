@@ -35,7 +35,7 @@ export const	addToCart = (id: string, selectedAttributes: number[]) => {
 
 	const existingProduct = cart.find(p => equal(p.productRecord, newProduct))
 	if (!existingProduct) {
-		cart.push({ count: 1, productRecord: newProduct })
+		cart.unshift({ count: 1, productRecord: newProduct })
 	} else {
 		existingProduct.count++
 	}

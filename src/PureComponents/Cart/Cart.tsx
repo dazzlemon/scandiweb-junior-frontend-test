@@ -196,7 +196,7 @@ class CartDropdown extends React.Component<Props, State__> {
 										product.prices.find(price =>
 											price.currency.symbol == this.props.currency
 										)?.amount ?? 0
-									).reduce((a, b) => a + b)
+									).reduce((a, b, index) => a + b * this.state.cart[index].count).toFixed(2)
 								}</div>
 							</div>
 						</>
