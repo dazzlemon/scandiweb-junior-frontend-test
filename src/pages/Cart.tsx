@@ -131,7 +131,7 @@ class Cart extends React.Component<{}, State> {
 		<PageContainer>
 			{({currencies, currencyIndex}) =>
 				<div className='cartPage'>
-					<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
+					<div className='myBag'>Cart, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 					{this.state.cart.length != 0 && <Query
 						query={products(this.state.cart.map(p => p.productRecord.id))}
 					>
@@ -196,11 +196,9 @@ class Cart extends React.Component<{}, State> {
 								setCart([])
 							}}
 						>
-							Clear this.state.cart
+							Clear cart
 						</button>
-						<Link to='/this.state.cart' className='viewBag'>View bag</Link>
 						<button className='checkout'>Check out</button>
-						
 					</div>
 				</div>
 			}
