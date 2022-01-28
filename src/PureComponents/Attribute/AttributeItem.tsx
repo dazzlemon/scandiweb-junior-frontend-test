@@ -3,7 +3,7 @@ import { AttributeType } from '../../common/types'
 
 type Props = {
 	type: AttributeType
-	selected: boolean
+	selected?: boolean
 	value: string
 	onSelected: React.MouseEventHandler<HTMLDivElement>
 }

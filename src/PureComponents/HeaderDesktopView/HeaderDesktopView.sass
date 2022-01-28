@@ -94,18 +94,42 @@ $selected-color: #5ECE7B
 				// slight deviation from design
 				// but otherwise you can't really tell the difference
 				// between two attributtes with Yes/No items(e.g.)
-				.attribute .name
+				// .attribute .name
+				.attributeName
 					// display: none
 					font-family: Roboto Condensed
 					font-weight: bold
 					font-size: 16px
 					text-transform: uppercase
-				.attributeItems
-					padding: 12px 0
-					width: 142px
-					overflow-x: scroll
-					div
+				// .attributeItems
+				// 	padding: 12px 0
+				// 	width: 142px
+				// 	overflow-x: scroll
+				// div
+				.left
+					width: 100%
+				.attributeContainer
+					display: flex
+					flex-direction: row
+					width: 100%
+					justify-content: space-between
+					.text
+						font-family: Roboto Condensed
+						font-weight: bold
+						font-size: 16px
+						text-transform: uppercase
+					.swatch
+						width: 20px
+						height: 20px
 						flex-shrink: 0
+
+					// flex-shrink: 0
+					// &:hover
+						// cursor: auto// it wont be clickable anyway
+					// &.swatch:nth-child(1)
+						// margin-left: 1px
+						// &.selected
+							// margin-left: 3px
 				img
 					width: 105px
 					height: 137px

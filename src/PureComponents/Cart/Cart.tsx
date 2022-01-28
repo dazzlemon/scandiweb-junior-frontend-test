@@ -12,6 +12,7 @@ import { CartProduct, getCart, setCart } from '../../util';
 
 import { ReactComponent as EmptyCart }   from './EmptyCart.svg'
 import { ReactComponent as CartIcon }    from './Cart.svg';
+import AttributeItem from '../Attribute/AttributeItem';
 
 type Props = { currency: string }
 
@@ -85,13 +86,21 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				</div>
 				<div className='price'>{this.props.price}</div>
 				{this.props.attributes.map((attr, attrIndex) =>
-					<Attribute
-						name={attr.name}
-						type={attr.type}
-						items={attr.items}
-						selectedIndex={this.props.selectedAttributes[attrIndex]}
-						onChange={() => null}
-					/>
+					<div className={'attributeContainer ' + attr.type}>
+						<div className='attributeName'>{attr.name}</div>
+						<AttributeItem
+							type={attr.type}
+							value={attr.items[this.props.selectedAttributes[attrIndex]].displayValue}
+							onSelected={() => null}
+						/>
+					</div>
+					// <Attribute
+					// 	name={attr.name}
+					// 	type={attr.type}
+					// 	items={attr.items}
+					// 	selectedIndex={this.props.selectedAttributes[attrIndex]}
+					// 	onChange={() => null}
+					// />
 				)}
 			</div>
 			<div className='counter'>
