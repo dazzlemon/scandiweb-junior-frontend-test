@@ -174,32 +174,34 @@ class Cart extends React.Component<{}, State> {
 									/>
 									))}
 								</div>
-								<div className='total'>
-									<div>Total</div>
-									<div className='price'>{currency}{
-										products.map(product =>
-											product.prices.find(price =>
-												price.currency.symbol == currency
-											)?.amount ?? 0
-										).reduce((a, b, index) => a + b * this.state.cart[index].count).toFixed(2)
-									}</div>
+								<div className='bottom'>
+									<div className='total'>
+										<div>Total</div>
+										<div className='price'>{currency}{
+											products.map(product =>
+												product.prices.find(price =>
+													price.currency.symbol == currency
+												)?.amount ?? 0
+											).reduce((a, b, index) => a + b * this.state.cart[index].count).toFixed(2)
+										}</div>
+									</div>
+									<div className='buttons'>
+										<button
+											className='clearCart'
+											onClick={() => {
+												this.setState({cart: []})
+												setCart([])
+											}}
+										>
+											Clear cart
+										</button>
+										<button className='checkout'>Check out</button>
+									</div>
 								</div>
-							</>
+							</>					
 						)
 					}}
 					</Query>}
-					<div className='buttons'>
-						<button
-							className='clearCart'
-							onClick={() => {
-								this.setState({cart: []})
-								setCart([])
-							}}
-						>
-							Clear cart
-						</button>
-						<button className='checkout'>Check out</button>
-					</div>
 				</div>
 			}
 		</PageContainer>
