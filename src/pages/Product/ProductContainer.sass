@@ -47,9 +47,21 @@
 			height: 100%
 			object-fit: contain
 		button
+			// TODO: change for svg
+			font-family: raleway
+			font-weight: bold
+			font-size: 24px
+
 			width: 128px
 			position: absolute
 			height: 100%
+			background-color: rgba(0, 0, 0, 0)
+			border: none
+			color: #888
+			&:hover
+				cursor: pointer
+				background-color: rgba(0, 0, 0, 0.1)
+				color: #444
 			&.prev
 				left: 0
 			&.next
