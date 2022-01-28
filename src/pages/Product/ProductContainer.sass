@@ -39,10 +39,21 @@
 .productView
 	height: calc(100vh - 61px)// header height
 	display: flex
-	.productImage
-		width: 50vw
-		height: 100%
-		object-fit: contain
+	.mainImageContainer
+		position: relative
+		margin-right: 64px
+		.productImage
+			width: 50vw
+			height: 100%
+			object-fit: contain
+		button
+			width: 128px
+			position: absolute
+			height: 100%
+			&.prev
+				left: 0
+			&.next
+				right: 0
 	.right
 		width: 50vw
 		.productName
