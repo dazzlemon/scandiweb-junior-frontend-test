@@ -64,7 +64,10 @@ $selected-color: #5ECE7B
 		background-color: #fff
 		.items
 			overflow-y: scroll
-			height: 500px
+			// height: 500px
+			// 173px is height of single item without attributes(should change for something better)
+			min-height: 173px
+			max-height: calc(100vh - 300px)
 			padding-right: 8px
 			.item
 				padding-bottom: 36px
