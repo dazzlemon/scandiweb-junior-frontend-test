@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { AttributeSet } from '../common/types';
 import PageContainer from '../components/PageContainer'
-import { Loading, Error } from '../PureComponents';
+import { Loading, Error, Attribute } from '../PureComponents';
 import AttributeItem from '../PureComponents/Attribute/AttributeItem';
 import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
@@ -52,21 +52,13 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
-						<div className={'attributeContainer ' + attr.type}>
-							<div className='attributeName'>{attr.name}</div>
-							<AttributeItem
-								type={attr.type}
-								value={attr.items[this.props.selectedAttributes[attrIndex]].displayValue}
-								onSelected={() => null}
-							/>
-						</div>
-						// <Attribute
-						// 	name={attr.name}
-						// 	type={attr.type}
-						// 	items={attr.items}
-						// 	selectedIndex={props.selectedAttributes[attrIndex]}
-						// 	onChange={() => null}
-						// />
+						<Attribute
+							name={attr.name}
+							type={attr.type}
+							items={attr.items}
+							selectedIndex={this.props.selectedAttributes[attrIndex]}
+							onChange={() => null}
+						/>
 					)}
 				</div>
 			</div>
