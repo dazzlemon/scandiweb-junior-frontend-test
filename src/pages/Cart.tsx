@@ -8,6 +8,37 @@ import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
 
+type Props___ = { gallery: string[] }
+type State__ = { index: number }
+class Gallery extends React.Component<Props___, State__> {
+	constructor(props: Props___) {
+		super(props)
+		this.state = { index: 0 }
+	}
+
+	render = () => (
+		<div className='mainImageContainer'>
+			<img src={this.props.gallery[this.state.index] } className='productImage' />
+			{this.state.index > 0 && <button
+				className='prev'
+				onClick={() => this.setState({index: this.state.index > 0 ? this.state.index - 1 : 0})}
+			>
+				{`<`}
+			</button>}
+			{this.state.index < this.props.gallery.length - 1 && <button
+				className='next'
+				onClick={() =>
+					this.setState({index:
+						this.state.index + 1 < this.props.gallery.length ?
+							this.state.index + 1 :
+							this.props.gallery.length - 1})}
+			>
+				{`>`}
+			</button>}
+		</div>
+	)
+}
+
 type State_ = { count: number }
 type Props__ = {
 	brand: string
@@ -15,7 +46,8 @@ type Props__ = {
 	price: string
 	attributes: AttributeSet[]
 	selectedAttributes: number[]
-	img: string
+	// img: string
+	gallery: string[]
 	count: number
 	onChange: (count: number) => void
 	onRemove: () => void
@@ -80,7 +112,8 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 						-
 					</button>
 				</div>
-				<img src={this.props.img} />
+				{/* <img src={this.props.img} /> */}
+				<Gallery gallery={this.props.gallery} />
 				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
 		</div>
@@ -181,7 +214,8 @@ class Cart extends React.Component<{}, State> {
 										}
 										attributes={product.attributes}
 										selectedAttributes={this.state.cart[index].productRecord.selectedAttributes}
-										img={product.gallery[0]}
+										// img={product.gallery[0]}
+										gallery={product.gallery}
 										count={this.state.cart[index].count}
 										onChange={count => {
 											this.state.cart[index].count = count

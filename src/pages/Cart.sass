@@ -48,10 +48,35 @@
 						text-transform: uppercase
 		.right
 			display: flex
-		img
+		.mainImageContainer
+			position: relative
 			height: 200px
 			width: 240px
-			object-fit: contain
+			background-color: #fff
+			.productImage
+				height: 200px
+				width: 240px
+				object-fit: contain
+			button
+				// TODO: change for svg
+				font-family: raleway
+				font-weight: bold
+				font-size: 22px
+
+				width: 48px
+				position: absolute
+				height: 100%
+				background-color: rgba(0, 0, 0, 0)
+				border: none
+				color: #fff
+				mix-blend-mode: difference
+				&:hover
+					cursor: pointer
+					color: #777
+				&.prev
+					left: 0
+				&.next
+					right: 0
 		.deleteCross
 			position: absolute
 			right: 0
