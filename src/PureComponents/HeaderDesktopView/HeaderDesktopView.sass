@@ -84,11 +84,16 @@ $selected-color: #5ECE7B
 					&:hover
 						cursor: pointer
 				.productName
+					@include setLinkSelectorStyle
+					color: #000
+					text-decoration: none
 					// margin-top: 25px
 					font-family: Raleway
 					font-size: 20px
 					p
 						margin: 0
+					&:hover
+						text-decoration: underline
 				.price
 					margin-top: 5px
 					font-family: Raleway

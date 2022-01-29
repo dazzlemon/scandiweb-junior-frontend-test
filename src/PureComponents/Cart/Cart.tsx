@@ -14,7 +14,7 @@ import { ReactComponent as EmptyCart }   from './EmptyCart.svg'
 import { ReactComponent as CartIcon }    from './Cart.svg';
 import AttributeItem from '../Attribute/AttributeItem';
 
-type Props = { currency: string }
+type Props = { currency: string, onRedirect: () => void }
 
 const product = (name: string, id: string) => `
 	${name}: product(id: \"${id}\") {
@@ -45,6 +45,7 @@ const product = (name: string, id: string) => `
 `
 
 type Props__ = {
+	link: string,
 	brand: string
 	name: string
 	price: string
@@ -54,6 +55,7 @@ type Props__ = {
 	count: number
 	onChange: (count: number) => void
 	onRemove: () => void
+	onRedirect: () => void
 }
 
 type State_ = { count: number }
@@ -80,10 +82,10 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 	render = () => (
 		<div className='item'>
 			<div className='left'>
-				<div className='productName'>
+				<Link to={this.props.link} className='productName' onClick={this.props.onRedirect}>
 					<p>{this.props.brand}</p>
 					<p>{this.props.name}</p>
-				</div>
+				</Link>
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
@@ -166,6 +168,7 @@ class CartDropdown extends React.Component<Props, State__> {
 						<>
 							<div className='items'>
 								{products.map((product, index) => (<MiniCartProduct
+									link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
 									brand={product.brand}
 									name={product.name}
 									price={this.props.currency +
@@ -187,6 +190,7 @@ class CartDropdown extends React.Component<Props, State__> {
 										this.setState({ cart: this.state.cart })
 										setCart(this.state.cart)
 									}}
+									onRedirect={this.props.onRedirect}
 								/>
 								))}
 							</div>
@@ -259,6 +263,7 @@ class Cart extends React.Component<Props_, State> {
 							}}
 							// tmp
 							currency={this.props.currency}
+							onRedirect={() => this.setState({ isVisible: false })}
 						/>
 					</>
 				}

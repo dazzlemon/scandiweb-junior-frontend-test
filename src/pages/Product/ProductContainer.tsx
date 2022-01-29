@@ -20,7 +20,6 @@ const ProductContainer: React.FC<Props> = (props) => {
 			<Query
 				query={PRODUCT}
 				variables={{productId}}
-				onCompleted={(data: {product: ProductType}) => document.title = data.product.name}
 			>
 			{(result: QueryResult<{ product: ProductType }>) => {
 				const { loading, error, data } = result
@@ -30,6 +29,7 @@ const ProductContainer: React.FC<Props> = (props) => {
 
 				const price = data.product.prices.find(price =>
 					price.currency.label == props.currency)// TODO: might be undef
+				document.title = data.product.name// onComplete wasnt working as expected
 				return <Product
 					product={data.product}
 					price={`${price?.currency.symbol}${price?.amount}`}
