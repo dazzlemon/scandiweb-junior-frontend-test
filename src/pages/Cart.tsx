@@ -82,7 +82,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 	}
 
 	render = () => {
-		console.log('render inner', this.props.count, this.state.count)
+		// console.log('render inner', this.props.count, this.state.count)
 		return (
 		<div className='item'>
 			<div className='left'>

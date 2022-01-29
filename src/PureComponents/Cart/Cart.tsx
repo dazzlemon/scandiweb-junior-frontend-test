@@ -173,28 +173,28 @@ class CartDropdown extends React.Component<Props, State__> {
 					for (let i = 0; i < this.state.cart.length; i++) {
 						products[i] = data[`product${i}`]
 					}
-					console.log('products', products.map((p, idx) => ({
-						name: p.name,
-						attrs: p.attributes.map(a => a.items.map(i => i.displayValue)),
-						selectedAttrs: this.state.cart[idx].productRecord.selectedAttributes
-					})))
+					// console.log('products', products.map((p, idx) => ({
+					// 	name: p.name,
+					// 	attrs: p.attributes.map(a => a.items.map(i => i.displayValue)),
+					// 	selectedAttrs: this.state.cart[idx].productRecord.selectedAttributes
+					// })))
 
-					console.log(this.state.query.loc?.source.body)
-					console.log('phantom', data[`product${this.state.cart.length}`])
+					// console.log(this.state.query.loc?.source.body)
+					// console.log('phantom', data[`product${this.state.cart.length}`])
 					return (
 						<>
 							<div className='items'>
 								{products.map((product, index) => {
-									console.log('id', this.state.cart[index].productRecord.id +
-										JSON.stringify(this.state.cart[index].productRecord.selectedAttributes))
+									// console.log('id', this.state.cart[index].productRecord.id +
+									// 	JSON.stringify(this.state.cart[index].productRecord.selectedAttributes))
 
 									const attributesLengths = product.attributes.map(i => i.items.length)
-									if (attributesLengths.length != this.state.cart[index].productRecord.selectedAttributes.length) {
-										console.log(this.state.cart[index].productRecord.selectedAttributes)
-										console.log(attributesLengths)
-										console.log(product)
-									}
-									console.log()
+									// if (attributesLengths.length != this.state.cart[index].productRecord.selectedAttributes.length) {
+									// 	console.log(this.state.cart[index].productRecord.selectedAttributes)
+									// 	console.log(attributesLengths)
+									// 	console.log(product)
+									// }
+									// console.log()
 
 									return (<MiniCartProduct
 									key={this.state.cart[index].productRecord.id +
@@ -233,7 +233,7 @@ class CartDropdown extends React.Component<Props, State__> {
 										product.prices.find(price =>
 											price.currency.symbol == this.props.currency
 										)?.amount ?? 0
-									).reduce((a, b, index) => a + b * this.state.cart[index].count).toFixed(2)
+									).reduce((a, b, index) => a + b * this.state.cart[index].count, 0).toFixed(2)
 								}</div>
 							</div>
 						</>
