@@ -50,17 +50,51 @@
 			display: flex
 		img
 			height: 200px
-			width: 140px
+			width: 240px
 			object-fit: contain
 		.deleteCross
 			position: absolute
 			right: 0
+			background-color: rgba(0, 0, 0, 0)
+			border: none
+			font-family: raleway
+			font-size: 18px
+			font-weight: 600
+			&:hover
+				cursor: pointer
 		.counter
 			display: flex
 			flex-direction: column
 			justify-content: space-between
+			margin-right: 16px
+			button
+				background-color: #fff
+				border: 2px solid #000
+				font-family: Roboto
+				font-size: 22px
+				font-weight: 400
+				width: 32px
+				height: 32px
+				color: #000
+				&:hover:not(:disabled)
+					cursor: pointer
+				&:disabled
+				  border-color: #aaa
+				  color: #aaa
+			p
+				font-family: raleway
+				text-align: center
+				font-size: 18px
+				font-weight: 500
 	.total
 		display: flex
+		font-family: Roboto
+		font-size: 16px
+		font-weight: 500
+		line-height: 18px
+		padding-bottom: 16px
+		padding-top: 8px
+		align-items: center
 		.price
 			margin-left: 8px
 	.bottom
@@ -71,5 +105,25 @@
 		.buttons
 			display: flex
 			justify-content: space-between
+			.checkout
+				border-style: none
+				background-color: #5ECE7B
+				color: #fff
+			.clearCart
+				border: 2px solid #000
+				background-color: #fff
 			.clearCart, .checkout
 				width: 49%
+
+				font-family: raleway
+				font-weight: 600
+				font-size: 14px
+				white-space: nowrap
+				border-radius: 0
+				margin: 5px
+				text-transform: uppercase
+				height: 43px
+				justify-content: center
+				align-items: center
+				display: flex
+				flex-direction: column
