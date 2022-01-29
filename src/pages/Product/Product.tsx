@@ -49,17 +49,21 @@ type Props = {
 	product: ProductType
 	price: string
 	onAddToCart: (selectedAttributes: number[]) => void
+	selected: number[]
+	attributeChanged: (attrIndex: number, itemIndex: number) => void
 }
 
 class Product extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props)
-		this.state = { selected: new Array(props.product.attributes.length).fill(0) }
+		// this.state = { selected: new Array(props.product.attributes.length).fill(0) }
+		this.state = { selected: props.selected }
 	}
 
 	changeAttribute(attrIndex: number, index: number) {
 		this.state.selected[attrIndex] = index
 		this.setState({selected: [...this.state.selected]})
+		this.props.attributeChanged(attrIndex, index)
 	}
 
 	render = () => (
