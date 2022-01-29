@@ -1,3 +1,7 @@
+@mixin setLinkSelectorStyle
+	&, &:hover, &:link, &:active, &:visited
+		@content
+	
 .cartPage
 	.myBag
 		font-family: Source Sans Pro
@@ -21,11 +25,16 @@
 		position: relative
 		.left
 			.productName
+				@include setLinkSelectorStyle
+				color: #000
+				text-decoration: none
 				font-family: Raleway
 				font-style: normal
 				font-weight: 600
 				font-size: 30px
 				line-height: 42px
+				&:hover
+					text-decoration: underline
 				p
 					margin: 0
 				p:nth-child(2)

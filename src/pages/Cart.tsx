@@ -7,6 +7,7 @@ import { Loading, Error, Attribute } from '../PureComponents';
 import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
+import { Link } from 'react-router-dom';
 
 type Props___ = { gallery: string[] }
 type State__ = { index: number }
@@ -51,6 +52,7 @@ type Props__ = {
 	count: number
 	onChange: (count: number) => void
 	onRemove: () => void
+	link: string
 }
 
 class MiniCartProduct extends React.Component<Props__, State_> {
@@ -84,10 +86,10 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		return (
 		<div className='item'>
 			<div className='left'>
-				<div className='productName'>
+				<Link to={this.props.link} className='productName'>
 					<p>{this.props.brand}</p>
 					<p>{this.props.name}</p>
-				</div>
+				</Link>
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
@@ -207,6 +209,7 @@ class Cart extends React.Component<{}, State> {
 									{products.map((product, index) => (<MiniCartProduct
 										brand={product.brand}
 										name={product.name}
+										link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
 										price={currency +
 											product.prices.find(price =>
 												price.currency.symbol == currency
