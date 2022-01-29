@@ -57,6 +57,10 @@
 						text-transform: uppercase
 					.attributeItems div
 						cursor: default
+						&.swatch:nth-child(1)
+						margin-left: 2px
+						&.selected
+							margin-left: 3px
 		.right
 			display: flex
 		.mainImageContainer
@@ -137,6 +141,8 @@
 		padding: 16px 0
 		background-color: #fff
 		position: sticky
+		left: 0
+		right: 0
 		bottom: 0
 		.buttons
 			display: flex

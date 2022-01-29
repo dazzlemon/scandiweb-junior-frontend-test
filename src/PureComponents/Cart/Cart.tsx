@@ -141,7 +141,11 @@ class CartDropdown extends React.Component<Props, State__> {
 	constructor(props: Props) {
 		super(props)
 		const cart = getCart()
-		this.state = { cart }
+		this.state = { cart, query: cart.length > 0 ?
+			productsQuery(
+				cart.map(p => p.productRecord.id)
+			) : undefined
+		}
 	}
 
 	render() {
