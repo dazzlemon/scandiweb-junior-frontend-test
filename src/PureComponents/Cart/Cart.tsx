@@ -135,13 +135,13 @@ const productsQuery = (ids: string[]) => {
 	return gql(query)
 };
 
-type State__ = { cart: CartProduct[], query: DocumentNode }
+type State__ = { cart: CartProduct[], query?: DocumentNode }
 
 class CartDropdown extends React.Component<Props, State__> {
 	constructor(props: Props) {
 		super(props)
 		const cart = getCart()
-		this.state = { cart, query: productsQuery(cart.map(p => p.productRecord.id)) }
+		this.state = { cart }
 	}
 
 	render() {
@@ -159,7 +159,7 @@ class CartDropdown extends React.Component<Props, State__> {
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 				{this.state.cart.length != 0 && <Query
 					// query={products(this.state.cart.map(p => p.productRecord.id))}
-					query={this.state.query}
+					query={this.state.query!}
 					fetchPolicy={'no-cache'}
 					nextFetchPolicy={'no-cache'}
 				>
