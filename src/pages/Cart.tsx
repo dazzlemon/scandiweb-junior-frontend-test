@@ -149,7 +149,10 @@ class Cart extends React.Component<{}, State> {
 		<PageContainer>
 			{({currencies, currencyIndex}) =>
 				<div className='cartPage'>
-					<div className='myBag'>Cart, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
+					<div className='myBag'>
+						<div>Cart</div>
+						<div className='itemCounter'>{this.state.cart.length} items</div>
+					</div>
 					{this.state.cart.length != 0 && <Query
 						query={products(this.state.cart.map(p => p.productRecord.id))}
 					>
