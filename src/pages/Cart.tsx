@@ -179,7 +179,6 @@ class Cart extends React.Component<{}, State> {
 	}
 
 	render = () => {
-		console.log('render outer', this.state.cart[0].count)
 		return (
 		<PageContainer>
 			{({currencies, currencyIndex}) =>
@@ -202,7 +201,6 @@ class Cart extends React.Component<{}, State> {
 						for (let i = 0; i < this.state.cart.length; i++) {
 							products[i] = data[`product${i}`]
 						}
-						console.log('render', this.state.cart[0].count)
 						return (
 							<>
 								<div className='items'>

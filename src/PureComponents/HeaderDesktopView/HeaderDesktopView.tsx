@@ -5,6 +5,7 @@ import CurrencySwitcher           from './CurrencySwitcher';
 import { Cart }                   from '../Cart';
 import { ReactComponent as Logo } from './Logo.svg';
 import './HeaderDesktopView.sass';
+import { CartProduct, getCart } from '../../util';
 
 type Props = { 
 	categories: string[],
@@ -14,7 +15,28 @@ type Props = {
 	onCurrencyChange?: (currencyIndex: number) => void
 }
 
-class HeaderDesktopView extends PureComponent<Props> {
+type State = {
+	cart: CartProduct[]
+}
+
+class HeaderDesktopView extends PureComponent<Props, State> {
+	constructor(props: Props) {
+		super(props)
+		this.state = { cart: getCart() }
+		this.localStorageUpdated = this.localStorageUpdated.bind(this)
+	}
+
+	componentDidMount() {
+		document.addEventListener('storage', this.localStorageUpdated)
+	}
+	componentWillUnmount() {
+		document.removeEventListener('storage', this.localStorageUpdated)
+	}
+
+	localStorageUpdated() {
+		this.setState({ cart: getCart() })
+	}
+
 	render = () => (
 		<header className='header'>
 			<div className='headerContainer'>
@@ -39,6 +61,10 @@ class HeaderDesktopView extends PureComponent<Props> {
 						currencyIndex={this.props.currencyIndex}
 					/>
 					<Cart currency={this.props.currencies[this.props.currencyIndex ?? 0]?.symbol ?? '$'}/>
+					{   this.state.cart.length == 0  ? null 
+					  : this.state.cart.length > 9   ? <div>?</div>
+					                                 : <div>{this.state.cart.length}</div>
+					}
 				</div>
 			</div>
 		</header>
