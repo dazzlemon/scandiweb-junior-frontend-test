@@ -60,11 +60,13 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 						onChange={this.props.onCurrencyChange}
 						currencyIndex={this.props.currencyIndex}
 					/>
-					<Cart currency={this.props.currencies[this.props.currencyIndex ?? 0]?.symbol ?? '$'}/>
-					{   this.state.cart.length == 0  ? null 
-					  : this.state.cart.length > 9   ? <div>?</div>
-					                                 : <div>{this.state.cart.length}</div>
-					}
+					<div className='cartContainer'>
+						<Cart currency={this.props.currencies[this.props.currencyIndex ?? 0]?.symbol ?? '$'}/>
+						{   this.state.cart.length == 0  ? null 
+						  : this.state.cart.length > 9   ? <div className='cartSize'>?</div>
+						                                 : <div className='cartSize'>{this.state.cart.length}</div>
+						}
+					</div>
 				</div>
 			</div>
 		</header>

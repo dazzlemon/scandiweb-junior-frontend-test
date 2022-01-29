@@ -40,10 +40,34 @@ $selected-color: #5ECE7B
 .actions
 	position: relative
 	display: inline-flex
+	.cartContainer
+		display: flex
+		position: relative
+		width: 48px
+		.cartSize
+			position: absolute
+			right: 0
+			top: 0
+		
+			background-color: #000
+			color: #fff
+			border-radius: 50%
+			width: 18px
+			height: 18px
 
+			display: flex
+			align-items: center
+			justify-content: center
+
+			font-family: Roboto
+			font-style: normal
+			font-weight: bold
+			font-size: 16px
+			text-transform: uppercase
 .cart
 	.cartIcon
-		padding-top: 4px
+		margin-top: 8px
+		// padding-top: 8px
 		padding-left: 16px
 		&:hover
 			cursor: pointer
@@ -246,7 +270,7 @@ $selected-color: #5ECE7B
 		z-index: -1
 
 .currencySwitcher
-	margin-top: 4px
+	margin-top: 6px
 	button
 		display: flex
 		background-color: #fff

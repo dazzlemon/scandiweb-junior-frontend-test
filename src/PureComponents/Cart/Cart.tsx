@@ -1,7 +1,7 @@
 import React                from 'react';
 import { Link }             from 'react-router-dom';
 import { Query }            from '@apollo/client/react/components';
-import { QueryResult, gql } from '@apollo/client';
+import { QueryResult, gql, NetworkStatus, DocumentNode } from '@apollo/client';
 
 import clickOutside                      from '../../HOCs/clickOutside';
 import { Product }                       from '../../pages/Product/ProductContainerTypes'
@@ -45,7 +45,7 @@ const product = (name: string, id: string) => `
 `
 
 type Props__ = {
-	link: string,
+	link: string
 	brand: string
 	name: string
 	price: string
@@ -88,8 +88,19 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				</Link>
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
-					{this.props.attributes.map((attr, attrIndex) =>
-						<div className={'attributeContainer ' + attr.type}>
+					{this.props.attributes.map((attr, attrIndex) => {
+						// console.log('attr.items.length', attr.items.length)
+						// console.log(this.props.name)
+						// console.log('this.props.selectedAttributes[attrIndex]', this.props.selectedAttributes[attrIndex])
+						// console.log('this.props.selectedAttributes.length', this.props.selectedAttributes.length)
+						// console.log('attrIndex', attrIndex)
+						// // // console.log('this.props.attributes.length', this.props.attributes.length)
+						// console.log()
+						// if (this.props.selectedAttributes[attrIndex] === undefined) {
+						// 	console.log(attr.items.map(i => i.displayValue), attrIndex, this.props.selectedAttributes)
+						// }
+
+						return <div className={'attributeContainer ' + attr.type}>
 							<div className='attributeName'>{attr.name}</div>
 							<AttributeItem
 								type={attr.type}
@@ -97,13 +108,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 								onSelected={() => null}
 							/>
 						</div>
-						// <Attribute
-						// 	name={attr.name}
-						// 	type={attr.type}
-						// 	items={attr.items}
-						// 	selectedIndex={this.props.selectedAttributes[attrIndex]}
-						// 	onChange={() => null}
-						// />
+					}
 					)}
 				</div>
 			</div>
@@ -123,19 +128,20 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 	)
 }
 
-const products = (ids: string[]) => {
+const productsQuery = (ids: string[]) => {
 	const query = `query GetProducts {
 		${ids.map((i, index) => product('product'+index, i)).join('')}
 	}`
 	return gql(query)
 };
 
-type State__ = { cart: CartProduct[] }
+type State__ = { cart: CartProduct[], query: DocumentNode }
 
 class CartDropdown extends React.Component<Props, State__> {
 	constructor(props: Props) {
 		super(props)
-		this.state = { cart: getCart() }
+		const cart = getCart()
+		this.state = { cart, query: productsQuery(cart.map(p => p.productRecord.id)) }
 	}
 
 	render() {
@@ -152,11 +158,14 @@ class CartDropdown extends React.Component<Props, State__> {
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 				{this.state.cart.length != 0 && <Query
-					query={products(this.state.cart.map(p => p.productRecord.id))}
+					// query={products(this.state.cart.map(p => p.productRecord.id))}
+					query={this.state.query}
+					fetchPolicy={'no-cache'}
+					nextFetchPolicy={'no-cache'}
 				>
 				{(result: QueryResult<any>) => {//TODO: typing?
-					const { loading, error, data } = result
-					if (loading) return <Loading/>
+					const { loading, error, data, refetch, networkStatus } = result
+					if (loading || networkStatus === NetworkStatus.refetch || data[`product${this.state.cart.length}`]) return <Loading/>
 					// if bad productId it doesnt return Error but product is undef
 					if (error || !data?.product0) return <Error/>
 	
@@ -164,10 +173,32 @@ class CartDropdown extends React.Component<Props, State__> {
 					for (let i = 0; i < this.state.cart.length; i++) {
 						products[i] = data[`product${i}`]
 					}
+					console.log('products', products.map((p, idx) => ({
+						name: p.name,
+						attrs: p.attributes.map(a => a.items.map(i => i.displayValue)),
+						selectedAttrs: this.state.cart[idx].productRecord.selectedAttributes
+					})))
+
+					console.log(this.state.query.loc?.source.body)
+					console.log('phantom', data[`product${this.state.cart.length}`])
 					return (
 						<>
 							<div className='items'>
-								{products.map((product, index) => (<MiniCartProduct
+								{products.map((product, index) => {
+									console.log('id', this.state.cart[index].productRecord.id +
+										JSON.stringify(this.state.cart[index].productRecord.selectedAttributes))
+
+									const attributesLengths = product.attributes.map(i => i.items.length)
+									if (attributesLengths.length != this.state.cart[index].productRecord.selectedAttributes.length) {
+										console.log(this.state.cart[index].productRecord.selectedAttributes)
+										console.log(attributesLengths)
+										console.log(product)
+									}
+									console.log()
+
+									return (<MiniCartProduct
+									key={this.state.cart[index].productRecord.id +
+										JSON.stringify(this.state.cart[index].productRecord.selectedAttributes)}
 									link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
 									brand={product.brand}
 									name={product.name}
@@ -183,16 +214,17 @@ class CartDropdown extends React.Component<Props, State__> {
 									onChange={count => {
 										this.state.cart[index].count = count
 										setCart(this.state.cart)
-										this.setState({ cart: this.state.cart })
+										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
 									}}
 									onRemove={() => {
 										this.state.cart.splice(index, 1)
-										this.setState({ cart: this.state.cart })
+										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
 										setCart(this.state.cart)
+										refetch()
 									}}
 									onRedirect={this.props.onRedirect}
 								/>
-								))}
+								)})}
 							</div>
 							<div className='total'>
 								<div>Total</div>
@@ -240,9 +272,6 @@ class Cart extends React.Component<Props_, State> {
 	} 
 
 	render() {
-		console.log();
-		console.log(this.state);
-
 		return (
 			<div className='cart'>
 				<CartIcon
