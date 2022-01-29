@@ -23,13 +23,13 @@ class Gallery extends React.Component<Props_, State_> {
 				</div>
 			<div className='mainImageContainer'>
 				<img src={this.props.gallery[this.state.index] } className='productImage' />
-				<button
+				{this.state.index > 0 && <button
 					className='prev'
 					onClick={() => this.setState({index: this.state.index > 0 ? this.state.index - 1 : 0})}
 				>
 					{`<`}
-				</button> 
-				<button
+				</button>}
+				{this.state.index < this.props.gallery.length - 1 && <button
 					className='next'
 					onClick={() =>
 						this.setState({index:
@@ -38,7 +38,7 @@ class Gallery extends React.Component<Props_, State_> {
 								this.props.gallery.length - 1})}
 				>
 					{`>`}
-				</button> 
+				</button>}
 			</div>
 		</>
 	)
