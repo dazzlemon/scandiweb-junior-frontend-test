@@ -239,7 +239,7 @@ class Cart extends React.Component<{}, State> {
 												product.prices.find(price =>
 													price.currency.symbol == currency
 												)?.amount ?? 0
-											).reduce((a, b, index) => a + b * this.state.cart[index].count).toFixed(2)
+											).reduce((a, b, index) => a + b * this.state.cart[index].count, 0).toFixed(2)
 										}</div>
 									</div>
 									<div className='buttons'>

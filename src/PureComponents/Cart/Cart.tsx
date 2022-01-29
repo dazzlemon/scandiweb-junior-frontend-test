@@ -217,10 +217,11 @@ class CartDropdown extends React.Component<Props, State__> {
 										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
 									}}
 									onRemove={() => {
+										console.log(this.state.cart.length)
 										this.state.cart.splice(index, 1)
-										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
 										setCart(this.state.cart)
 										refetch()
+										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
 									}}
 									onRedirect={this.props.onRedirect}
 								/>
