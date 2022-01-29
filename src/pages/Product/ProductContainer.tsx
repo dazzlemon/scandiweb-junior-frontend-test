@@ -52,7 +52,7 @@ const ProductContainer: React.FC<Props> = (props) => {
 							data.product.attributes[attrIndex].id,
 							data.product.attributes[attrIndex].items[itemIndex].id
 						)
-						setSearchParams(searchParams)
+						setSearchParams(searchParams, {replace: true})
 					}}
 				/>
 			}}
