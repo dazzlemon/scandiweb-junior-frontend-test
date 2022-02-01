@@ -2,7 +2,7 @@ import React, { ComponentType } from 'react';
 
 type Props = { onClickOutside: (e: MouseEvent) => void }
 
-function clickOutside<T>(Component: ComponentType<T>) {
+function withClickOutside<T>(Component: ComponentType<T>) {
 	return class ClickOutside extends React.Component<Props & T> {
 		private ref = React.createRef<HTMLDivElement>();
 		constructor(props: Props & T) {
@@ -34,4 +34,4 @@ function clickOutside<T>(Component: ComponentType<T>) {
 	}
 }
 
-export default clickOutside;
+export default withClickOutside;

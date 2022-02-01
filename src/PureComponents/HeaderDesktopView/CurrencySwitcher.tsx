@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import clickOutside from '../../HOCs/clickOutside';
+import withClickOutside from '../../common/withClickOutside';
 import { ReactComponent as ArrowDown } from './ArrowDown.svg';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 
@@ -33,7 +33,7 @@ class Dropdown extends React.Component<Props_> {
 	}
 }
 
-const DropdownClickOutside = clickOutside(Dropdown);
+const DropdownClickOutside = withClickOutside(Dropdown);
 
 const CurrencySwitcher = (props: Props) => {
 	const [showDropdown, setShowDropdown_] = useState(false);

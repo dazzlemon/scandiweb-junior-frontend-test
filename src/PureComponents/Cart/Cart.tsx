@@ -3,7 +3,7 @@ import { Link }             from 'react-router-dom';
 import { Query }            from '@apollo/client/react/components';
 import { QueryResult, gql, NetworkStatus, DocumentNode } from '@apollo/client';
 
-import clickOutside                      from '../../HOCs/clickOutside';
+import withClickOutside                      from '../../common/withClickOutside';
 import { Product }                       from '../../pages/Product/ProductContainerTypes'
 import { AttributeSet }                  from '../../common/types'
 import { Loading, Error }                from '..'
@@ -279,7 +279,7 @@ class CartDropdown extends React.Component<Props, State__> {
 	}
 }
 
-const Overlay = clickOutside(CartDropdown);
+const Overlay = withClickOutside(CartDropdown);
 
 type Props_ = { currency: string }// TODO: probably need to have some shared storage to not redraw?
 type State = { isVisible: boolean }
