@@ -3,7 +3,6 @@ import React from 'react'
 import { ReactComponent as CartIcon } from './Cart.svg'
 import Overlay from './CartOverlay'
 
-
 type Props = { currency: string }// TODO: probably need to have some shared storage to not redraw?
 type State = { isVisible: boolean }
 
@@ -13,7 +12,7 @@ class Cart extends React.Component<Props, State> {
 		super(props)
 		this.state = { isVisible: false }
 		this.onClickOutsideOverlay = this.onClickOutsideOverlay.bind(this)
-		this.onCartIconClick = this.onCartIconClick.bind(this)
+		this.toggle = this.toggle.bind(this)
 	}
 
 	onClickOutsideOverlay(e: MouseEvent) {
@@ -24,14 +23,14 @@ class Cart extends React.Component<Props, State> {
 		}
 	}
 
-	onCartIconClick = () => this.setState({ isVisible: !this.state.isVisible })
+	toggle = () => this.setState({ isVisible: !this.state.isVisible })
 
 	render = () =>  (
 		<div className='cart'>
 			<CartIcon
 				ref={this.ref}
 				className='cartIcon'
-				onClick={this.onCartIconClick}
+				onClick={this.toggle}
 			/>
 			{this.state.isVisible && <Overlay
 				currency={this.props.currency}

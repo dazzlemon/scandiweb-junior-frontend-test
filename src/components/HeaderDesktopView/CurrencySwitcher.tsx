@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import withClickOutside from '../../common/withClickOutside';
 import { ReactComponent as ArrowDown } from './ArrowDown.svg';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
+import Dropdown from './CurrencySwitcherDrodown'
 
 type Currency = { label: string, symbol: string }
 
@@ -11,71 +12,62 @@ type Props = {
 	onChange?: (currencyIndex: number) => void
 }
 
-type Props_ = {
-	currencies: Currency[],
-	changeCurrency: (currencyIndex: number) => void
-}
-
-class Dropdown extends React.Component<Props_> {
-	render() {
-		return (
-			<div className='dropdown'>
-				{this.props.currencies.map(({ label, symbol }, index) => {
-					return (
-						<div className='row' onClick={() => this.props.changeCurrency(index)}>
-							<div>{symbol}</div>
-							<div>{label}</div>
-						</div>
-					);
-				})}
-			</div>
-		);
-	}
+type State = {
+	currencyIndex: number
+	showDropdown: boolean
 }
 
 const DropdownClickOutside = withClickOutside(Dropdown);
 
-const CurrencySwitcher = (props: Props) => {
-	const [showDropdown, setShowDropdown_] = useState(false);
-	const [currencyIndex, setCurrencyIndex] = useState(props.currencyIndex ?? 0);
-
-	const setShowDropdown = (b: boolean) => {
-		setShowDropdown_(b)
-		console.log('showDropDown =', b)
+class CurrencySwitcher extends React.Component<Props, State> {
+	private ref = React.createRef<HTMLButtonElement>()
+	
+	constructor(props: Props) {
+		super(props)
+		this.state = {
+			showDropdown: false,
+			currencyIndex: props.currencyIndex ?? 0
+		}
+		this.onClickOutsideDropdown = this.onClickOutsideDropdown.bind(this)
+		this.toggle = this.toggle.bind(this)
 	}
 
-	const ref = useRef<HTMLButtonElement>(null)
-
-	const changeCurrency = (index: number) => {
-		props.onChange?.(index);
-		setCurrencyIndex(index);
-		setShowDropdown(false);
+	changeCurrency(index: number) {
+		this.props.onChange?.(index)
+		this.setState({
+			currencyIndex: index,
+			showDropdown: false
+		})
 	}
 
-	return (
-		<div
-			className='currencySwitcher'
-			onClick={() => setShowDropdown(!showDropdown)}
-		>
-			<button  ref={ref}>
-				<div className='currency'>{props.currencies[currencyIndex]?.symbol ?? '$'}</div>
-				{showDropdown ? <ArrowUp className='arrow'/> : <ArrowDown className='arrow'/>}
+	toggle = () => this.setState({ showDropdown: !this.state.showDropdown })
+
+	onClickOutsideDropdown(e: MouseEvent) {
+		this.setState({ showDropdown: false })
+		// open cart and close overlay in one click
+		if (this.ref.current?.contains(e.target as Node)) {
+			e.stopImmediatePropagation();
+		}
+	}
+
+	render = () => (
+		<div className='currencySwitcher'>
+			<button
+				ref={this.ref}
+				onClick={this.toggle}
+			>
+				<div className='currency'>{this.props.currencies[this.state.currencyIndex]?.symbol ?? '$'}</div>
+				{this.state.showDropdown ? <ArrowUp className='arrow'/> : <ArrowDown className='arrow'/>}
 			</button>
-			{showDropdown &&
+			{this.state.showDropdown &&
 				<DropdownClickOutside
-					currencies={props.currencies}
-					changeCurrency={changeCurrency}
-					onClickOutside={e => {
-						setShowDropdown(false)
-						// open cart and close overlay in one click
-						if (ref.current?.contains(e.target as Node)) {
-							e.stopImmediatePropagation();
-						}
-					}}
+					currencies={this.props.currencies}
+					changeCurrency={this.changeCurrency}
+					onClickOutside={this.onClickOutsideDropdown}
 				/>
 			}
 		</div>
-	);
+	)
 }
 
 export default CurrencySwitcher;
