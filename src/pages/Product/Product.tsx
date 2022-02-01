@@ -1,6 +1,6 @@
 import React from 'react'
 import { Product as ProductType } from './ProductContainerTypes'
-import { Attribute }              from '../../PureComponents'
+import { Attribute }              from '../../components'
 
 
 type Props_ = { gallery: string[] }

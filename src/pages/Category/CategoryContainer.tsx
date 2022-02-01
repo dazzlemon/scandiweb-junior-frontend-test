@@ -4,7 +4,7 @@ import { QueryResult }      from '@apollo/client'
 
 import { AttributeSet }     from '../../common/types'
 import { Result, CATEGORY } from './CategoryContainerQuery' 
-import { Error, Loading }   from '../../PureComponents'
+import { Error, Loading }   from '../../components'
 import Category             from './Category'
 
 import './CategoryContainer.sass'

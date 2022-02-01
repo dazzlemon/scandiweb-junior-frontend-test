@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import { Error, Loading, HeaderDesktopView as Header } from '../PureComponents'
+import { Error, Loading, HeaderDesktopView as Header } from '.'
 import { useCategoriesCurrencies } from '../common'
 import { CompleteQuery } from '../common'
 

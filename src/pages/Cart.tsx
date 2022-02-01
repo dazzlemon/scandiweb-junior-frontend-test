@@ -3,7 +3,7 @@ import { Query } from '@apollo/client/react/components';
 import React from 'react';
 import { AttributeSet } from '../common/types';
 import PageContainer from '../components/PageContainer'
-import { Loading, Error, Attribute } from '../PureComponents';
+import { Loading, Error, Attribute } from '../components';
 import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
