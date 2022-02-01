@@ -5,7 +5,7 @@ type Props = {
 	type: AttributeType
 	selected?: boolean
 	value: string
-	onSelected: React.MouseEventHandler<HTMLDivElement>
+	onSelected?: React.MouseEventHandler<HTMLDivElement>
 }
 
 class AttributeItem extends React.Component<Props> {

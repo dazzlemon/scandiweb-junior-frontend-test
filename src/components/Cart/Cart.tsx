@@ -3,16 +3,12 @@ import { Link }             from 'react-router-dom';
 import { Query }            from '@apollo/client/react/components';
 import { QueryResult, gql, NetworkStatus, DocumentNode } from '@apollo/client';
 
-import withClickOutside                      from '../../common/withClickOutside';
+import withClickOutside                  from '../../common/withClickOutside';
 import { Product }                       from '../../pages/Product/ProductContainerTypes'
-import { AttributeSet }                  from '../../common/types'
 import { Loading, Error }                from '..'
-import { Attribute }                     from '../Attribute';
 import { CartProduct, getCart, setCart } from '../../util';
-
-import { ReactComponent as EmptyCart }   from './EmptyCart.svg'
 import { ReactComponent as CartIcon }    from './Cart.svg';
-import AttributeItem from '../Attribute/AttributeItem';
+import MiniCartProduct                   from './MiniCartProduct'
 
 type Props = { currency: string, onRedirect: () => void }
 
@@ -43,90 +39,6 @@ const product = (name: string, id: string) => `
 		brand
 	}
 `
-
-type Props__ = {
-	link: string
-	brand: string
-	name: string
-	price: string
-	attributes: AttributeSet[]
-	selectedAttributes: number[]
-	img: string
-	count: number
-	onChange: (count: number) => void
-	onRemove: () => void
-	onRedirect: () => void
-}
-
-type State_ = { count: number }
-
-class MiniCartProduct extends React.Component<Props__, State_> {
-	constructor(props: Props__)	{
-		super(props)
-		this.state = { count: props.count }
-
-		this.incrementCount = this.incrementCount.bind(this)
-		this.decrementCount = this.decrementCount.bind(this)
-	}
-
-	incrementCount() {
-		this.props.onChange(this.state.count + 1)
-		this.setState({ count: this.state.count + 1 })
-	}
-
-	decrementCount() {
-		this.props.onChange(this.state.count - 1)
-		this.setState({ count: this.state.count - 1 })
-	}
-	
-	render = () => (
-		<div className='item'>
-			<div className='left'>
-				<Link to={this.props.link} className='productName' onClick={this.props.onRedirect}>
-					<p>{this.props.brand}</p>
-					<p>{this.props.name}</p>
-				</Link>
-				<div className='price'>{this.props.price}</div>
-				<div className='attributes'>
-					{this.props.attributes.map((attr, attrIndex) => {
-						// console.log('attr.items.length', attr.items.length)
-						// console.log(this.props.name)
-						// console.log('this.props.selectedAttributes[attrIndex]', this.props.selectedAttributes[attrIndex])
-						// console.log('this.props.selectedAttributes.length', this.props.selectedAttributes.length)
-						// console.log('attrIndex', attrIndex)
-						// // // console.log('this.props.attributes.length', this.props.attributes.length)
-						// console.log()
-						// if (this.props.selectedAttributes[attrIndex] === undefined) {
-						// 	console.log(attr.items.map(i => i.displayValue), attrIndex, this.props.selectedAttributes)
-						// }
-
-						return <div className={'attributeContainer ' + attr.type}>
-							<div className='attributeName'>{attr.name}</div>
-							<AttributeItem
-								type={attr.type}
-								value={attr.items[this.props.selectedAttributes[attrIndex]].displayValue}
-								onSelected={() => null}
-							/>
-						</div>
-					}
-					)}
-				</div>
-			</div>
-			<div className='counter'>
-				<button onClick={this.incrementCount}>+</button>
-				<p>{this.state.count}</p>
-				<button
-					onClick={this.decrementCount}
-					disabled={this.state.count == 1}
-				>
-					-
-				</button>
-			</div>
-			<img src={this.props.img} />
-			<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
-		</div>
-	)
-}
 
 const productsQuery = (ids: string[]) => {
 	const query = `query GetProducts {
@@ -167,7 +79,6 @@ class CartDropdown extends React.Component<Props, State__> {
 								<path d="M90.7323482,45.2244676 C89.9518482,44.5399881 88.7673482,44.6219647 88.0868482,45.4072805 C87.1025982,46.5433858 85.6813482,47.1946723 84.1875982,47.1946723 C82.6938482,47.1946723 81.2728482,46.5431343 80.2885982,45.4072805 C79.6078482,44.6222162 78.4235982,44.540491 77.6430982,45.2244676 C76.8625982,45.9089472 76.7810982,47.1001226 77.4613482,47.8854384 C79.1580982,49.8435729 81.6095982,50.9666021 84.1873482,50.9666021 C86.7655982,50.9666021 89.2168482,49.8435729 90.9135982,47.8854384 C91.5945982,47.1001226 91.5130982,45.9086957 90.7323482,45.2244676 Z" id="Shape" fill="#C1C8D0" fill-rule="nonzero" transform="translate(84.187776, 47.863418) scale(-1, 1) rotate(-180.000000) translate(-84.187776, -47.863418) "/>
 						</g>
 					</svg>
-					{/* <EmptyCart className='emptyCart' /> */}
 					<p>Your cart is empty</p>
 				</div>
 			)
@@ -192,29 +103,10 @@ class CartDropdown extends React.Component<Props, State__> {
 					for (let i = 0; i < this.state.cart.length; i++) {
 						products[i] = data[`product${i}`]
 					}
-					// console.log('products', products.map((p, idx) => ({
-					// 	name: p.name,
-					// 	attrs: p.attributes.map(a => a.items.map(i => i.displayValue)),
-					// 	selectedAttrs: this.state.cart[idx].productRecord.selectedAttributes
-					// })))
-
-					// console.log(this.state.query.loc?.source.body)
-					// console.log('phantom', data[`product${this.state.cart.length}`])
 					return (
 						<>
 							<div className='items'>
 								{products.map((product, index) => {
-									// console.log('id', this.state.cart[index].productRecord.id +
-									// 	JSON.stringify(this.state.cart[index].productRecord.selectedAttributes))
-
-									const attributesLengths = product.attributes.map(i => i.items.length)
-									// if (attributesLengths.length != this.state.cart[index].productRecord.selectedAttributes.length) {
-									// 	console.log(this.state.cart[index].productRecord.selectedAttributes)
-									// 	console.log(attributesLengths)
-									// 	console.log(product)
-									// }
-									// console.log()
-
 									return (<MiniCartProduct
 									key={this.state.cart[index].productRecord.id +
 										JSON.stringify(this.state.cart[index].productRecord.selectedAttributes)}
@@ -272,7 +164,6 @@ class CartDropdown extends React.Component<Props, State__> {
 					</button>
 					<Link to='/cart' className='viewBag'>View bag</Link>
 					<button className='checkout'>Check out</button>
-					
 				</div>
 			</div>
 		);
