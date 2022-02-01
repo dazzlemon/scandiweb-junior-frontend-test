@@ -216,7 +216,7 @@ class Cart extends React.Component<{}, State> {
 
 		return (
 		<PageContainer>
-			{({currencies, currencyIndex}) =>
+			{({ currency }) =>
 				<div className='cartPage'>
 					<div className='myBag'>
 						<div>Cart</div>
@@ -226,7 +226,6 @@ class Cart extends React.Component<{}, State> {
 						query={products(this.state.cart.map(p => p.productRecord.id))}
 					>
 					{(result: QueryResult<any>) => {//TODO: typing?
-						const currency = currencies[currencyIndex].symbol ?? '$'
 						const { loading, error, data } = result
 						if (loading) return <Loading/>
 						// if bad productId it doesnt return Error but product is undef
@@ -243,9 +242,9 @@ class Cart extends React.Component<{}, State> {
 										brand={product.brand}
 										name={product.name}
 										link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
-										price={currency +
+										price={currency.symbol +
 											product.prices.find(price =>
-												price.currency.symbol == currency
+												price.currency.symbol == currency.symbol
 											)?.amount
 										}
 										attributes={product.attributes}
@@ -272,7 +271,7 @@ class Cart extends React.Component<{}, State> {
 										<div className='price'>{currency}{
 											products.map(product =>
 												product.prices.find(price =>
-													price.currency.symbol == currency
+													price.currency.symbol == currency.symbol
 												)?.amount ?? 0
 											).reduce((a, b, index) => a + b * this.state.cart[index].count, 0).toFixed(2)
 										}</div>

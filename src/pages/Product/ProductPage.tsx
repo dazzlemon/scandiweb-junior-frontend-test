@@ -3,9 +3,9 @@ import PageContainer    from '../../components/PageContainer'
 
 const ProductPage = () => (
 	<PageContainer>
-		{({currencyIndex, currencies}) =>
+		{({ currency }) =>
 			<ProductContainer
-				currency={currencies[currencyIndex].label}
+				currency={currency.label}
 			/>
 		}
 	</PageContainer>	

@@ -4,10 +4,10 @@ import PageContainer     from '../../components/PageContainer'
 
 const Category = () => (
 	<PageContainer>
-		{({categories, categoryIndex, currencyIndex, currencies}) =>
+		{({ categories, categoryIndex, currency }) =>
 			<CategoryContainer
 				category={categories[categoryIndex]}
-				currencyLabel={currencies[currencyIndex]?.label ?? 'USD'}
+				currencyLabel={currency.label}
 				onAddToCart={
 					(id, selectedAttributes) =>
 						addToCart(id,

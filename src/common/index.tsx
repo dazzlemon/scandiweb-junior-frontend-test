@@ -13,16 +13,19 @@ const QUERY = gql`
 	}
 `
 
+type Currency = {
+	label: string;
+	symbol: string;
+}
+
 export type CompleteQuery = {
 	state: 'complete',
 	categories: string[],
 	categoryIndex: number,
-	currencies: {
-    label: string;
-    symbol: string;
-	}[],
+	currencies: Currency[],
 	changeCurrency: (index: number) => void,
 	currencyIndex: number
+	currency: Currency// just a shortcut for currencies[currencyIndex]
 }
 
 type QueryResult = CompleteQuery | { state: 'error' | 'loading' }
@@ -57,6 +60,7 @@ export const useCategoriesCurrencies = (category: string): QueryResult => {
 		categoryIndex,
 		currencies,
 		changeCurrency,
-		currencyIndex
+		currencyIndex,
+		currency: currencies[currencyIndex]
 	}
 }
