@@ -8,37 +8,7 @@ import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
 import { Link } from 'react-router-dom';
-
-type Props___ = { gallery: string[] }
-type State__ = { index: number }
-class Gallery extends React.Component<Props___, State__> {
-	constructor(props: Props___) {
-		super(props)
-		this.state = { index: 0 }
-	}
-
-	render = () => (
-		<div className='mainImageContainer'>
-			<img src={this.props.gallery[this.state.index] } className='productImage' />
-			{this.state.index > 0 && <button
-				className='prev'
-				onClick={() => this.setState({index: this.state.index > 0 ? this.state.index - 1 : 0})}
-			>
-				{`<`}
-			</button>}
-			{this.state.index < this.props.gallery.length - 1 && <button
-				className='next'
-				onClick={() =>
-					this.setState({index:
-						this.state.index + 1 < this.props.gallery.length ?
-							this.state.index + 1 :
-							this.props.gallery.length - 1})}
-			>
-				{`>`}
-			</button>}
-		</div>
-	)
-}
+import { Gallery } from '../components'
 
 type State_ = { count: number }
 type Props__ = {
@@ -47,7 +17,6 @@ type Props__ = {
 	price: string
 	attributes: AttributeSet[]
 	selectedAttributes: number[]
-	// img: string
 	gallery: string[]
 	count: number
 	onChange: (count: number) => void
@@ -59,9 +28,6 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 	constructor(props: Props__)	{
 		super(props)
 		this.state = { count: props.count }
-
-		this.incrementCount = this.incrementCount.bind(this)
-		this.decrementCount = this.decrementCount.bind(this)
 	}
 
 	// also can add key, but both fixes seem very hacky to me
@@ -71,19 +37,17 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 		}
 	}
 	
-	incrementCount() {
+	incrementCount = () => {
 		this.props.onChange(this.state.count + 1)
 		this.setState({ count: this.state.count + 1 })
 	}
 
-	decrementCount() {
+	decrementCount = () => {
 		this.props.onChange(this.state.count - 1)
 		this.setState({ count: this.state.count - 1 })
 	}
 
-	render = () => {
-		// console.log('render inner', this.props.count, this.state.count)
-		return (
+	render = () => (
 		<div className='item'>
 			<div className='left'>
 				<Link to={this.props.link} className='productName'>
@@ -115,11 +79,11 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 					</button>
 				</div>
 				{/* <img src={this.props.img} /> */}
-				<Gallery gallery={this.props.gallery} />
+				<Gallery gallery={this.props.gallery}/>
 				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
 		</div>
-	)}
+	)
 }
 
 const product = (name: string, id: string) => `
@@ -268,7 +232,7 @@ class Cart extends React.Component<{}, State> {
 								<div className='bottom'>
 									<div className='total'>
 										<div>Total</div>
-										<div className='price'>{currency}{
+										<div className='price'>{
 											products.map(product =>
 												product.prices.find(price =>
 													price.currency.symbol == currency.symbol

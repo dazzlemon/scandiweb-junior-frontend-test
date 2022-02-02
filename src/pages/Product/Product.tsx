@@ -1,48 +1,6 @@
 import React from 'react'
 import { Product as ProductType } from './ProductContainerTypes'
-import { Attribute }              from '../../components'
-
-
-type Props_ = { gallery: string[] }
-type State_ = { index: number }
-class Gallery extends React.Component<Props_, State_> {
-	constructor(props: Props_) {
-		super(props)
-		this.state = { index: 0 }
-	}
-
-	render = () => (
-		<>
-			<div className='productImagePreviews'>
-					{this.props.gallery.map((i, index) =>
-						<img
-							src={i}
-							onClick={() => this.setState({ index })}
-						/>
-					)}
-				</div>
-			<div className='mainImageContainer'>
-				<img src={this.props.gallery[this.state.index] } className='productImage' />
-				{this.state.index > 0 && <button
-					className='prev'
-					onClick={() => this.setState({index: this.state.index > 0 ? this.state.index - 1 : 0})}
-				>
-					{`<`}
-				</button>}
-				{this.state.index < this.props.gallery.length - 1 && <button
-					className='next'
-					onClick={() =>
-						this.setState({index:
-							this.state.index + 1 < this.props.gallery.length ?
-								this.state.index + 1 :
-								this.props.gallery.length - 1})}
-				>
-					{`>`}
-				</button>}
-			</div>
-		</>
-	)
-}
+import { Attribute, Gallery }              from '../../components'
 
 type State = { selected: number[] }
 type Props = {
@@ -68,7 +26,7 @@ class Product extends React.Component<Props, State> {
 
 	render = () => (
 		<div className='productView'>
-			<Gallery gallery={this.props.product.gallery} />
+			<Gallery gallery={this.props.product.gallery} showPreviews/>
 			<div className='right'>
 				<div className='productName'>{this.props.product.name}</div>
 				{this.props.product.attributes.map((attr, attrIndex) => 
