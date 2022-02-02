@@ -1,15 +1,13 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { gql, QueryResult } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
-import React from 'react';
+
 import { AttributeSet } from '../common/types';
-import PageContainer from '../components/PageContainer'
-import { Loading, Error, Attribute } from '../components';
 import { CartProduct, getCart, setCart } from '../util'
 import { Product } from './Product/ProductContainerTypes';
+import { Gallery, Counter, PageContainer, Loading, Error, Attribute } from '../components'
 import './Cart.sass'
-import { Link } from 'react-router-dom';
-import { Gallery } from '../components'
-import Counter from '../components/Counter';
 
 type State_ = { count: number }
 type Props__ = {
@@ -41,7 +39,6 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 							type={attr.type}
 							items={attr.items}
 							selectedIndex={this.props.selectedAttributes[attrIndex]}
-							onChange={() => null}
 						/>
 					)}
 				</div>

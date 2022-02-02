@@ -7,7 +7,7 @@ type Props = {
 	type: AttributeType
 	items: Attribute[]
 	selectedIndex: number
-	onChange: (index: number) => void
+	onChange?: (index: number) => void
 }
 
 class AttributeView extends React.PureComponent<Props> {
@@ -20,7 +20,7 @@ class AttributeView extends React.PureComponent<Props> {
 						type={this.props.type}
 						selected={this.props.selectedIndex === index}
 						value={i.displayValue}
-						onSelected={() => this.props.onChange(index)}
+						onSelected={() => this.props.onChange?.(index)}
 					/>
 				)}
 			</div>
