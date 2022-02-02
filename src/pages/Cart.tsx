@@ -9,6 +9,7 @@ import { Product } from './Product/ProductContainerTypes';
 import './Cart.sass'
 import { Link } from 'react-router-dom';
 import { Gallery } from '../components'
+import Counter from '../components/Counter';
 
 type State_ = { count: number }
 type Props__ = {
@@ -18,35 +19,13 @@ type Props__ = {
 	attributes: AttributeSet[]
 	selectedAttributes: number[]
 	gallery: string[]
-	count: number
 	onChange: (count: number) => void
 	onRemove: () => void
 	link: string
+	count: number
 }
 
 class MiniCartProduct extends React.Component<Props__, State_> {
-	constructor(props: Props__)	{
-		super(props)
-		this.state = { count: props.count }
-	}
-
-	// also can add key, but both fixes seem very hacky to me
-	componentDidUpdate(prevProps: Props__) {
-		if(prevProps.count !== this.props.count) {
-			this.setState({count: this.props.count});
-		}
-	}
-	
-	incrementCount = () => {
-		this.props.onChange(this.state.count + 1)
-		this.setState({ count: this.state.count + 1 })
-	}
-
-	decrementCount = () => {
-		this.props.onChange(this.state.count - 1)
-		this.setState({ count: this.state.count - 1 })
-	}
-
 	render = () => (
 		<div className='item'>
 			<div className='left'>
@@ -68,17 +47,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				</div>
 			</div>
 			<div className='right'>
-				<div className='counter'>
-					<button onClick={this.incrementCount}>+</button>
-					<p>{this.state.count}</p>
-					<button
-						onClick={this.decrementCount}
-						disabled={this.state.count == 1}
-					>
-						-
-					</button>
-				</div>
-				{/* <img src={this.props.img} /> */}
+				<Counter onChange={this.props.onChange} initialCount={this.props.count} />
 				<Gallery gallery={this.props.gallery}/>
 				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
