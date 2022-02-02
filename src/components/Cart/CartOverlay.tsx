@@ -5,12 +5,12 @@ import CartDropdown                   from './CartDropdown'
 
 const Dropdown = withClickOutside(CartDropdown)
 
-type Props_ = {
+type Props = {
 	currency: string
 	onClickOutside: (e: MouseEvent) => void
 }
 
-class Overlay extends React.Component<Props_> {
+class Overlay extends React.Component<Props> {
 	render = () => (
 		<>
 			<div className='bgEffect'/>
