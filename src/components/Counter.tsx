@@ -1,27 +1,24 @@
 import React from 'react';
 
-type Props_ = {
+type Props = {
 	initialCount?: number
 	onChange: (count: number) => void
 }
 
 type State = { count: number }
 
-class Counter extends React.Component<Props_, State> {
-	constructor(props: Props_)	{
+class Counter extends React.Component<Props, State> {
+	constructor(props: Props)	{
 		super(props)
 		this.state = { count: props.initialCount ?? 0 }
-
-		this.incrementCount = this.incrementCount.bind(this)
-		this.decrementCount = this.decrementCount.bind(this)
 	}
 
-	incrementCount() {
+	incrementCount = () => {
 		this.props.onChange(this.state.count + 1)
 		this.setState({ count: this.state.count + 1 })
 	}
 
-	decrementCount() {
+	decrementCount = () => {
 		this.props.onChange(this.state.count - 1)
 		this.setState({ count: this.state.count - 1 })
 	}
