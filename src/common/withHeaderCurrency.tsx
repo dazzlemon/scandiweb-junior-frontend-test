@@ -1,10 +1,6 @@
 import React, { ComponentType } from 'react';
-import PageContainer    from '../components/PageContainer'
-
-type Currency = {
-	label: string;
-	symbol: string;
-}
+import PageContainer from '../components/PageContainer'
+import { Currency } from './types'
 
 type Props = { currency:  Currency }
 
