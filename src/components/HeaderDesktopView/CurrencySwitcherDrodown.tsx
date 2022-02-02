@@ -1,13 +1,12 @@
 import React from 'react'
+import { Currency } from '../../common/types'
 
-type Currency = { label: string, symbol: string }
-
-type Props_ = {
+type Props = {
 	currencies: Currency[],
 	changeCurrency: (currencyIndex: number) => void
 }
 
-class Dropdown extends React.Component<Props_> {
+class Dropdown extends React.Component<Props> {
 	render = () => (
 		<div className='dropdown'>
 			{this.props.currencies.map(({ label, symbol }, index) => (

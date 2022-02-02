@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { Currency } from './types'
 
 const QUERY = gql`
 	query GetCategoryNamesAndCurrencies {
@@ -12,11 +13,6 @@ const QUERY = gql`
 		}
 	}
 `
-
-type Currency = {
-	label: string;
-	symbol: string;
-}
 
 export type CompleteQuery = {
 	state: 'complete',

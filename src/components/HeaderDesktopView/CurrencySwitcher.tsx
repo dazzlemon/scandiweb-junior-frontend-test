@@ -30,6 +30,7 @@ class CurrencySwitcher extends React.Component<Props, State> {
 		}
 		this.onClickOutsideDropdown = this.onClickOutsideDropdown.bind(this)
 		this.toggle = this.toggle.bind(this)
+		this.changeCurrency = this.changeCurrency.bind(this)
 	}
 
 	changeCurrency(index: number) {
