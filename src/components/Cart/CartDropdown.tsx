@@ -1,13 +1,11 @@
 import React                from 'react';
 import { Link }             from 'react-router-dom';
 import { Query }            from '@apollo/client/react/components';
-import { QueryResult, gql, NetworkStatus, DocumentNode } from '@apollo/client';
+import { QueryResult, gql, DocumentNode } from '@apollo/client';
 
-import withClickOutside                  from '../../common/withClickOutside';
 import { Product }                       from '../../pages/Product/ProductContainerTypes'
 import { Loading, Error }                from '..'
 import { CartProduct, getCart, setCart } from '../../util';
-import { ReactComponent as CartIcon }    from './Cart.svg';
 import { ReactComponent as EmptyCart }   from '../../EmptyCart.svg';
 import MiniCartProduct                   from './MiniCartProduct'
 
@@ -47,9 +45,9 @@ const productsQuery = (ids: string[]) => {
 };
 
 type Props = { currency: string, onRedirect: () => void }
-type State__ = { cart: CartProduct[], query?: DocumentNode }
+type State = { cart: CartProduct[], query?: DocumentNode }
 
-class CartDropdown extends React.Component<Props, State__> {
+class CartDropdown extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props)
 		const cart = getCart()
@@ -58,6 +56,29 @@ class CartDropdown extends React.Component<Props, State__> {
 				cart.map(p => p.productRecord.id)
 			) : undefined
 		}
+	}
+
+	price = (product: Product) => this.props.currency +
+		product.prices.find(price =>
+			price.currency.symbol == this.props.currency
+		)?.amount
+
+	onCountChange = (index: number) => (count: number) => {
+		this.state.cart[index].count = count
+		setCart(this.state.cart)
+		this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
+	}
+
+	onRemove = (index: number) => () => {
+		console.log(this.state.cart.length)
+		this.state.cart.splice(index, 1)
+		setCart(this.state.cart)
+		this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
+	}
+
+	clearCart = () => {
+		this.setState({cart: []})
+		setCart([])
 	}
 
 	render() {
@@ -73,15 +94,10 @@ class CartDropdown extends React.Component<Props, State__> {
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
-				{this.state.cart.length != 0 && <Query
-					// query={products(this.state.cart.map(p => p.productRecord.id))}
-					query={this.state.query!}
-					fetchPolicy={'no-cache'}
-					nextFetchPolicy={'no-cache'}
-				>
+				{this.state.cart.length != 0 && <Query query={this.state.query!}>
 				{(result: QueryResult<any>) => {//TODO: typing?
-					const { loading, error, data, refetch, networkStatus } = result
-					if (loading || networkStatus === NetworkStatus.refetch || data[`product${this.state.cart.length}`]) return <Loading/>
+					const { loading, error, data } = result
+					if (loading || data[`product${this.state.cart.length}`]) return <Loading/>
 					// if bad productId it doesnt return Error but product is undef
 					if (error || !data?.product0) return <Error/>
 	
@@ -92,37 +108,20 @@ class CartDropdown extends React.Component<Props, State__> {
 					return (
 						<>
 							<div className='items'>
-								{products.map((product, index) => {
-									return (<MiniCartProduct
-									key={this.state.cart[index].productRecord.id +
-										JSON.stringify(this.state.cart[index].productRecord.selectedAttributes)}
+								{products.map((product, index) => (<MiniCartProduct
+									key={JSON.stringify(this.state.cart[index].productRecord)}
 									link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
 									brand={product.brand}
 									name={product.name}
-									price={this.props.currency +
-										product.prices.find(price =>
-											price.currency.symbol == this.props.currency
-										)?.amount
-									}
+									price={this.price(product)}
 									attributes={product.attributes}
 									selectedAttributes={this.state.cart[index].productRecord.selectedAttributes}
 									img={product.gallery[0]}
 									count={this.state.cart[index].count}
-									onChange={count => {
-										this.state.cart[index].count = count
-										setCart(this.state.cart)
-										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
-									}}
-									onRemove={() => {
-										console.log(this.state.cart.length)
-										this.state.cart.splice(index, 1)
-										setCart(this.state.cart)
-										refetch()
-										this.setState({ cart: this.state.cart, query: productsQuery(this.state.cart.map(p => p.productRecord.id)) })
-									}}
+									onChange={this.onCountChange(index)}
+									onRemove={this.onRemove(index)}
 									onRedirect={this.props.onRedirect}
-								/>
-								)})}
+								/>))}
 							</div>
 							<div className='total'>
 								<div>Total</div>
@@ -141,10 +140,7 @@ class CartDropdown extends React.Component<Props, State__> {
 				<div className='buttons'>
 					<button
 						className='clearCart'
-						onClick={() => {
-							this.setState({cart: []})
-							setCart([])
-						}}
+						onClick={this.clearCart}
 					>
 						Clear cart
 					</button>

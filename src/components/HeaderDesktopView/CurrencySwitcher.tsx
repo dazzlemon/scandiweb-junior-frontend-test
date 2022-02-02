@@ -3,8 +3,7 @@ import withClickOutside from '../../common/withClickOutside';
 import { ReactComponent as ArrowDown } from './ArrowDown.svg';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 import Dropdown from './CurrencySwitcherDrodown'
-
-type Currency = { label: string, symbol: string }
+import { Currency } from '../../common/types'
 
 type Props = {
 	currencies: Currency[],

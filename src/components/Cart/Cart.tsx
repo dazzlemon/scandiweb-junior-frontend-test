@@ -1,35 +1,7 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 import { ReactComponent as CartIcon } from './Cart.svg'
 import Overlay from './CartOverlay'
-
-type Props_ = { buttonChildren: ReactNode }
-type State_ = { isVisible: boolean }
-class Dropdown extends React.Component<Props_, State_> {
-	private ref = React.createRef<HTMLButtonElement>()
-
-	constructor(props: Props_) {
-		super(props)
-		this.toggle = this.toggle.bind(this)
-	}
-
-	toggle = () => this.setState({ isVisible: !this.state.isVisible })
-
-	render = () => (
-		<>
-			<button
-				ref={this.ref}
-				onClick={this.toggle}
-				children={this.props.buttonChildren}
-			/>
-			{this.state.isVisible &&// somehow add onOutsideClickContainer 
-				<>
-					{this.props.children}
-				</>
-			}
-		</>
-	)
-}
 
 type Props = { currency: string }// TODO: probably need to have some shared storage to not redraw?
 type State = { isVisible: boolean }
