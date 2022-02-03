@@ -46,7 +46,8 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 							<Link
 								to={`/${name}`}
 								className={this.props.categoryIndex == index ? 'headerElementSelected'
-																															: 'headerElement'}
+								                                             : 'headerElement'}
+								key={name}
 							>
 								{name}
 							</Link>
