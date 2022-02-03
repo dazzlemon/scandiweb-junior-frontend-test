@@ -17,6 +17,7 @@ class AttributeView extends React.PureComponent<Props> {
 			<div className='attributeItems'>
 				{this.props.items.map((i, index) =>
 					<AttributeItem
+						key={i.id}
 						type={this.props.type}
 						selected={this.props.selectedIndex === index}
 						value={i.displayValue}

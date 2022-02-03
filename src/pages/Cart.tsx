@@ -35,6 +35,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
 						<Attribute
+							key={attr.id}
 							name={attr.name}
 							type={attr.type}
 							items={attr.items}
@@ -169,6 +170,7 @@ class Cart extends React.Component<{}, State> {
 							<>
 								<div className='items'>
 									{products.map((product, index) => (<MiniCartProduct
+										key={JSON.stringify(this.state.cart[index].productRecord.id)}
 										brand={product.brand}
 										name={product.name}
 										link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
