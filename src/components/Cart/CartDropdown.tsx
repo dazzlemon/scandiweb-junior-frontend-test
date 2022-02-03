@@ -41,13 +41,13 @@ const PRODUCT = gql`
 `
 
 type Props = { currency: string, onRedirect: () => void }
-type State = { cart: CartProduct[] }
+type State = { cart: CartProduct[], prices: number[] }
 
 class CartDropdown extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props)
 		const cart = getCart()
-		this.state = { cart	}
+		this.state = { cart, prices: []	}
 	}
 
 	price = (product: Product) => this.props.currency +
@@ -101,8 +101,15 @@ class CartDropdown extends React.Component<Props, State> {
 							// it would use old data otherwise idk how to fix it properly
 							if (data.product.id != p.productRecord.id) return <div>test</div>
 
-							const product = data.product
+							const product: Product = data.product
 
+							const price = product.prices.find(price =>
+								price.currency.symbol == this.props.currency
+							)?.amount ?? 0
+							if (price !== this.state.prices[index]) {
+								this.state.prices[index] = price
+								this.setState({ prices: this.state.prices })
+							}
 							return <MiniCartProduct
 								key={key}
 								id={key}
@@ -121,6 +128,13 @@ class CartDropdown extends React.Component<Props, State> {
 						}}
 						</Query>
 					})}
+				</div>
+				<div className='total'>
+					<div>Total</div>
+					<div className='price'>{this.props.currency}{
+						this.state.prices.slice(0, this.state.cart.length)
+							.reduce((a, b, index) => a + b * this.state.cart[index].count, 0).toFixed(2)
+					}</div>
 				</div>
 				<div className='buttons'>
 					<button
