@@ -198,7 +198,7 @@ class Cart extends React.Component<{}, State> {
 								<div className='bottom'>
 									<div className='total'>
 										<div>Total</div>
-										<div className='price'>{
+										<div className='price'>{currency.symbol}{
 											products.map(product =>
 												product.prices.find(price =>
 													price.currency.symbol == currency.symbol
