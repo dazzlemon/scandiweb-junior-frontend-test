@@ -17,10 +17,17 @@ type Props = {
 	onChange: (count: number) => void
 	onRemove: () => void
 	onRedirect: () => void
+	id: string
 }
 
 class MiniCartProduct extends React.Component<Props> {
-	render = () => (
+	render = () => {
+		console.log(
+			this.props.id,
+			this.props.attributes.map(a => a.items.length)
+		)
+		
+		return (
 		<div className='item'>
 			<div className='left'>
 				<Link to={this.props.link} className='productName' onClick={this.props.onRedirect}>
@@ -47,7 +54,7 @@ class MiniCartProduct extends React.Component<Props> {
 			<img src={this.props.img} />
 			<button className='deleteCross' onClick={this.props.onRemove}>x</button>
 		</div>
-	)
+	)}
 }
 
 export default MiniCartProduct
