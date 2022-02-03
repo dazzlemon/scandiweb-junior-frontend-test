@@ -13,6 +13,7 @@ class Gallery extends React.Component<Props, State> {
 			{this.props.showPreviews && <div className='productImagePreviews'>
 				{this.props.gallery.map((i, index) =>
 					<img
+						key={i}
 						src={i}
 						onClick={() => this.setState({ index })}
 					/>
