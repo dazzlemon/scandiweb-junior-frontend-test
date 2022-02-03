@@ -15,15 +15,16 @@ class Category extends React.Component<Props> {
 		<div className='productCardsList'>
 			{
 				this.props.products.map(({ id, name, gallery, prices, attributes, inStock }) => {
-					const priceIndex = prices.findIndex(
-						price => price.currency.label == this.props.currencyLabel);// TODO: may return -1 so needs rework
-					
+					const price = prices.find(
+						price => price.currency.label == this.props.currencyLabel) ?? prices[0];
+
 					return <ProductCard
+						key={id}
 						id={id}
 						name={name}
 						gallery={gallery}
-						price={prices[priceIndex].amount}
-						currency={prices[priceIndex].currency.symbol}
+						price={price.amount}
+						currency={price.currency.symbol}
 						onCartClick={() => this.props.onAddToCart(id, attributes)}
 						outOfStock={!inStock}
 					/>
