@@ -21,13 +21,7 @@ type Props = {
 }
 
 class MiniCartProduct extends React.Component<Props> {
-	render = () => {
-		console.log(
-			this.props.id,
-			this.props.attributes.map(a => a.items.length)
-		)
-		
-		return (
+	render = () => (
 		<div className='item'>
 			<div className='left'>
 				<Link to={this.props.link} className='productName' onClick={this.props.onRedirect}>
@@ -37,7 +31,7 @@ class MiniCartProduct extends React.Component<Props> {
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
-						<div className={'attributeContainer ' + attr.type}>
+						<div className={'attributeContainer ' + attr.type} key={attr.id}>
 							<div className='attributeName'>{attr.name}</div>
 							<AttributeItem
 								type={attr.type}
@@ -54,7 +48,7 @@ class MiniCartProduct extends React.Component<Props> {
 			<img src={this.props.img} />
 			<button className='deleteCross' onClick={this.props.onRemove}>x</button>
 		</div>
-	)}
+	)
 }
 
 export default MiniCartProduct

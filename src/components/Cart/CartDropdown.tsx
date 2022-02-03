@@ -81,7 +81,6 @@ class CartDropdown extends React.Component<Props, State> {
 				</div>
 			)
 		}
-		console.log()
 		return (
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
@@ -91,7 +90,18 @@ class CartDropdown extends React.Component<Props, State> {
 						const selectedAttributes = p.productRecord.selectedAttributes
 						// console.log(key)
 
-						return <Query query={PRODUCT} variables={{productId: p.productRecord.id}}>
+						return <Query query={PRODUCT} variables={{productId: p.productRecord.id}}
+							key={key}
+							onCompleted={(data: { product: Product }) => {
+								const price = data.product.prices.find(price =>
+									price.currency.symbol == this.props.currency
+								)?.amount ?? 0
+								if (price !== this.state.prices[index]) {
+									this.state.prices[index] = price
+									this.setState({ prices: this.state.prices })
+								}
+							}}
+						>
 						{(result: QueryResult<any>) => {
 							const { loading, error, data } = result
 							if (loading) return <Loading/>
@@ -103,13 +113,6 @@ class CartDropdown extends React.Component<Props, State> {
 
 							const product: Product = data.product
 
-							const price = product.prices.find(price =>
-								price.currency.symbol == this.props.currency
-							)?.amount ?? 0
-							if (price !== this.state.prices[index]) {
-								this.state.prices[index] = price
-								this.setState({ prices: this.state.prices })
-							}
 							return <MiniCartProduct
 								key={key}
 								id={key}
