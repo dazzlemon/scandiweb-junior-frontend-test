@@ -47,9 +47,12 @@ export const useCategoriesCurrencies = (category: string): QueryResult => {
 
 	const categories = data!.categories.map(category => category.name)
 	const categoryIndex = categories.indexOf(category!)// this page is routed with :category
-	const currencyIndex = currencyLabel
-		? currencies.findIndex(currency => currency.label === currencyLabel)
-		: 0// TODO: may be -1?
+
+	let currencyIndex = currencies.findIndex(currency => currency.label === currencyLabel);
+	if (currencyIndex == -1) {// just in case
+		currencyIndex = 0;
+	}
+
 	return {
 		state: 'complete',
 		categories,
