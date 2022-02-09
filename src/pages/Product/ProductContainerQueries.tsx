@@ -9,7 +9,6 @@ export const PRODUCT = gql`
 			description,
 			category,
 			attributes {
-				id,
 				name,
 				type,
 				items {

@@ -8,6 +8,7 @@ type Props = {
 	items: Attribute[]
 	selectedIndex: number
 	onChange?: (index: number) => void
+	id: string
 }
 
 class AttributeView extends React.PureComponent<Props> {
@@ -17,7 +18,7 @@ class AttributeView extends React.PureComponent<Props> {
 			<div className='attributeItems'>
 				{this.props.items.map((i, index) =>
 					<AttributeItem
-						key={i.id}
+						key={this.props.id + i.id}
 						type={this.props.type}
 						selected={this.props.selectedIndex === index}
 						value={i.displayValue}

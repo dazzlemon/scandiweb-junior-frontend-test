@@ -31,7 +31,8 @@ class Product extends React.Component<Props, State> {
 				<div className='productName'>{this.props.product.name}</div>
 				{this.props.product.attributes.map((attr, attrIndex) => 
 					<Attribute
-						key={attr.id}
+						id={this.props.product.id + attr.id}
+						key={this.props.product.id + attr.id}
 						name={attr.name}
 						type={attr.type}
 						items={attr.items}

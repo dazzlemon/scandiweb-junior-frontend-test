@@ -1,7 +1,7 @@
 import React                from 'react';
 import { Link }             from 'react-router-dom';
 import { Query }            from '@apollo/client/react/components';
-import { QueryResult, gql, DocumentNode } from '@apollo/client';
+import { QueryResult, gql } from '@apollo/client';
 
 import { Product }                       from '../../pages/Product/ProductContainerTypes'
 import { Loading, Error }                from '..'
@@ -10,16 +10,13 @@ import { ReactComponent as EmptyCart }   from '../../EmptyCart.svg';
 import MiniCartProduct                   from './MiniCartProduct'
 
 const PRODUCT = gql`
-	query GetProduct($productId: String!) {
+	query GetMiniCartProduct($productId: String!) {
 		product(id: $productId) {
-			id
 			name
 			inStock
 			gallery
-			description
 			category
 			attributes {
-				id
 				name
 				type
 				items {
@@ -52,7 +49,7 @@ class CartDropdown extends React.Component<Props, State> {
 
 	price = (product: Product) => this.props.currency +
 		product.prices.find(price =>
-			price.currency.symbol == this.props.currency
+			price.currency.symbol === this.props.currency
 		)?.amount
 
 	onCountChange = (index: number) => (count: number) => {
@@ -73,7 +70,7 @@ class CartDropdown extends React.Component<Props, State> {
 	}
 
 	render() {
-		if (this.state.cart.length == 0) {
+		if (this.state.cart.length === 0) {
 			return (
 				<div className='cartOverlay empty'>
 					<EmptyCart />
@@ -94,22 +91,20 @@ class CartDropdown extends React.Component<Props, State> {
 							key={key}
 							onCompleted={(data: { product: Product }) => {
 								const price = data.product.prices.find(price =>
-									price.currency.symbol == this.props.currency
+									price.currency.symbol === this.props.currency
 								)?.amount ?? 0
 								if (price !== this.state.prices[index]) {
 									this.state.prices[index] = price
 									this.setState({ prices: this.state.prices })
 								}
 							}}
+							fetchPolicy='network-only'
 						>
 						{(result: QueryResult<any>) => {
 							const { loading, error, data } = result
 							if (loading) return <Loading/>
 							// if bad productId it doesnt return Error but product is undef
 							if (error || !data?.product) return <Error/>
-
-							// it would use old data otherwise idk how to fix it properly
-							if (data.product.id != p.productRecord.id) return <div>test</div>
 
 							const product: Product = data.product
 

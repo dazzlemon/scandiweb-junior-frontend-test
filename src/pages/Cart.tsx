@@ -35,6 +35,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
 						<Attribute
+							id={attr.id}
 							key={attr.id}
 							name={attr.name}
 							type={attr.type}

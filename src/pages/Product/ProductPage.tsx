@@ -40,8 +40,12 @@ const ProductContainer: React.FC = () => {
 								selected[index] = 0
 							}
 						});
+
+						console.log(data.product.name);
+						console.log(data.product.attributes.map(v => ({name: v.name, items: v.items.map(i => i.value)})));
 						
 						return <Product
+							key={data.product.id}
 							product={data.product}
 							price={`${price?.currency.symbol}${price?.amount}`}
 							onAddToCart={attributes => addToCart(productId!, attributes)}
