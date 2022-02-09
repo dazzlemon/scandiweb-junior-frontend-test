@@ -62,7 +62,6 @@ const product = (name: string, id: string) => `
 		description
 		category
 		attributes {
-			id
 			name
 			type
 			items {
