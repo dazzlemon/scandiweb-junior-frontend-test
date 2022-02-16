@@ -1,6 +1,6 @@
 - [ ] Product page
   - [ ] Description should be without scrollbar
-  - [ ]Images from gallery images should have space between then
+  - [ ] Images from gallery images should have space between then
 
 - [ ] Cart overlay
   - [ ] Make attributes per design. Label can be above them.
