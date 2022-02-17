@@ -32,10 +32,12 @@
 .productImagePreviews
 	display: flex
 	flex-direction: column
+	overflow-y: scroll
 	img
 		object-fit: contain
 		width: 80px
 		height: 80px
+		margin-bottom: 10px
 		&:hover
 			cursor: pointer
 			opacity: 0.5
@@ -48,7 +50,7 @@
 		margin-right: 64px
 		.productImage
 			background-color: #fff
-			width: 50vw
+			width: 42vw
 			height: 100%
 			object-fit: contain
 		button
@@ -72,7 +74,7 @@
 			&.next
 				right: 0
 	.right
-		width: 50vw
+		width: 42vw
 		overflow-y: scroll
 		.productName
 			font-weight: normal
