@@ -20,7 +20,11 @@ class ProductCard extends React.Component<Props> {
 			className={'productCard' + (this.props.outOfStock ? ' outOfStock' : '')}
 		>
 			<div className='productImageContainer'>
-				<img className='productImage' src={this.props.gallery[0]} alt='product image'/>
+				<img
+					className='productImage'
+					src={this.props.gallery[0]}
+					alt={this.props.name}
+				/>
 				{this.props.outOfStock && <p className='outOfStock'>Out of stock</p>}
 				{this.props.showHeart && <Heart className='productHeart' />}
 				<ProductCart className='productCart' onClick={e => {

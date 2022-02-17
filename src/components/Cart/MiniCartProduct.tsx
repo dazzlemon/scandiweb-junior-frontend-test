@@ -46,7 +46,7 @@ class MiniCartProduct extends React.Component<Props> {
 				initialCount={this.props.count}
 				onChange={this.props.onChange}
 			/>
-			<img src={this.props.img} />
+			<img src={this.props.img} alt={this.props.name}/>
 			<button className='deleteCross' onClick={this.props.onRemove}>x</button>
 		</div>
 	)

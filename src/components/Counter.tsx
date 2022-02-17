@@ -29,7 +29,7 @@ class Counter extends React.Component<Props, State> {
 			<p>{this.state.count}</p>
 			<button
 				onClick={this.decrementCount}
-				disabled={this.state.count == 1}
+				disabled={this.state.count === 1}
 			>
 				-
 			</button>

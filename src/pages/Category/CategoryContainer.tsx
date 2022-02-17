@@ -27,9 +27,13 @@ class CategoryContainer extends Component<Props> {
 			>
 				{(result: QueryResult<Result>) => {
 					const { loading, error, data } = result
-					return loading ? <Loading/>
-					     : error   ? <Error/>
-							 : <Category
+					if (loading) {
+						return <Loading/>
+					}
+					if (error) {
+						return <Error/>
+					}
+					return <Category
 					        products={data!.category.products}
 							    currencyLabel={this.props.currencyLabel}
 					        onAddToCart={this.props.onAddToCart}

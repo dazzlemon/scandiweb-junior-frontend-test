@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom'
 
 import { Error, Loading, HeaderDesktopView as Header } from '.'
-import { useCategoriesCurrencies } from '../common'
-import { CompleteQuery } from '../common'
+import { useCategoriesCurrencies, CompleteQuery } from '../common'
 
 type Props = {
 	children: (query: CompleteQuery) => JSX.Element

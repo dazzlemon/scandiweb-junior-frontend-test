@@ -49,7 +49,7 @@ export const useCategoriesCurrencies = (category: string): QueryResult => {
 	const categoryIndex = categories.indexOf(category!)// this page is routed with :category
 
 	let currencyIndex = currencies.findIndex(currency => currency.label === currencyLabel);
-	if (currencyIndex == -1) {// just in case
+	if (currencyIndex === -1) {// just in case
 		currencyIndex = 0;
 	}
 

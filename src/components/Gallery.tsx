@@ -1,6 +1,6 @@
 import React from 'react'
 
-type Props = { gallery: string[], showPreviews?: boolean }
+type Props = { name: string, gallery: string[], showPreviews?: boolean }
 type State = { index: number }
 class Gallery extends React.Component<Props, State> {
 	constructor(props: Props) {
@@ -15,12 +15,17 @@ class Gallery extends React.Component<Props, State> {
 					<img
 						key={i}
 						src={i}
+						alt={this.props.name + index}
 						onClick={() => this.setState({ index })}
 					/>
 				)}
 			</div>}
 			<div className='mainImageContainer'>
-				<img src={this.props.gallery[this.state.index] } className='productImage' />
+				<img
+					src={this.props.gallery[this.state.index]}
+					className='productImage'
+					alt={this.props.name + " current"}
+				/>
 				{this.state.index > 0 && <button
 					className='prev'
 					onClick={() => this.setState({index: this.state.index > 0 ? this.state.index - 1 : 0})}

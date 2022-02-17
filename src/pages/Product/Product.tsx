@@ -27,7 +27,7 @@ class Product extends React.Component<Props, State> {
 
 	render = () => (
 		<div className='productView'>
-			<Gallery gallery={this.props.product.gallery} showPreviews/>
+			<Gallery name={this.props.product.name} gallery={this.props.product.gallery} showPreviews/>
 			<div className='right'>
 				<div className='productName'>{this.props.product.name}</div>
 				{this.props.product.attributes.map((attr, attrIndex) => 

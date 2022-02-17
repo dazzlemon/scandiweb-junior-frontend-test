@@ -16,7 +16,7 @@ class Category extends React.Component<Props> {
 			{
 				this.props.products.map(({ id, name, gallery, prices, attributes, inStock }) => {
 					const price = prices.find(
-						price => price.currency.label == this.props.currencyLabel) ?? prices[0];
+						p => p.currency.label === this.props.currencyLabel) ?? prices[0];
 
 					return <ProductCard
 						key={id}

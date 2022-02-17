@@ -37,6 +37,16 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 		this.setState({ cart: getCart() })
 	}
 
+	cartLengthToElement() {
+		if (this.state.cart.length === 0) {
+			return null
+		}
+		if (this.state.cart.length > 9) {
+			return <div className='cartSize'>?</div>
+		}
+		return <div className='cartSize'>{this.state.cart.length}</div>
+	}
+
 	render = () => (
 		<header className='header'>
 			<div className='headerContainer'>
@@ -45,8 +55,8 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 						this.props.categories.map((name: string, index: number) => (
 							<Link
 								to={`/${name}`}
-								className={this.props.categoryIndex == index ? 'headerElementSelected'
-								                                             : 'headerElement'}
+								className={this.props.categoryIndex === index ? 'headerElementSelected'
+								                                              : 'headerElement'}
 								key={name}
 							>
 								{name}
@@ -63,10 +73,7 @@ class HeaderDesktopView extends PureComponent<Props, State> {
 					/>
 					<div className='cartContainer'>
 						<Cart currency={this.props.currencies[this.props.currencyIndex ?? 0]?.symbol ?? '$'}/>
-						{   this.state.cart.length == 0  ? null 
-						  : this.state.cart.length > 9   ? <div className='cartSize'>?</div>
-						                                 : <div className='cartSize'>{this.state.cart.length}</div>
-						}
+						{this.cartLengthToElement()}
 					</div>
 				</div>
 			</div>

@@ -50,7 +50,7 @@ class CartProductView extends React.Component<Props__, State_> {
 			</div>
 			<div className='right'>
 				<Counter onChange={this.props.onChange} initialCount={this.props.count} />
-				<Gallery gallery={this.props.gallery}/>
+				<Gallery name={this.props.name} gallery={this.props.gallery}/>
 				<button className='deleteCross' onClick={() => this.props.onRemove()}>x</button>
 			</div>
 		</div>

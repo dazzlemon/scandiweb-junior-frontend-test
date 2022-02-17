@@ -9,7 +9,7 @@ import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import { Category, Product, Cart } from './pages';
 import './App.sass';
 
-const production = process.env.REACT_APP_ENV == 'production';
+const production = process.env.REACT_APP_ENV === 'production';
 
 const client = new ApolloClient({
 	uri: production ? 'https://fierce-tundra-22133.herokuapp.com' : 'http://localhost:4000',

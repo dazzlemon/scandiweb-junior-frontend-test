@@ -10,8 +10,8 @@ type Props = {
 
 class AttributeItem extends React.Component<Props> {
 	render = () => {
-		const typeProps = this.props.type == 'swatch' ? { style: {backgroundColor: this.props.value} }
-		                                              : { children: this.props.value }
+		const typeProps = this.props.type === 'swatch' ? { style: {backgroundColor: this.props.value} }
+		                                               : { children: this.props.value }
 		const props = {
 			className: this.props.type + (this.props.selected ? ' selected' : ''),
 			onClick: this.props.onSelected,
