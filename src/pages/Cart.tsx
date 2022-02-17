@@ -11,6 +11,7 @@ import './Cart.sass'
 
 type State_ = { count: number }
 type Props__ = {
+	id: string
 	brand: string
 	name: string
 	price: string
@@ -35,8 +36,10 @@ class CartProductView extends React.Component<Props__, State_> {
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
 						<Attribute
-							id={attr.id}
-							key={attr.id}
+							// I don't use attr.id, because it is not unique,
+							// and because of that Apollo's cache will override some of the fields, e.g. Attribute "size" of products
+							id={this.props.id + attr.name}
+							key={this.props.id + attr.name}
 							name={attr.name}
 							type={attr.type}
 							items={attr.items}
@@ -172,6 +175,7 @@ class Cart extends React.Component<{}, State> {
 								<div className='items'>
 									{productsArray.map((prod, index) => (<CartProductView
 										key={JSON.stringify(this.state.cart[index].productRecord.id)}
+										id={JSON.stringify(this.state.cart[index].productRecord.id)}
 										brand={prod.brand}
 										name={prod.name}
 										link={`/${prod.category}/${this.state.cart[index].productRecord.id}`}

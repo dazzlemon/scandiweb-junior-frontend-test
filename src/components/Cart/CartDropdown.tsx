@@ -53,9 +53,10 @@ class CartDropdown extends React.Component<Props, State> {
 		)?.amount
 
 	onCountChange = (index: number) => (count: number) => {
-		this.state.cart[index].count = count
-		setCart(this.state.cart)
-		this.setState({ cart: this.state.cart })
+		const cart = [...this.state.cart]
+		cart[index].count = count
+		setCart(cart)
+		this.setState({cart})
 	}
 
 	onRemove = (index: number) => () => {
@@ -82,20 +83,21 @@ class CartDropdown extends React.Component<Props, State> {
 			<div className='cartOverlay'>
 				<div className='myBag'>My Bag, <span className='itemCounter'>{this.state.cart.length} items</span> </div>
 				<div className='items'>
-					{this.state.cart.map((p, index) => {
-						const key = JSON.stringify(p.productRecord)
-						const selectedAttributes = p.productRecord.selectedAttributes
+					{this.state.cart.map((prod, index) => {
+						const key = JSON.stringify(prod.productRecord)
+						const selectedAttributes = prod.productRecord.selectedAttributes
 						// console.log(key)
 
-						return <Query query={PRODUCT} variables={{productId: p.productRecord.id}}
+						return <Query query={PRODUCT} variables={{productId: prod.productRecord.id}}
 							key={key}
 							onCompleted={(data: { product: Product }) => {
-								const price = data.product.prices.find(price =>
-									price.currency.symbol === this.props.currency
+								const price = data.product.prices.find(p =>
+									p.currency.symbol === this.props.currency
 								)?.amount ?? 0
 								if (price !== this.state.prices[index]) {
-									this.state.prices[index] = price
-									this.setState({ prices: this.state.prices })
+									const prices = this.state.prices 
+									prices[index] = price
+									this.setState({ prices })
 								}
 							}}
 							fetchPolicy='network-only'
@@ -111,14 +113,14 @@ class CartDropdown extends React.Component<Props, State> {
 							return <MiniCartProduct
 								key={key}
 								id={key}
-								link={`/${product.category}/${p.productRecord.id}`}
+								link={`/${product.category}/${prod.productRecord.id}`}
 								brand={product.brand}
 								name={product.name}
 								price={this.price(product)}
 								attributes={product.attributes}
 								selectedAttributes={selectedAttributes}
 								img={product.gallery[0]}
-								count={p.count}
+								count={prod.count}
 								onChange={this.onCountChange(index)}
 								onRemove={this.onRemove(index)}
 								onRedirect={this.props.onRedirect}
