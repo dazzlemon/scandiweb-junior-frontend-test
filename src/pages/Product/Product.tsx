@@ -19,8 +19,9 @@ class Product extends React.Component<Props, State> {
 	}
 
 	changeAttribute(attrIndex: number, index: number) {
-		this.state.selected[attrIndex] = index
-		this.setState({selected: [...this.state.selected]})
+		const selected = [...this.state.selected]
+		selected[attrIndex] = index
+		this.setState({selected})
 		this.props.attributeChanged(attrIndex, index)
 	}
 
@@ -31,8 +32,10 @@ class Product extends React.Component<Props, State> {
 				<div className='productName'>{this.props.product.name}</div>
 				{this.props.product.attributes.map((attr, attrIndex) => 
 					<Attribute
-						id={this.props.product.id + attr.id}
-						key={this.props.product.id + attr.id}
+						// attr.name instead of attr.id, because their ids arent unique e.g. size,
+						// and because of that apollo overrides these objects
+						id={this.props.product.id + attr.name}
+						key={this.props.product.id + attr.name}
 						name={attr.name}
 						type={attr.type}
 						items={attr.items}
