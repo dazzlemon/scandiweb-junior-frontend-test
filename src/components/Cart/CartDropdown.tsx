@@ -12,6 +12,7 @@ import MiniCartProduct                   from './MiniCartProduct'
 const PRODUCT = gql`
 	query GetMiniCartProduct($productId: String!) {
 		product(id: $productId) {
+			id
 			name
 			inStock
 			gallery
@@ -86,7 +87,6 @@ class CartDropdown extends React.Component<Props, State> {
 					{this.state.cart.map((prod, index) => {
 						const key = JSON.stringify(prod.productRecord)
 						const selectedAttributes = prod.productRecord.selectedAttributes
-						// console.log(key)
 
 						return <Query query={PRODUCT} variables={{productId: prod.productRecord.id}}
 							key={key}
