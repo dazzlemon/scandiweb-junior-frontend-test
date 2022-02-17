@@ -23,7 +23,7 @@ type Props__ = {
 	count: number
 }
 
-class MiniCartProduct extends React.Component<Props__, State_> {
+class CartProductView extends React.Component<Props__, State_> {
 	render = () => (
 		<div className='item'>
 			<div className='left'>
@@ -55,7 +55,7 @@ class MiniCartProduct extends React.Component<Props__, State_> {
 }
 
 const product = (name: string, id: string) => `
-	${name}: product(id: \"${id}\") {
+	${name}: product(id: "${id}") {
 		name
 		inStock
 		gallery
@@ -101,6 +101,7 @@ class Cart extends React.Component<{}, State> {
 	componentDidMount() {
 		document.addEventListener('storage', this.localStorageUpdated)
 	}
+
 	componentWillUnmount() {
 		document.removeEventListener('storage', this.localStorageUpdated)
 	}
@@ -110,7 +111,7 @@ class Cart extends React.Component<{}, State> {
 	}
 
 	render = () => {
-		if (this.state.cart.length == 0) {
+		if (this.state.cart.length === 0) {
 			return (
 				<PageContainer>
 				{ () =>
@@ -153,7 +154,7 @@ class Cart extends React.Component<{}, State> {
 						<div>Cart</div>
 						<div className='itemCounter'>{this.state.cart.length} items</div>
 					</div>
-					{this.state.cart.length != 0 && <Query
+					{this.state.cart.length !== 0 && <Query
 						query={products(this.state.cart.map(p => p.productRecord.id))}
 					>
 					{(result: QueryResult<any>) => {//TODO: typing?
@@ -162,32 +163,33 @@ class Cart extends React.Component<{}, State> {
 						// if bad productId it doesnt return Error but product is undef
 						if (error || !data?.product0) return <Error/>
 		
-						const products = new Array<Product>()
+						const productsArray = new Array<Product>()
 						for (let i = 0; i < this.state.cart.length; i++) {
-							products[i] = data[`product${i}`]
+							productsArray[i] = data[`product${i}`]
 						}
 						return (
 							<>
 								<div className='items'>
-									{products.map((product, index) => (<MiniCartProduct
+									{productsArray.map((prod, index) => (<CartProductView
 										key={JSON.stringify(this.state.cart[index].productRecord.id)}
-										brand={product.brand}
-										name={product.name}
-										link={`/${product.category}/${this.state.cart[index].productRecord.id}`}
+										brand={prod.brand}
+										name={prod.name}
+										link={`/${prod.category}/${this.state.cart[index].productRecord.id}`}
 										price={currency.symbol +
-											product.prices.find(price =>
-												price.currency.symbol == currency.symbol
+											prod.prices.find(price =>
+												price.currency.symbol === currency.symbol
 											)?.amount
 										}
-										attributes={product.attributes}
+										attributes={prod.attributes}
 										selectedAttributes={this.state.cart[index].productRecord.selectedAttributes}
 										// img={product.gallery[0]}
-										gallery={product.gallery}
+										gallery={prod.gallery}
 										count={this.state.cart[index].count}
 										onChange={count => {
-											this.state.cart[index].count = count
-											setCart(this.state.cart)
-											this.setState({ cart: this.state.cart })
+											const newCart = [...this.state.cart]
+											newCart[index].count = count
+											setCart(newCart)
+											this.setState({ cart: newCart })
 										}}
 										onRemove={() => {
 											this.state.cart.splice(index, 1)
@@ -201,9 +203,9 @@ class Cart extends React.Component<{}, State> {
 									<div className='total'>
 										<div>Total</div>
 										<div className='price'>{currency.symbol}{
-											products.map(product =>
-												product.prices.find(price =>
-													price.currency.symbol == currency.symbol
+											productsArray.map(p =>
+												p.prices.find(price =>
+													price.currency.symbol === currency.symbol
 												)?.amount ?? 0
 											).reduce((a, b, index) => a + b * this.state.cart[index].count, 0).toFixed(2)
 										}</div>

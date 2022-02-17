@@ -29,21 +29,18 @@ const ProductContainer: React.FC = () => {
 						// if bad productId it doesnt return Error but product is undef
 						if (error || !data?.product) return <Error/>
 
-						const price = data.product.prices.find(price =>
-							price.currency.label == currency.label)// TODO: might be undef
+						const price = data.product.prices.find(p =>
+							p.currency.label === currency.label)// TODO: might be undef
 						document.title = data.product.name// onComplete wasnt working as expected
 						
 						const selected = new Array(data.product.attributes.length).fill(0)
 						data.product.attributes.forEach((attr, index) => {
-							selected[index] = attr.items.findIndex(i => i.id == searchParams.get(attr.id))
-							if (selected[index] == -1) {
+							selected[index] = attr.items.findIndex(i => i.id === searchParams.get(attr.id))
+							if (selected[index] === -1) {
 								selected[index] = 0
 							}
 						});
 
-						console.log(data.product.name);
-						console.log(data.product.attributes.map(v => ({name: v.name, items: v.items.map(i => i.value)})));
-						
 						return <Product
 							key={data.product.id}
 							product={data.product}
