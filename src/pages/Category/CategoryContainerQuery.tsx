@@ -14,7 +14,6 @@ export const CATEGORY = gql`
 				description,
 				category,
 				attributes {
-					id,
 					name,
 					type,
 					items {
