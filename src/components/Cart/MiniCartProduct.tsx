@@ -31,10 +31,10 @@ class MiniCartProduct extends React.Component<Props> {
 				<div className='price'>{this.props.price}</div>
 				<div className='attributes'>
 					{this.props.attributes.map((attr, attrIndex) =>
-						<div className={'attributeContainer ' + attr.type} key={this.props.id + attr.id}>
+						<div className={'attributeContainer ' + attr.type} key={this.props.id + attr.name}>
 							<div className='attributeName'>{attr.name}</div>
 							<AttributeItem
-								key={this.props.id + attr.id}
+								key={this.props.id + attr.name}
 								type={attr.type}
 								value={attr.items[this.props.selectedAttributes[attrIndex]].displayValue}
 							/>
