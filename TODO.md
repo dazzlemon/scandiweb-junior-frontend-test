@@ -9,5 +9,6 @@
   - [x] Fix terminal warnings when starting project.
   - [ ] Check console in browser, there is a lot of error + redundant console.logs
     - [x] console.log
+    - [ ] console warnings
   - [ ] Avoid interacting with document API.
   - [ ] Move all gql requests to one file and reuse them out of there.
