@@ -59,6 +59,7 @@ class CartProductView extends React.Component<Props__, State_> {
 
 const product = (name: string, id: string) => `
 	${name}: product(id: "${id}") {
+		id
 		name
 		inStock
 		gallery
