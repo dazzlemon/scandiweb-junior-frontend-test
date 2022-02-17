@@ -1,6 +1,6 @@
 import React from 'react'
 import { Product as ProductType } from './ProductContainerTypes'
-import { Attribute, Gallery }              from '../../components'
+import { Attribute, Gallery }     from '../../components'
 
 type State = { selected: number[] }
 type Props = {
