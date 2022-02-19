@@ -1,18 +1,7 @@
 import { useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { Currency } from './types'
-
-const QUERY = gql`
-	query GetCategoryNamesAndCurrencies {
-		categories {
-			name
-		},
-		currencies {
-			label,
-			symbol
-		}
-	}
-`
+import { CATEGORY_NAMES_AND_CURRENCIES, CategoryNamesAndCurrencies } from './gql'
 
 export type CompleteQuery = {
 	state: 'complete',
@@ -27,10 +16,7 @@ export type CompleteQuery = {
 type QueryResult = CompleteQuery | { state: 'error' | 'loading' }
 
 export const useCategoriesCurrencies = (category: string): QueryResult => {
-	const { loading, error, data } = useQuery<{
-		categories: {name: string}[],
-		currencies: {label: string, symbol: string}[]
-	}>(QUERY)
+	const { loading, error, data } = useQuery<CategoryNamesAndCurrencies>(CATEGORY_NAMES_AND_CURRENCIES)
 	const [currencyLabel, setCurrencyLabel] = useState(localStorage.getItem('currency'))
 
 	if (loading) return { state: 'loading' }
@@ -45,8 +31,8 @@ export const useCategoriesCurrencies = (category: string): QueryResult => {
 		changeCurrency(0)
 	}
 
-	const categories = data!.categories.map(category => category.name)
-	const categoryIndex = categories.indexOf(category!)// this page is routed with :category
+	const categories = data!.categories.map(cat => cat.name)
+	const categoryIndex = categories.indexOf(category)
 
 	let currencyIndex = currencies.findIndex(currency => currency.label === currencyLabel);
 	if (currencyIndex === -1) {// just in case
