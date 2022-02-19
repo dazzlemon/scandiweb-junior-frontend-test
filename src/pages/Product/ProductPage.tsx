@@ -4,8 +4,7 @@ import { Query }       from '@apollo/client/react/components'// TODO: migrate to
 import { QueryResult } from '@apollo/client'
 
 import Product from './Product'
-import { Product as ProductType }  from './ProductContainerTypes'
-import { PRODUCT }                 from './ProductContainerQueries'
+import { PRODUCTPAGE_PRODUCT, ProductPageProduct as ProductType } from '../../common/gql'
 import PageContainer    from '../../components/PageContainer'
 import { Loading, Error } from '../../components'
 import { addToCart }      from '../../util'
@@ -20,7 +19,7 @@ const ProductContainer: React.FC = () => {
 			{({ currency }) =>
 				<main>
 					<Query
-						query={PRODUCT}
+						query={PRODUCTPAGE_PRODUCT}
 						variables={{productId}}
 					>
 					{(result: QueryResult<{ product: ProductType }>) => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { gql, QueryResult } from '@apollo/client';
+import { QueryResult } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
 
 import { AttributeSet } from '../common/types';
-import { CartProduct, getCart, setCart } from '../util'
-import { Product } from './Product/ProductContainerTypes';
+import { CartProduct as CartProductType, getCart, setCart } from '../util'
+import { CartProduct, cartProducts } from '../common/gql';
 import { Gallery, Counter, PageContainer, Loading, Error, Attribute } from '../components'
 import './Cart.sass'
 
@@ -57,42 +57,7 @@ class CartProductView extends React.Component<Props__, State_> {
 	)
 }
 
-const product = (name: string, id: string) => `
-	${name}: product(id: "${id}") {
-		id
-		name
-		inStock
-		gallery
-		description
-		category
-		attributes {
-			name
-			type
-			items {
-				displayValue
-				value
-				id
-			}
-		}
-		prices {
-			currency {
-				label
-				symbol
-			}
-			amount
-		}
-		brand
-	}
-`
-
-const products = (ids: string[]) => {
-	const query = `query GetProducts {
-		${ids.map((i, index) => product('product'+index, i)).join('')}
-	}`
-	return gql(query)
-};
-
-type State = {cart: CartProduct[]}
+type State = {cart: CartProductType[]}
 
 class Cart extends React.Component<{}, State> {
 	constructor(props: {}) {
@@ -159,7 +124,7 @@ class Cart extends React.Component<{}, State> {
 						<div className='itemCounter'>{this.state.cart.length} items</div>
 					</div>
 					{this.state.cart.length !== 0 && <Query
-						query={products(this.state.cart.map(p => p.productRecord.id))}
+						query={cartProducts(this.state.cart.map(p => p.productRecord.id))}
 					>
 					{(result: QueryResult<any>) => {//TODO: typing?
 						const { loading, error, data } = result
@@ -167,7 +132,7 @@ class Cart extends React.Component<{}, State> {
 						// if bad productId it doesnt return Error but product is undef
 						if (error || !data?.product0) return <Error/>
 		
-						const productsArray = new Array<Product>()
+						const productsArray = new Array<CartProduct>()
 						for (let i = 0; i < this.state.cart.length; i++) {
 							productsArray[i] = data[`product${i}`]
 						}

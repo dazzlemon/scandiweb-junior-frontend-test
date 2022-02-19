@@ -2,10 +2,10 @@ import { Component }        from 'react'
 import { Query }            from '@apollo/client/react/components'// TODO: migrate to urql
 import { QueryResult }      from '@apollo/client'
 
-import { AttributeSet }     from '../../common/types'
-import { Result, CATEGORY } from './CategoryContainerQuery' 
-import { Error, Loading }   from '../../components'
-import Category             from './Category'
+import { AttributeSet }       from '../../common/types'
+import { Category, CATEGORY } from '../../common/gql' 
+import { Error, Loading }     from '../../components'
+import CategoryView           from './Category'
 
 import './CategoryContainer.sass'
 
@@ -25,7 +25,7 @@ class CategoryContainer extends Component<Props> {
 				onCompleted={() =>
 					document.title = this.props.category.replace(/^\w/, c => c.toUpperCase())}
 			>
-				{(result: QueryResult<Result>) => {
+				{(result: QueryResult<Category>) => {
 					const { loading, error, data } = result
 					if (loading) {
 						return <Loading/>
@@ -33,7 +33,7 @@ class CategoryContainer extends Component<Props> {
 					if (error) {
 						return <Error/>
 					}
-					return <Category
+					return <CategoryView
 					        products={data!.category.products}
 							    currencyLabel={this.props.currencyLabel}
 					        onAddToCart={this.props.onAddToCart}

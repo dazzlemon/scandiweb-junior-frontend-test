@@ -1,5 +1,5 @@
 import React from 'react'
-import { Product as ProductType } from './ProductContainerTypes'
+import { ProductPageProduct as ProductType } from '../../common/gql'
 import { Attribute, Gallery }     from '../../components'
 
 type State = { selected: number[] }
