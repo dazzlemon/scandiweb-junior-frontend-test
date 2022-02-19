@@ -36,7 +36,8 @@
 .productImagePreviews
 	display: flex
 	flex-direction: column
-	overflow-y: scroll
+	overflow-y: auto
+	width: 96px// no overflow-x
 	img
 		object-fit: contain
 		width: 80px
@@ -79,7 +80,7 @@
 				right: 0
 	.right
 		width: 42vw
-		overflow-y: scroll
+		overflow-y: auto
 		.productName
 			font-weight: normal
 			font-size: 30px
